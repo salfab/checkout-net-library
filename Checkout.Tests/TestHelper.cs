@@ -2,7 +2,6 @@
 using Checkout.ApiServices.Charges.RequestModels;
 using Checkout.ApiServices.Customers.RequestModels;
 using Checkout.ApiServices.SharedModels;
-using Checkout.ApiServices.Tokens.RequestModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,22 +16,22 @@ namespace Tests
         public static RandomData RandomData { get { return _randomData ?? (_randomData = new RandomData()); } }
 
         #region Token Helpers
-        public static CardTokenCreate GetCardTokenCreateModel()
-        {
-            return new CardTokenCreate()
-               {
-                   Card = GetBaseCreateCardModel()
-               };
-        }
+        //public static CardTokenCreate GetCardTokenCreateModel()
+        //{
+        //    return new CardTokenCreate()
+        //       {
+        //           Card = GetBaseCreateCardModel()
+        //       };
+        //}
 
-        public static PaymentTokenCreate GetPaymentTokenCreateModel()
-        {
-            return new PaymentTokenCreate()
-              {
-                  Currency = "usd",
-                  Value = RandomData.GetNumber(50, 500)
-              };
-        }
+        //public static PaymentTokenCreate GetPaymentTokenCreateModel()
+        //{
+        //    return new PaymentTokenCreate()
+        //      {
+        //          Currency = "usd",
+        //          Value = RandomData.GetNumber(50, 500)
+        //      };
+        //}
 
         #endregion
 
@@ -168,7 +167,6 @@ namespace Tests
                         Image = "http://www.imageurl.com/me.png",
                         Name = "test product",
                         Price = RandomData.GetNumber(50, 500),
-                        ProductId = RandomData.GetNumber(100, 500),
                         Quantity = RandomData.GetNumber(1, 100),
                         ShippingCost = RandomData.GetDecimalNumber(),
                         Sku = RandomData.UniqueString,

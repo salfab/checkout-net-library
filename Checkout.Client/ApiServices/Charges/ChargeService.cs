@@ -2,6 +2,7 @@
 using Checkout.ApiServices.Charges.RequestModels;
 using Checkout.ApiServices.Charges.ResponseModels;
 using Checkout.ApiServices.SharedModels;
+using Checkout.Utilities;
 namespace Checkout.ApiServices.Charges
 {
     public class ChargeService 
@@ -27,15 +28,15 @@ namespace Checkout.ApiServices.Charges
             return new ApiHttpClient().PostRequest<Charge>(ApiUrls.CardChargesApiUri, AppSettings.SecretKey, requestModel);
         }
 
-        /// <summary>
-        /// Creates a charge with card token.
-        /// </summary>
-        /// <param name="requestModel"></param>
-        /// <returns>ChargeResponseModel</returns>
-        public HttpResponse<Charge> ChargeWithCardToken(CardTokenChargeCreate requestModel)
-        {
-            return new ApiHttpClient().PostRequest<Charge>(ApiUrls.CardTokenChargesApiUri, AppSettings.SecretKey, requestModel);
-        }
+        ///// <summary>
+        ///// Creates a charge with card token.
+        ///// </summary>
+        ///// <param name="requestModel"></param>
+        ///// <returns>ChargeResponseModel</returns>
+        //public HttpResponse<Charge> ChargeWithCardToken(CardTokenChargeCreate requestModel)
+        //{
+        //    return new ApiHttpClient().PostRequest<Charge>(ApiUrls.CardTokenChargesApiUri, AppSettings.SecretKey, requestModel);
+        //}
 
         /// <summary>
         /// Creates a charge with the default card of the customer.
@@ -65,6 +66,39 @@ namespace Checkout.ApiServices.Charges
         {
             var updateChargesApiUri = string.Format(ApiUrls.UpdateChargesApiUri, requestModel.ChargeId);
             return new ApiHttpClient().PutRequest<Charge>(updateChargesApiUri, AppSettings.SecretKey, requestModel);
+        }
+
+        public HttpResponse<ChargeList> GetChargeList(ChargeGetList request)
+        {
+            var getChargeListUri = ApiUrls.ChargesApiUri;
+
+            if (request.Count.HasValue)
+            {
+                getChargeListUri = UrlHelper.AddParameterToUrl(getChargeListUri, "count", request.Count.ToString());
+            }
+
+            if (request.Offset.HasValue)
+            {
+                getChargeListUri = UrlHelper.AddParameterToUrl(getChargeListUri, "offset", request.Offset.ToString());
+            }
+
+            if (request.FromDate.HasValue)
+            {
+                getChargeListUri = UrlHelper.AddParameterToUrl(getChargeListUri, "fromDate", DateTimeHelper.FormatAsUtc(request.FromDate.Value));
+            }
+
+            if (request.ToDate.HasValue)
+            {
+                getChargeListUri = UrlHelper.AddParameterToUrl(getChargeListUri, "fromDate", DateTimeHelper.FormatAsUtc(request.ToDate.Value));
+            }
+
+            return new ApiHttpClient().GetRequest<ChargeList>(getChargeListUri, AppSettings.SecretKey);
+        }
+
+        public HttpResponse<Charge> GetCharge(string chargeId)
+        {
+            var getChargeUri = string.Format("{0}/{1}", ApiUrls.ChargesApiUri, chargeId);
+            return new ApiHttpClient().GetRequest<Charge>(getChargeUri, AppSettings.SecretKey);
         }
     }
 }

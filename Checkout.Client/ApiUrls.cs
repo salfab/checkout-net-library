@@ -22,6 +22,15 @@ namespace Checkout
         private static string _chargeRefundsApiUri;
         private static string _captureChargesApiUri;
         private static string _updateChargesApiUri;
+        private static string _chargesApiUri;
+
+        public static string ChargesApiUri
+        {
+            get
+            {
+                return _chargesApiUri ?? (_chargesApiUri = string.Concat(_baseApiUri, "/charges"));
+            }
+        }
 
         public static string UpdateChargesApiUri
         {

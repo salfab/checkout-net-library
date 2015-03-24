@@ -30,34 +30,28 @@ public class CustomerService  {
         return new ApiHttpClient().GetRequest<Customer>(getCustomerUri, AppSettings.SecretKey);
     }
 
-    public HttpResponse<CustomerList> GetCustomerList(int? count, int? offset, DateTime? startDate, DateTime? endDate,bool singleDay=false)
+    public HttpResponse<CustomerList> GetCustomerList(CustomerGetList request)
     {
         var getCustomerListUri = ApiUrls.CustomersApiUri;
 
-        var fromDateString = startDate.HasValue ? DateTimeHelper.FormatAsUtc(startDate.Value): string.Empty;
-        var toDateString = endDate.HasValue ? DateTimeHelper.FormatAsUtc(endDate.Value) : string.Empty;
-
-        if (count.HasValue)
+        if (request.Count.HasValue)
         {
-            getCustomerListUri = UrlHelper.AddParameterToUrl(getCustomerListUri, "count", count.Value.ToString());
+            getCustomerListUri = UrlHelper.AddParameterToUrl(getCustomerListUri, "count", request.Count.ToString());
         }
 
-        if (offset.HasValue)
+        if (request.Offset.HasValue)
         {
-            getCustomerListUri = UrlHelper.AddParameterToUrl(getCustomerListUri, "offset", offset.Value.ToString());
+            getCustomerListUri = UrlHelper.AddParameterToUrl(getCustomerListUri, "offset", request.Offset.ToString());
         }
 
-        if (startDate.HasValue && singleDay)
+        if (request.FromDate.HasValue)
         {
-            getCustomerListUri = UrlHelper.AddParameterToUrl(getCustomerListUri, "fromDate", fromDateString);
-        }else if(startDate.HasValue)
-        {
-            getCustomerListUri = UrlHelper.AddParameterToUrl(getCustomerListUri, "fromDate", fromDateString);
+            getCustomerListUri = UrlHelper.AddParameterToUrl(getCustomerListUri, "fromDate", DateTimeHelper.FormatAsUtc(request.FromDate.Value));
         }
 
-         if(endDate.HasValue)
+        if (request.ToDate.HasValue)
         {
-            getCustomerListUri = UrlHelper.AddParameterToUrl(getCustomerListUri, "fromDate", toDateString);
+            getCustomerListUri = UrlHelper.AddParameterToUrl(getCustomerListUri, "fromDate", DateTimeHelper.FormatAsUtc(request.ToDate.Value));
         }
 
         return new ApiHttpClient().GetRequest<CustomerList>(getCustomerListUri, AppSettings.SecretKey);
