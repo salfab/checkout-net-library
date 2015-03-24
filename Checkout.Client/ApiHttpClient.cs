@@ -1,5 +1,4 @@
 ﻿using Checkout.ApiServices.SharedModels;
-using Checkout.CommonLibraries.Services.PerfTracker;
 using Checkout.Infrastructure;
 using Checkout.Utilities;
 using System;
@@ -22,13 +21,9 @@ namespace Checkout
     {
         private WebRequestHandler requestHandler;
         private HttpClient httpClient;
-        private IPerfTrackerService perfTracker;
-       // private static MediaTypeFormatter formatter;
 
         public ApiHttpClient()
         {
-            perfTracker = new PerfTrackerService(true);
-        //    formatter = new JsonNetFormatter();
             ResetHandler();
         }
 
@@ -199,15 +194,12 @@ namespace Checkout
             HttpResponse<T> response = null;
             HttpResponseMessage responseMessage = null;
             string responseAsString = null;
-
-            var executionTime = new Stopwatch();
-            executionTime.Start();
-            string startTime = DateTime.Now.ToString();
             string responseCode = null;
+
             try
             {
-                responseMessage = await httpClient.SendAsync(request); //ConfigureAwait(false).GetAwaiter().GetResult();
-                executionTime.Stop();
+                responseMessage = await httpClient.SendAsync(request); 
+               
                 responseCode = responseMessage.StatusCode.ToString();
 
                 var responseContent = responseMessage.Content.ReadAsByteArrayAsync().Result;
@@ -267,8 +259,6 @@ namespace Checkout
             }
             catch (Exception ex)
             {
-                executionTime.Stop();
-
                 if (AppSettings.DebugMode)
                 {
                     Console.WriteLine(string.Format(@"\n** Exception - HttpStatuscode:\n{0}**\n\n 
@@ -283,7 +273,6 @@ namespace Checkout
             {
                 request.Dispose();
                 ResetHandler();
-                perfTracker.LogInformation(Thread.CurrentThread.ManagedThreadId.ToString(), request.RequestUri.ToString(), Convert.ToUInt32(executionTime.Elapsed.TotalMilliseconds), responseCode, startTime);
             }
 
             return response;
@@ -312,34 +301,12 @@ namespace Checkout
 
         private string GetObjectAsString(object requestModel)
         {
-            //if (AppSettings.DefaultContentType == HttpContentTypes.Json)
-            //{
-                return ContentAdaptor.ConvertToJsonString(requestModel);
-            //}
-            //else if (AppSettings.DefaultContentType == HttpContentTypes.Xml)
-            //{
-            //    return ContentAdaptor.ConvertToXmlString(requestModel);
-            //}
-            //else
-            //{
-            //    throw new ArgumentException("Content type not supported");
-            //}
+            return ContentAdaptor.ConvertToJsonString(requestModel);
         }
 
         private T GetResponseAsObject<T>(string responseAsString)
         {
-            //if (AppSettings.DefaultContentType == HttpContentTypes.Json)
-            //{
-                return ContentAdaptor.JsonStringToObject<T>(responseAsString);
-            //}
-            //else if (AppSettings.DefaultContentType == HttpContentTypes.Xml)
-            //{
-            //    return ContentAdaptor.XmlStringToObject<T>(responseAsString);
-            //}
-            //else
-            //{
-            //    throw new ArgumentException("Content type not supported");
-            //}
+            return ContentAdaptor.JsonStringToObject<T>(responseAsString);
         }
 
     }

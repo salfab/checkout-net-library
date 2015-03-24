@@ -1,4 +1,5 @@
 ﻿using Checkout;
+using Checkout.ApiServices.Customers.RequestModels;
 using Checkout.ApiServices.SharedModels;
 using NUnit.Framework;
 using System;
@@ -37,20 +38,6 @@ namespace Tests
         }
 
         [Test]
-        public void CreateCustomerWithCardToken()
-        {
-            var token = new CheckoutClient().TokenService.CreateCardToken(TestHelper.GetCardTokenCreateModel()).Model;
-
-            var customerCreateModel = TestHelper.GetCustomerCreateModelWithCardToken(token.Id);
-            var response = new CheckoutClient().CustomerService.CreateCustomer(customerCreateModel);
-
-            Assert.NotNull(response);
-            Assert.IsTrue(response.HttpStatusCode == System.Net.HttpStatusCode.OK);
-            Assert.IsTrue(response.Model.Id.StartsWith("cust_"));
-            Assert.IsTrue(response.Model.Object.ToLower() == "customer");
-        }
-
-        [Test]
         public void GetCustomer()
         {
             var customer = new CheckoutClient().CustomerService.CreateCustomer(TestHelper.GetCustomerCreateModelWithCard()).Model;
@@ -66,16 +53,21 @@ namespace Tests
         [Test]
         public void GetCustomerList()
         {
-            var startTime = DateTime.Now;
+            var startTime = DateTime.UtcNow;
 
             var customer1 = new CheckoutClient().CustomerService.CreateCustomer(TestHelper.GetCustomerCreateModelWithCard());
             var customer2 = new CheckoutClient().CustomerService.CreateCustomer(TestHelper.GetCustomerCreateModelWithCard());
             var customer3 = new CheckoutClient().CustomerService.CreateCustomer(TestHelper.GetCustomerCreateModelWithCard());
             var customer4 = new CheckoutClient().CustomerService.CreateCustomer(TestHelper.GetCustomerCreateModelWithCard());
 
+            var custGetListRequest = new CustomerGetList()
+            {
+                FromDate = startTime,
+                ToDate = DateTime.UtcNow
+            };
 
             //Get all customers created
-            var response = new CheckoutClient().CustomerService.GetCustomerList(null, null, startTime, DateTime.Now);
+            var response = new CheckoutClient().CustomerService.GetCustomerList(custGetListRequest);
 
             Assert.NotNull(response);
             Assert.IsTrue(response.HttpStatusCode == System.Net.HttpStatusCode.OK);

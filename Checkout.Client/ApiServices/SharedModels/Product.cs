@@ -3,10 +3,7 @@ namespace Checkout.ApiServices.SharedModels
 {
     public class Product
     {
-
         public string Name { get; set; }
-
-        public long ProductId { get; set; }
 
         public string Description { get; set; }
 

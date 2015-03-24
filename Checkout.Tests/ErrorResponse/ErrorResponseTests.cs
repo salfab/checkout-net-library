@@ -1,5 +1,4 @@
 ﻿using Checkout;
-using Checkout.ApiServices.Tokens.ResponseModels;
 using NUnit.Framework;
 using System;
 
@@ -11,13 +10,12 @@ namespace Tests
     {
       
         [Test]
-        public void CreateCardToken_FailsWithError_IfCardNumberIsInvalid()
+        public void CreateCharge_FailsWithError_IfCardNumberIsInvalid()
         {
-            var cardTokenCreateModel = TestHelper.GetCardTokenCreateModel();
-            cardTokenCreateModel.Card.Number = "4242424242424243";
+            var cardCreateModel = TestHelper.GetCardChargeCreateModel(TestHelper.RandomData.Email);;
+            cardCreateModel.Card.Number = "4242424242424243";
 
-            var response = new CheckoutClient().TokenService.CreateCardToken(cardTokenCreateModel);
-            CardToken model = response.Model;
+            var response = new CheckoutClient().ChargeService.ChargeWithCard(cardCreateModel);
 
             Assert.NotNull(response);
             Assert.IsTrue(response.HttpStatusCode != System.Net.HttpStatusCode.OK);

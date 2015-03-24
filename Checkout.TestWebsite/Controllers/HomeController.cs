@@ -13,12 +13,12 @@ namespace TestLibraryWebsite.Controllers
     {
         public string Get()
         {
-            var cardTokenCreateModel = TestHelper.GetCardTokenCreateModel();
-            var ckoClient = new CheckoutClient();
-            var response1 = ckoClient.TokenService.CreateCardToken(cardTokenCreateModel);
+            //var cardTokenCreateModel = TestHelper.GetCardTokenCreateModel();
+            //var ckoClient = new CheckoutClient();
+            //var response1 = ckoClient.TokenService.CreateCardToken(cardTokenCreateModel);
 
-            var paymentTokenCreateModel = TestHelper.GetPaymentTokenCreateModel();
-            var response2 = ckoClient.TokenService.CreatePaymentToken(paymentTokenCreateModel);
+            //var paymentTokenCreateModel = TestHelper.GetPaymentTokenCreateModel();
+            //var response2 = ckoClient.TokenService.CreatePaymentToken(paymentTokenCreateModel);
 
             return "Hrllo world";
 

@@ -4,7 +4,6 @@ namespace Checkout.ApiServices.Cards.ResponseModels
 {
     public class Card
     {
-
         public string Object { get; set; }
         public string Id { get; set; }
         public string Last4 { get; set; }
@@ -20,5 +19,6 @@ namespace Checkout.ApiServices.Cards.ResponseModels
         public string ResponseCode { get; set; }
         public string AuthCode { get; set; }
         public bool DefaultCard { get; set; }
+        public bool LiveMode { get; set; }
     }
 }

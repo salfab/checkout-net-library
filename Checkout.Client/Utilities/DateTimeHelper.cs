@@ -8,8 +8,8 @@ namespace Checkout.Utilities
        
         public static Tuple<double, double> GetUnixTimeTodayStartAndEnd()
         {
-            var startOfDay = DateTime.Now.Date;
-            var endOfDay = DateTime.Now.AddDays(1).AddTicks(-1);
+            var startOfDay = DateTime.UtcNow.Date;
+            var endOfDay = DateTime.UtcNow.AddDays(1).AddTicks(-1);
 
             var origin = new DateTime(1970, 1, 1, 0, 0, 0, 0);
 
@@ -23,7 +23,7 @@ namespace Checkout.Utilities
 
         public static string GetUtcNow()
         {
-            return FormatAsUtc(DateTime.Now);
+            return FormatAsUtc(DateTime.UtcNow);
         }
 
         public static string FormatAsUtc(DateTime date)
