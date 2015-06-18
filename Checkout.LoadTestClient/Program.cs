@@ -56,33 +56,41 @@ namespace Checkout.LoadTestClient
             actions = new List<Action>();
 
             //Tokens
-            actions.Add(() => testMan.CreateCardToken());
-            actions.Add(() => testMan.CreatePaymentToken());
+            //actions.Add(() => testMan.CreateCardToken());
+            //actions.Add(() => testMan.CreatePaymentToken());
             
             //Payment Providers
-            actions.Add(() => testMan.GetCardProviders());
-            actions.Add(() => testMan.GetCardPaymentProvider());
+            //actions.Add(() => testMan.GetCardProviders());
+            //actions.Add(() => testMan.GetCardPaymentProvider());
 
             //Customers
-            actions.Add(() => testMan.CreateCustomerWithCard());
-            actions.Add(() => testMan.CreateCustomerWithNoCard());
-            actions.Add(() => testMan.GetCustomerList());
-            actions.Add(() => testMan.GetCustomer());
-            actions.Add(() => testMan.UpdateCustomer());
-            actions.Add(() => testMan.DeleteCustomer());
+            //actions.Add(() => testMan.CreateCustomerWithCard());
+            //actions.Add(() => testMan.CreateCustomerWithNoCard());
+            //actions.Add(() => testMan.GetCustomerList());
+            //actions.Add(() => testMan.GetCustomer());
+            //actions.Add(() => testMan.UpdateCustomer());
+            //actions.Add(() => testMan.DeleteCustomer());
 
             //Cards
-            actions.Add(() => testMan.CreateCard());
-            actions.Add(() => testMan.GetCard());
-            actions.Add(() => testMan.GetCardList());
-            actions.Add(() => testMan.UpdateCard());
-            actions.Add(() => testMan.DeleteCard());
+            //actions.Add(() => testMan.CreateCard());
+            //actions.Add(() => testMan.GetCard());
+            //actions.Add(() => testMan.GetCardList());
+            //actions.Add(() => testMan.UpdateCard());
+            //actions.Add(() => testMan.DeleteCard());
 
             //Charges
             actions.Add(() => testMan.CreateChargeWithCard());
-            actions.Add(() => testMan.CreateChargeWithCardId());
-            actions.Add(() => testMan.CreateChargeWithCardToken());
-            actions.Add(() => testMan.CreateChargeWithCustomerDefaultCard());
+            actions.Add(() => testMan.CreateChargeWithCard());
+            actions.Add(() => testMan.CreateChargeWithCard());
+            actions.Add(() => testMan.CreateChargeWithCard());
+            actions.Add(() => testMan.CreateChargeWithCard());
+            actions.Add(() => testMan.CreateChargeWithCard());
+            actions.Add(() => testMan.CreateChargeWithCard());
+            actions.Add(() => testMan.CreateChargeWithCard());
+            actions.Add(() => testMan.CreateChargeWithCard());
+           // actions.Add(() => testMan.CreateChargeWithCardId());
+           // actions.Add(() => testMan.CreateChargeWithCardToken());
+           // actions.Add(() => testMan.CreateChargeWithCustomerDefaultCard());
             actions.Add(() => testMan.RefundCharge());
             actions.Add(() => testMan.UpdateCharge());
             actions.Add(() => testMan.CaptureCharge());

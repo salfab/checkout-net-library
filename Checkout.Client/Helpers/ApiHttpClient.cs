@@ -1,5 +1,5 @@
 ﻿using Checkout.ApiServices.SharedModels;
-using Checkout.Infrastructure;
+using Checkout.Helpers;
 using Checkout.Utilities;
 using System;
 using System.Collections.Generic;
@@ -79,13 +79,6 @@ namespace Checkout
         /// <summary>
         /// Submits a get request to the given web address with default content type e.g. text/plain
         /// </summary>
-        /// <param name="request">
-        /// ApisEnum which holds the configuration for the given api. 
-        /// </param>
-        /// <param name="method">Http Method</param>
-        /// <param name="content">Http body that is usually provided for Post and Put request</param>
-        /// <param name="contentType">content type e.g. "application/json"</param>
-        /// <returns></returns>
         public HttpResponse<T> GetRequest<T>(string requestUri,string authenticationKey)
         {
             var httpRequestMsg = new HttpRequestMessage();
@@ -107,11 +100,6 @@ namespace Checkout
         /// <summary>
         /// Submits a post request to the given web address
         /// </summary>
-        /// <param name="api">
-        /// ApisEnum which holds the configuration for the given api. 
-        /// </param>
-        /// <param name="method">Http Method</param>
-        /// <param name="content">Http body content as json that is usually provided for Post and Put request</param>
         public HttpResponse<T> PostRequest<T>(string requestUri,string authenticationKey, object requestPayload = null)
         {
             var httpRequestMsg = new HttpRequestMessage(HttpMethod.Post, requestUri);
@@ -134,11 +122,6 @@ namespace Checkout
         /// <summary>
         /// Submits a put request to the given web address
         /// </summary>
-        /// <param name="api">
-        /// ApisEnum which holds the configuration for the given api. 
-        /// </param>
-        /// <param name="method">Http Method</param>
-        /// <param name="content">Http body content as json that is usually provided for Post and Put request</param>
         public HttpResponse<T> PutRequest<T>(string requestUri, string authenticationKey, object requestPayload = null)
         {
             var httpRequestMsg = new HttpRequestMessage(HttpMethod.Put, requestUri);
@@ -161,11 +144,6 @@ namespace Checkout
         /// <summary>
         /// Submits a delete request to the given web address
         /// </summary>
-        /// <param name="api">
-        /// ApisEnum which holds the configuration for the given api. 
-        /// </param>
-        /// <param name="method">Http Method</param>
-        /// <param name="content">Http body content as json that is usually provided for Post and Put request</param>
         public HttpResponse<T> DeleteRequest<T>(string requestUri, string authenticationKey)
         {
             var httpRequestMsg = new HttpRequestMessage();

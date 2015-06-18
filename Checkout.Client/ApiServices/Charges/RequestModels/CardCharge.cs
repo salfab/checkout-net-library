@@ -2,9 +2,10 @@ using Checkout.ApiServices.Cards.RequestModels;
 
 namespace Checkout.ApiServices.Charges.RequestModels
 {
-    public class CardChargeCreate : BaseCharge
+    public class CardCharge : BaseCharge
     {
-        public BaseCardCreate Card { get; set; }
+        public string TransactionIndicator { get; set; }
+        public CardCreate Card { get; set; }
     }
 }
 

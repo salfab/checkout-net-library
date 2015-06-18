@@ -1,35 +1,26 @@
 using Checkout.ApiServices.SharedModels;
-using Newtonsoft.Json;
-using System;
 using System.Collections.Generic;
-
 namespace Checkout.ApiServices.Charges.RequestModels
 {
-    public class BaseCharge
+    public class BaseCharge:BaseChargeInfo
     {
-        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        public string Email { get; set; }
+        private const string Yes = "y";
 
-        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        public string CustomerId { get; set; }
+        public BaseCharge()
+        {
+            AutoCapture = Yes;
+            ChargeMode = 1;			//Default mode is no 3D
+        }
 
-        public string Currency;
-
-        /// <summary>
-        /// Charge amount e.g. the value should be 100 for 1$
-        /// </summary>
-        public int Value;
-
-        public string Description { get; set; }
-
+        public string Value { get; set; }
+        public string Currency { get; set; }
+        public int ChargeMode { get; set; }
         public string AutoCapture { get; set; }
-
         public decimal AutoCapTime { get; set; }
-
-        public ShippingAddress ShippingDetails { get; set; }
-
-        public IList<Product> Products { get; set; }
-
-        public Dictionary<string, string> Metadata { get; set; }       
+        public string CustomerIp { get; set; }
+        public string Email { get; set; }
+        public string CustomerId { get; set; }
+        public List<Product> Products { get; set; }
+        public Address ShippingDetails { get; set; }
     }
 }

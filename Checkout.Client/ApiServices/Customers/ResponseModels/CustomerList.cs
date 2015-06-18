@@ -5,8 +5,7 @@ namespace Checkout.ApiServices.Customers.ResponseModels
 {
     public class CustomerList
     {
-        public string Object;
-        public int Count;
-        public List<Customer> Data;
+        public int Count{ get; set; }
+        public List<Customer> Data { get; set; }
     }
 }

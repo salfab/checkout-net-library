@@ -44,6 +44,7 @@
     <Reference Include="Faker.NET4">
       <HintPath>..\packages\Faker.Net.1.0.3\lib\net40\Faker.NET4.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.CSharp" />
     <Reference Include="nunit.framework">
       <HintPath>..\packages\NUnit.2.6.4\lib\nunit.framework.dll</HintPath>
     </Reference>
@@ -58,11 +59,18 @@
     <Otherwise />
   </Choose>
   <ItemGroup>
-    <Compile Include="ChargeService\ChargeServiceTests.cs" />
     <Compile Include="CardService\CardServiceTests.cs" />
-    <Compile Include="ErrorResponse\ErrorResponseTests.cs" />
-    <Compile Include="CustomerService\CustomerServiceTests.cs" />
+    <Compile Include="ChargeService\ChargeServiceTests.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="CustomerService\CustomerServiceTests.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ErrorResponse\ErrorResponseTests.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TokenService\TokenServiceTests.cs" />
     <Compile Include="Utils\CardProviders.cs" />
     <Compile Include="Utils\RandomData.cs" />
     <Compile Include="Utils\ReflectionHelper.cs" />

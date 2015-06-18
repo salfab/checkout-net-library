@@ -1,8 +1,9 @@
 using System;
 namespace Checkout.ApiServices.Charges.RequestModels
 {
-    public class CardIdChargeCreate : BaseCharge
+    public class CardIdCharge : BaseCharge
     {
-        public string CardId;
+        public string TransactionIndicator { get; set; }
+        public string CardId { get; set; }
     }
 }

@@ -15,12 +15,11 @@ namespace Tests
             var cardCreateModel = TestHelper.GetCardChargeCreateModel(TestHelper.RandomData.Email);;
             cardCreateModel.Card.Number = "4242424242424243";
 
-            var response = new CheckoutClient().ChargeService.ChargeWithCard(cardCreateModel);
+            var response = new APIClient().ChargeService.ChargeWithCard(cardCreateModel);
 
             Assert.NotNull(response);
             Assert.IsTrue(response.HttpStatusCode != System.Net.HttpStatusCode.OK);
             Assert.IsTrue(response.HasError);
-            Assert.IsTrue(response.Error.ErrorCode == "20014");
             Assert.IsTrue(response.Error.Message.ToLower().Contains("invalid card number"));
 
         }
@@ -30,9 +29,9 @@ namespace Tests
         {
             var cardCreateModel = TestHelper.GetCardChargeCreateModel();
             cardCreateModel.Currency = string.Empty;
-            cardCreateModel.Value = -100;
+            cardCreateModel.Value = "-100";
 
-            var response = new CheckoutClient().ChargeService.ChargeWithCard(cardCreateModel);
+            var response = new APIClient().ChargeService.ChargeWithCard(cardCreateModel);
 
             Assert.NotNull(response);
             Assert.IsTrue(response.HttpStatusCode != System.Net.HttpStatusCode.OK);

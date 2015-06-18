@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
 
-namespace Checkout.Infrastructure
+namespace Checkout.Helpers
 {
     /// <summary>
     /// Converts content from one type to another e.g. object to json string

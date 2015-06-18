@@ -1,12 +1,10 @@
-using Checkout.ApiServices.Cards.RequestModels;
-using System;
-using System.Collections.Generic;
-using System.Text;
+using Checkout.ApiServices.Charges.RequestModels;
 
 namespace Checkout.ApiServices.Tokens.RequestModels
 {
-    public class CardTokenCreate
+    public class CardTokenCharge:BaseCharge
     {
-        public BaseCardCreate Card { get; set; }
+        public string TransactionIndicator { get; set; }
+        public string CardToken { get; set; }
     }
 }

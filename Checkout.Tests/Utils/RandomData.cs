@@ -10,6 +10,27 @@ namespace Tests
 
     public class RandomData
     {
+         private  Dictionary<string,string> countryIso2CodesMapping;
+
+         public RandomData()
+         {
+             #region country code data
+             countryIso2CodesMapping = countryIso2CodesMapping ?? new Dictionary<string, string>() {
+               { "AFG", "AF" },    // Afghanistan
+               { "DEU", "DE" },    // Germany
+               { "EGY", "EG" },    // Egypt
+               { "ESP", "ES" },    // Spain
+               { "FRA", "FR" },    // France
+               { "GBR", "GB" },    // United Kingdom
+               { "GRC", "GR" },    // Greece
+               { "ITA", "IT" },    // Italy
+               { "JPN", "JP" },    // Japan
+               { "RUS", "RU" },    // Russia
+               { "TUR", "TR" },    // Turkey
+               { "USA", "US" }    // United States
+               };
+             #endregion
+         }
 
         public string PhoneNumber
         {
@@ -153,6 +174,19 @@ namespace Tests
             }
 
         }
+
+        /// <summary>
+        /// Generates random country
+        /// </summary>
+        public string CountryISO2
+        {
+            get
+            {
+                return  countryIso2CodesMapping.ElementAt(Faker.RandomNumber.Next(0, countryIso2CodesMapping.Count)).Value;
+            }
+
+        }
+
         #endregion
 
         /// <summary>
@@ -179,6 +213,7 @@ namespace Tests
 
         }
 
+        
         /// <summary>
         /// Generates random string based on the RandomStringEnum options
         /// </summary>

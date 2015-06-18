@@ -1,9 +1,9 @@
 namespace Checkout.ApiServices.Cards.RequestModels
 {
-    public class CardUpdate
+    public class CardUpdate : BaseCard
     {
-        public string CardId { get; set; }
-        public string CustomerId { get; set; }
-        public BaseCard Card { get; set; }
+        //public string CardId { get; set; }
+        //public string CustomerId { get; set; }
+        public bool DefaultCard { get; set; }
     }
 }

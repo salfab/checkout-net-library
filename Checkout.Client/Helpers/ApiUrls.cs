@@ -1,4 +1,4 @@
-﻿using Checkout.Infrastructure;
+﻿using Checkout.Helpers;
 using Checkout.Utilities;
 using System;
 using System.Collections.Generic;
@@ -14,17 +14,23 @@ namespace Checkout
         private static string _paymentTokensApiUri;
         private static string _cardProvidersUri;
         private static string _localPaymentProvidersUri;
-        private static string _customersApiUri;
-        private static string _cardsApiUri;
         private static string _cardChargesApiUri;
         private static string _cardTokenChargesApiUri;
         private static string _defaultCardChargesApiUri;
         private static string _chargeRefundsApiUri;
         private static string _captureChargesApiUri;
         private static string _updateChargesApiUri;
-        private static string _chargesApiUri;
 
-        public static string ChargesApiUri
+        private static string _chargesApiUri;
+        private static string _chargeApiUri;
+
+        private static string _customersApiUri;
+        private static string _customerApiUri;
+
+        private static string _cardsApiUri;
+        private static string _cardApiUri;
+
+        public static string Charges
         {
             get
             {
@@ -32,15 +38,15 @@ namespace Checkout
             }
         }
 
-        public static string UpdateChargesApiUri
+        public static string Charge
         {
             get
             {
-                return _updateChargesApiUri ?? (_updateChargesApiUri = string.Concat(_baseApiUri, "/charges/{0}"));
+                return _chargeApiUri ?? (_chargeApiUri = string.Concat(_baseApiUri, "/charges/{0}"));
             }
         }
 
-        public static string CaptureChargesApiUri
+        public static string CaptureCharge
         {
             get
             {
@@ -48,8 +54,7 @@ namespace Checkout
             }
         }
 
-
-        public static string ChargeRefundsApiUri
+        public static string RefundCharge
         {
             get
             {
@@ -57,7 +62,15 @@ namespace Checkout
             }
         }
 
-        public static string DefaultCardChargesApiUri
+        public static string VoidCharge
+        {
+            get
+            {
+                return _chargeRefundsApiUri ?? (_chargeRefundsApiUri = string.Concat(_baseApiUri, "/charges/{0}/refund"));
+            }
+        }
+
+        public static string DefaultCardCharge
         {
             get
             {
@@ -65,7 +78,7 @@ namespace Checkout
             }
         }
 
-        public static string CardTokenChargesApiUri
+        public static string CardTokenCharge
         {
             get
             {
@@ -73,7 +86,7 @@ namespace Checkout
             }
         }
 
-        public static string CardChargesApiUri
+        public static string CardCharge
         {
             get
             {
@@ -81,7 +94,7 @@ namespace Checkout
             }
         }
 
-        public static string CardTokensApiUri
+        public static string CardToken
         {
             get
             {
@@ -89,7 +102,7 @@ namespace Checkout
             }
         }
 
-        public static string PaymentTokensApiUri
+        public static string PaymentToken
         {
             get
             {
@@ -97,7 +110,7 @@ namespace Checkout
             }
         }
 
-        public static string CardProvidersUri
+        public static string CardProviders
         {
             get
             {
@@ -105,7 +118,7 @@ namespace Checkout
             }
         }
 
-        public static string LocalPaymentProvidersUri
+        public static string LocalPaymentProviders
         {
             get
             {
@@ -113,21 +126,33 @@ namespace Checkout
             }
         }
 
-        public static string CustomersApiUri
+        public static string Customers
         {
             get
             {
                 return _customersApiUri ?? (_customersApiUri = string.Concat(_baseApiUri, "/customers"));
             }
         }
+        public static string Customer
+        {
+            get
+            {
+                return _customerApiUri ?? (_customerApiUri = string.Concat(_baseApiUri, "/customers/{0}"));
+            }
+        }
 
-        public static string CardsApiUri {
+        public static string Cards {
             get
             {
                 return _cardsApiUri ?? (_cardsApiUri = string.Concat(_baseApiUri, "/customers/{0}/cards"));
             }
         }
-
-       
+        public static string Card
+        {
+            get
+            {
+                return _cardApiUri ?? (_cardApiUri = string.Concat(_baseApiUri, "/customers/{0}/cards/{1}"));
+            }
+        }
     }
 }

@@ -8,51 +8,59 @@ namespace Tests
     [TestFixture(Category = "CardsApi")]
     public class CardServiceTests
     {
-       
+        APIClient CheckoutClient;
+
+        [SetUp]
+        public void Init()
+        { CheckoutClient = new APIClient(); }
+
         [Test]
         public void CreateCard()
         {
-            var customer = new CheckoutClient().CustomerService.CreateCustomer(TestHelper.GetCustomerCreateModelWithNoCard()).Model;
+            var customer = CheckoutClient.CustomerService.CreateCustomer(TestHelper.GetCustomerCreateModelWithNoCard()).Model;
 
-            var cardCreateModel = TestHelper.GetCardCreateModel(customer.Id);
-            var response = new CheckoutClient().CardService.CreateCard(cardCreateModel);
+            var cardCreateModel = TestHelper.GetCardCreateModel();
+            var response = CheckoutClient.CardService.CreateCard(customer.Id,cardCreateModel);
 
             Assert.NotNull(response);
             Assert.IsTrue(response.HttpStatusCode == System.Net.HttpStatusCode.OK);
             Assert.IsTrue(response.Model.Id.StartsWith("card_"));
-            Assert.IsTrue(response.Model.Object.ToLower() == "card");
-            Assert.IsTrue(response.Model.CustomerId.Equals(cardCreateModel.CustomerId, System.StringComparison.OrdinalIgnoreCase));
-            Assert.IsTrue(response.Model.Name == cardCreateModel.Card.Name);
-            Assert.IsTrue(response.Model.ExpiryMonth == cardCreateModel.Card.ExpiryMonth);
-            Assert.IsTrue(response.Model.ExpiryYear == cardCreateModel.Card.ExpiryYear);
-            Assert.IsTrue(cardCreateModel.Card.Number.EndsWith(response.Model.Last4));
-
-            var isBillingAddressSame = ReflectionHelper.CompareProperties<Address>(response.Model.BillingDetails, cardCreateModel.Card.BillingDetails);
-            Assert.IsTrue(isBillingAddressSame);
+            Assert.IsTrue(response.Model.CustomerId.Equals(customer.Id, System.StringComparison.OrdinalIgnoreCase));
+            Assert.IsTrue(response.Model.Name == cardCreateModel.Name);
+            Assert.IsTrue(response.Model.ExpiryMonth == cardCreateModel.ExpiryMonth);
+            Assert.IsTrue(response.Model.ExpiryYear == cardCreateModel.ExpiryYear);
+            Assert.IsTrue(cardCreateModel.Number.EndsWith(response.Model.Last4));
+            Assert.IsTrue(ReflectionHelper.CompareProperties(cardCreateModel.BillingDetails,response.Model.BillingDetails));
         }
 
         [Test]
         public void GetCard()
         {
-            var customer = new CheckoutClient().CustomerService.CreateCustomer(TestHelper.GetCustomerCreateModelWithCard()).Model;
-            var customerCardId = customer.Cards.Data.First().Id;
+            var customerCreateModel = TestHelper.GetCustomerCreateModelWithCard();
+            var customer = CheckoutClient.CustomerService.CreateCustomer(customerCreateModel).Model;
+            var customerCard = customer.Cards.Data.First();
 
-            var response = new CheckoutClient().CardService.GetCard(customer.Id, customerCardId);
+            var response = CheckoutClient.CardService.GetCard(customer.Id, customerCard.Id);
 
             Assert.NotNull(response);
             Assert.IsTrue(response.HttpStatusCode == System.Net.HttpStatusCode.OK);
-            Assert.IsTrue(response.Model.Id == customerCardId);
-            Assert.IsTrue(response.Model.Object.ToLower() == "card");
+            Assert.IsTrue(response.Model.Id == customerCard.Id);
+            Assert.IsTrue(response.Model.CustomerId.Equals(customer.Id, System.StringComparison.OrdinalIgnoreCase));
+            Assert.IsTrue(response.Model.Name == customerCard.Name);
+            Assert.IsTrue(response.Model.ExpiryMonth == customerCard.ExpiryMonth);
+            Assert.IsTrue(response.Model.ExpiryYear == customerCard.ExpiryYear);
+            Assert.IsTrue(customerCreateModel.Card.Number.EndsWith(response.Model.Last4));
+            Assert.IsTrue(ReflectionHelper.CompareProperties(customerCard.BillingDetails, response.Model.BillingDetails));
         }
 
         [Test]
         public void GetCardList()
         {
-            var customer = new CheckoutClient().CustomerService.CreateCustomer(TestHelper.GetCustomerCreateModelWithNoCard()).Model;
-            var customerCard1 = new CheckoutClient().CardService.CreateCard(TestHelper.GetCardCreateModel(customer.Id,Utils.CardProvider.Visa)).Model;
-            var customerCard2 = new CheckoutClient().CardService.CreateCard(TestHelper.GetCardCreateModel(customer.Id, Utils.CardProvider.Mastercard)).Model;
+            var customer = CheckoutClient.CustomerService.CreateCustomer(TestHelper.GetCustomerCreateModelWithNoCard()).Model;
+            var customerCard1 = CheckoutClient.CardService.CreateCard(customer.Id,TestHelper.GetCardCreateModel(Utils.CardProvider.Visa)).Model;
+            var customerCard2 = CheckoutClient.CardService.CreateCard(customer.Id,TestHelper.GetCardCreateModel(Utils.CardProvider.Mastercard)).Model;
 
-            var response = new CheckoutClient().CardService.GetCardList(customer.Id);
+            var response = CheckoutClient.CardService.GetCardList(customer.Id);
 
             Assert.NotNull(response);
             Assert.IsTrue(response.HttpStatusCode == System.Net.HttpStatusCode.OK);
@@ -62,32 +70,27 @@ namespace Tests
         [Test]
         public void UpdateCard()
         {
-            var customer = new CheckoutClient().CustomerService.CreateCustomer(TestHelper.GetCustomerCreateModelWithCard()).Model;
+            var customer = CheckoutClient.CustomerService.CreateCustomer(TestHelper.GetCustomerCreateModelWithCard()).Model;
             var customerCardId = customer.Cards.Data.First().Id;
 
-            var cardUpdateModel = TestHelper.GetCardUpdateModel(customer.Id, customerCardId);
-            var response = new CheckoutClient().CardService.UpdateCard(cardUpdateModel);
+            var response = CheckoutClient.CardService.UpdateCard(customer.Id, customerCardId, TestHelper.GetCardUpdateModel());
 
             Assert.NotNull(response);
             Assert.IsTrue(response.HttpStatusCode == System.Net.HttpStatusCode.OK);
-            Assert.IsTrue(response.Model.Name == cardUpdateModel.Card.Name);
-
-            var isBillingAddressSame = ReflectionHelper.CompareProperties<Address>(response.Model.BillingDetails, cardUpdateModel.Card.BillingDetails);
-            Assert.IsTrue(isBillingAddressSame);
+            Assert.IsTrue(response.Model.Message.Equals("Ok", System.StringComparison.OrdinalIgnoreCase));
         }
 
         [Test]
         public void DeleteCard()
         {
-            var customer = new CheckoutClient().CustomerService.CreateCustomer(TestHelper.GetCustomerCreateModelWithCard()).Model;
+            var customer = CheckoutClient.CustomerService.CreateCustomer(TestHelper.GetCustomerCreateModelWithCard()).Model;
             var customerCardId = customer.Cards.Data.First().Id;
 
-            var response = new CheckoutClient().CardService.DeleteCard(customer.Id, customerCardId);
+            var response = CheckoutClient.CardService.DeleteCard(customer.Id, customerCardId);
 
             Assert.NotNull(response);
             Assert.IsTrue(response.HttpStatusCode == System.Net.HttpStatusCode.OK);
-            Assert.IsTrue(response.Model.Id.Equals(customerCardId, System.StringComparison.OrdinalIgnoreCase));
-            Assert.IsTrue(response.Model.Deleted);
+            Assert.IsTrue(response.Model.Message.Equals("Ok", System.StringComparison.OrdinalIgnoreCase));
         }
         
     }

@@ -14,6 +14,6 @@ namespace Checkout.ApiServices.SharedModels
         public string Country { get; set; }
         public string City { get; set; }
         public string State { get; set; }
-        public string Phone { get; set; }
+        public Phone Phone { get; set; }
     }
 }

@@ -11,9 +11,9 @@ namespace Checkout.ApiServices.Tokens
        //    return new ApiHttpClient().PostRequest<CardToken>(ApiUrls.CardTokensApiUri, AppSettings.PublicKey, requestModel);
        // }
 
-    //   public HttpResponse<PaymentToken> CreatePaymentToken(PaymentTokenCreate requestModel)
-    //   {
-    //       return new ApiHttpClient().PostRequest<PaymentToken>(ApiUrls.PaymentTokensApiUri, AppSettings.SecretKey, requestModel);
-    //   }
+        public HttpResponse<PaymentToken> CreatePaymentToken(PaymentTokenCreate requestModel)
+        {
+            return new ApiHttpClient().PostRequest<PaymentToken>(ApiUrls.PaymentToken, AppSettings.SecretKey, requestModel);
+        }
     }
 }

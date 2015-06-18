@@ -43,90 +43,88 @@ namespace Tests
                 AddressLine1 = RandomData.StreetAddress,
                 AddressLine2 = RandomData.String,
                 City = RandomData.City,
-                Country = RandomData.Country,
-                Phone = RandomData.PhoneNumber,
+                Country = RandomData.CountryISO2,
+                Phone = GetPhone(),
                 Postcode = RandomData.PostCode,
                 State = RandomData.City
             };
         }
 
-        public static BaseCardCreate GetBaseCreateCardModel(CardProvider cardProvider=CardProvider.Visa)
+        public static BaseCard GetBaseCardModel(CardProvider cardProvider=CardProvider.Visa)
         {
             if( cardProvider == CardProvider.Visa )
             {
-                return new BaseCardCreate()
+                return new BaseCard()
                   {
-                      Cvv = "100",
                       ExpiryMonth = "06",
                       ExpiryYear = "2018",
                       Name = RandomData.FullName,
-                      Number = "4242424242424242",
                       BillingDetails = GetAddressModel()
                   };
             }else
             {
-                return new BaseCardCreate()
+                return new BaseCard()
                   {
-                      Cvv = "257",
                       ExpiryYear = "2017",
                       ExpiryMonth = "06",
                       Name = RandomData.FullName,
-                      Number = "5313581000123430",
                       BillingDetails = GetAddressModel()
                   };
             }
         }
 
-        public static CardCreate GetCardCreateModel(string customerId,CardProvider cardProvider=CardProvider.Visa)
+        public static CardCreate GetCardCreateModel(CardProvider cardProvider=CardProvider.Visa)
         {
-            return new CardCreate()
+            CardCreate card=new CardCreate();
+            var baseCard = GetBaseCardModel(cardProvider);
+
+            card.Name = baseCard.Name;
+            card.ExpiryMonth = baseCard.ExpiryMonth;
+            card.ExpiryYear = baseCard.ExpiryYear;
+            card.BillingDetails = baseCard.BillingDetails;
+
+            if (cardProvider == CardProvider.Visa)
             {
-                CustomerId = customerId,
-                Card = GetBaseCreateCardModel(cardProvider)
-            };
+                card.Cvv = "100";
+                card.Number = "4242424242424242";
+            }
+            else
+            {
+                card.Cvv = "257";
+                card.Number = "5313581000123430";
+            }
+
+            return card;
         }
 
-        public static CardUpdate GetCardUpdateModel(string customerId, string cardId)
+        public static CardUpdate GetCardUpdateModel(bool setDefaultCard=false)
         {
-            return new CardUpdate()
-            {
-                CardId = cardId,
-                CustomerId = customerId,
-                Card = new BaseCard()
-                {
-                    ExpiryMonth = "06",
-                    ExpiryYear = "2018",
-                    Name = RandomData.FullName,
-                    BillingDetails = GetAddressModel()
-                }
-            };
+            CardUpdate card = new CardUpdate();
+            var baseCard = GetBaseCardModel();
+
+            card.Name = baseCard.Name;
+            card.ExpiryMonth = baseCard.ExpiryMonth;
+            card.ExpiryYear = baseCard.ExpiryYear;
+            card.BillingDetails = baseCard.BillingDetails;
+            card.DefaultCard = setDefaultCard;
+
+            return card;
         }
 
         #endregion
 
         #region Customer Helpers
-        public static CustomerCreate GetCustomerCreateModelWithCardToken(string cardToken)
-        {
-            return new CustomerCreate()
-            {
-                Token = cardToken,
-                Name = RandomData.FullName,
-                Description = RandomData.String,
-                Email = RandomData.Email,
-                PhoneNumber = RandomData.PhoneNumber,
-                Metadata = new Dictionary<string, string>() { { "channelInfo", RandomData.CompanyName } },
-            };
-        }
-        public static CustomerCreate GetCustomerCreateModelWithCard()
+
+        public static CustomerCreate GetCustomerCreateModelWithCard(CardProvider cardProvider = CardProvider.Visa)
         {
             return new CustomerCreate()
             {
                 Name = RandomData.FullName,
                 Description = RandomData.String,
                 Email = RandomData.Email,
-                PhoneNumber = RandomData.PhoneNumber,
+                Phone = GetPhone(),
                 Metadata = new Dictionary<string, string>() { { "channelInfo", RandomData.CompanyName } },
-                Card = GetBaseCreateCardModel()
+                Card = GetCardCreateModel(cardProvider)
             };
         }
         public static CustomerCreate GetCustomerCreateModelWithNoCard()
@@ -135,62 +133,97 @@ namespace Tests
             customerCreateModel.Card = null;
             return customerCreateModel;
         }
-        public static CustomerUpdate GetCustomerUpdateModel(string customerId)
+        public static CustomerUpdate GetCustomerUpdateModel()
         {
             return new CustomerUpdate()
             {
-                CustomerId = customerId,
                 Name = RandomData.FullName,
                 Description = RandomData.String,
                 Email = RandomData.Email,
-                PhoneNumber = RandomData.PhoneNumber,
+                Phone = GetPhone(),
                 Metadata = new Dictionary<string, string>() { { "channelInfo", RandomData.CompanyName } }
+            };
+        }
+
+        private static Phone GetPhone()
+        {
+            return new Phone()
+            {
+                CountryCode = "1",
+                Number = "999 999 9999"
             };
         }
         #endregion
 
         #region Charge Helpers
-        public static CardChargeCreate GetCardChargeCreateModel(string customerEmail = null,string customerId = null)
+        public static CardCharge GetCardChargeCreateModel(string customerEmail = null,string customerId = null)
         {
-            return new CardChargeCreate()
+            return new CardCharge()
                 {
                     CustomerId = customerId,
                     Email = customerEmail,
                     AutoCapture = "Y",
                     AutoCapTime = 10,
                     Currency = "Usd",
+                    TrackId = "TRK12345",
+                    TransactionIndicator="1",
+                    CustomerIp="82.23.168.254",
                     Description = RandomData.String,
-                    Value = RandomData.GetNumber(50, 500),
-                    Card = GetBaseCreateCardModel(),
-                    Products = new List<Product>(){ new Product{
-                        Description = RandomData.String,
-                        Image = "http://www.imageurl.com/me.png",
-                        Name = "test product",
-                        Price = RandomData.GetNumber(50, 500),
-                        Quantity = RandomData.GetNumber(1, 100),
-                        ShippingCost = RandomData.GetDecimalNumber(),
-                        Sku = RandomData.UniqueString,
-                        TrackingUrl = "http://www.track.com?ref=12345"
-                    }
-                    },
-                    ShippingDetails = new ShippingAddress
-                    {
-                        RecipientName = RandomData.FullName,
-                        AddressLine1 = RandomData.StreetAddress,
-                        AddressLine2 = RandomData.String,
-                        City = RandomData.City,
-                        Country = RandomData.Country,
-                        Phone = RandomData.PhoneNumber,
-                        Postcode = RandomData.PostCode,
-                        State = RandomData.City
-                    },
-                    Metadata = new Dictionary<string, string>() { { "extraInformation", RandomData.CompanyName } }
+                    Value = RandomData.GetNumber(50, 500).ToString(),
+                    Card = GetCardCreateModel(),
+                    Products = GetProducts(),
+                    ShippingDetails = GetAddress(),
+                    Metadata = new Dictionary<string, string>() { { "extraInformation", RandomData.CompanyName } },
+                    Udf1 = RandomData.String,
+                    Udf2 = RandomData.String,
+                    Udf3 = RandomData.String,
+                    Udf4 = RandomData.String,
+                    Udf5 = RandomData.String
                 };
         }
 
-        public static CardIdChargeCreate GetCardIdChargeCreateModel(string cardId, string customerEmail = null, string customerId = null)
+        public static Address GetAddress()
         {
-            return new CardIdChargeCreate()
+
+            return new Address
+                    {
+                        AddressLine1 = RandomData.StreetAddress,
+                        AddressLine2 = RandomData.String,
+                        City = RandomData.City,
+                        Country = RandomData.CountryISO2,
+                        Phone = GetPhone(),
+                        Postcode = RandomData.PostCode,
+                        State = RandomData.City
+                    };
+        }
+
+        public static List<Product> GetProducts(int numOfProducts = 1)
+        {
+            var productList = new List<Product>();
+            Product product;
+
+            for (int i = 0; i <= numOfProducts; i++)
+            {
+                product = new Product
+                {
+                    Description = RandomData.String,
+                    Image = "http://www.imageurl.com/me.png",
+                    Name = "test product" + i,
+                    Price = RandomData.GetNumber(50, 500),
+                    Quantity = RandomData.GetNumber(1, 100),
+                    ShippingCost = RandomData.GetDecimalNumber(),
+                    Sku = RandomData.UniqueString,
+                    TrackingUrl = "http://www.track.com?ref=12345"
+                };
+                productList.Add(product);
+            }
+
+            return productList;
+        }
+
+        public static CardIdCharge GetCardIdChargeCreateModel(string cardId, string customerEmail = null, string customerId = null)
+        {
+            return new CardIdCharge()
                 {
                     CardId=cardId,
                     CustomerId = customerId,
@@ -199,13 +232,16 @@ namespace Tests
                     AutoCapTime = 10,
                     Currency = "Usd",
                     Description = RandomData.String,
-                    Value = RandomData.GetNumber(50, 500)
+                    Value = RandomData.GetNumber(50, 500).ToString(),
+                    Products = GetProducts(),
+                    ShippingDetails = GetAddress(),
+                    Metadata = new Dictionary<string, string>() { { "extraInformation", RandomData.CompanyName } }
                 };
         }
 
-        public static CardTokenChargeCreate GetCardTokenChargeCreateModel(string cardToken, string customerEmail = null, string customerId = null)
+        public static CardTokenCharge GetCardTokenChargeCreateModel(string cardToken, string customerEmail = null, string customerId = null)
         {
-            return new CardTokenChargeCreate()
+            return new CardTokenCharge()
             {
                 CardToken = cardToken,
                 CustomerId = customerId,
@@ -214,7 +250,7 @@ namespace Tests
                 AutoCapTime = 10,
                 Currency = "Usd",
                 Description = RandomData.String,
-                Value = RandomData.GetNumber(50, 500)
+                Value = RandomData.GetNumber(50, 500).ToString()
             };
         }
 
@@ -228,39 +264,86 @@ namespace Tests
                 AutoCapTime = 10,
                 Currency = "Usd",
                 Description = RandomData.String,
-                Value = RandomData.GetNumber(50, 500)
+                Value = RandomData.GetNumber(50, 500).ToString()
             };
         }
 
-        public static ChargeRefund GetChargeRefundModel(string chargeId, int amount)
+        public static ChargeRefund GetChargeRefundModel(string amount=null)
         {
             return new ChargeRefund()
             {
-                 ChargeId = chargeId,
-                 Value = amount
+                Value = amount,
+                TrackId = "TRK12345",
+                Description = RandomData.String,
+                Products = GetProducts(),
+                Metadata = new Dictionary<string, string>() { { "extraInformation", RandomData.CompanyName } },
+                Udf1 = RandomData.String,
+                Udf2 = RandomData.String,
+                Udf3 = RandomData.String,
+                Udf4 = RandomData.String,
+                Udf5 = RandomData.String
             };
         }
 
-         public static ChargeUpdate GetChargeUpdateModel(string chargeId)
+        public static ChargeUpdate GetChargeUpdateModel()
         {
             return new ChargeUpdate()
             {
-                 ChargeId = chargeId,
-                  Description= RandomData.String,
-                 Metadata = new Dictionary<string, string>() { { "extraInformation", RandomData.CompanyName }, { "extraInformation2", RandomData.String } }
+                TrackId = "TRK12345",
+                Description = RandomData.String,
+                Metadata = new Dictionary<string, string>() { { "extraInformation", RandomData.CompanyName }, { "extraInformation2", RandomData.String } },
+                Udf1 = RandomData.String,
+                Udf2 = RandomData.String,
+                Udf3 = RandomData.String,
+                Udf4 = RandomData.String,
+                Udf5 = RandomData.String
             };
         }
 
-         public static ChargeCapture GetChargeCaptureModel(string chargeId, int amount)
+         public static ChargeCapture GetChargeCaptureModel(string amount=null)
          {
              return new ChargeCapture()
              {
-                 ChargeId = chargeId,
-                 Value = amount
+                 Value = amount,
+                 TrackId = "TRK12345",
+                 Description = RandomData.String,
+                 Products = GetProducts(),
+                 Metadata = new Dictionary<string, string>() { { "extraInformation", RandomData.CompanyName } },
+                 Udf1 = RandomData.String,
+                 Udf2 = RandomData.String,
+                 Udf3 = RandomData.String,
+                 Udf4 = RandomData.String,
+                 Udf5 = RandomData.String
              };
          }
         
         #endregion
-     
+
+
+         public static DefaultCardCharge GetCustomerDefaultCardChargeCreateModel(string customerId)
+         {
+             DefaultCardCharge defaultCardCharge = new DefaultCardCharge
+             {
+                 CustomerId = customerId,
+                 AutoCapture = "Y",
+                 AutoCapTime = 10,
+                 Currency = "Usd",
+                 TrackId = "TRK12345",
+                 TransactionIndicator = "1",
+                 CustomerIp = "82.23.168.254",
+                 Description = RandomData.String,
+                 Value = RandomData.GetNumber(50, 500).ToString(),
+                 Products = GetProducts(),
+                 ShippingDetails = GetAddress(),
+                 Metadata = new Dictionary<string, string>() { { "extraInformation", RandomData.CompanyName } },
+                 Udf1 = RandomData.String,
+                 Udf2 = RandomData.String,
+                 Udf3 = RandomData.String,
+                 Udf4 = RandomData.String,
+                 Udf5 = RandomData.String
+             };
+
+             return defaultCardCharge;
+         }
     }
 }

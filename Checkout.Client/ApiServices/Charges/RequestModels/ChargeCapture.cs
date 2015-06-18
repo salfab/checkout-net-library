@@ -1,11 +1,13 @@
+using Checkout.ApiServices.SharedModels;
+using System.Collections.Generic;
 namespace Checkout.ApiServices.Charges.RequestModels
 {
-    public class ChargeCapture
+    public class ChargeCapture: BaseChargeInfo
     {
-        public string ChargeId { get; set; }
         /// <summary>
         /// Charge amount to be captured.
         /// </summary>
-        public int Value { get; set; }
+        public string Value { get; set; }
+        public List<Product> Products { get; set; }
     }
 }

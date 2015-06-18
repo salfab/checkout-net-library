@@ -1,4 +1,5 @@
-﻿using Checkout.ApiServices.SharedModels;
+﻿using Checkout.ApiServices.Customers.RequestModels;
+using Checkout.ApiServices.SharedModels;
 using Checkout.ApiServices.Tokens.ResponseModels;
 using System;
 using System.Collections.Generic;
@@ -17,74 +18,80 @@ namespace Checkout.LoadTestClient.Helpers
     {
 
         #region Tokens Tests
-        public void CreateCardToken()
-        {
-            var cardTokenCreateModel = TestHelper.GetCardTokenCreateModel();
-           new CheckoutClient().TokenService.CreateCardToken(cardTokenCreateModel);
-        }
+        //public void CreateCardToken()
+        //{
+        //    var cardTokenCreateModel = TestHelper.GetCardTokenCreateModel();
+        //   new APIClient().TokenService.CreateCardToken(cardTokenCreateModel);
+        //}
 
-        public void CreatePaymentToken()
-        {
-            var paymentTokenCreateModel = TestHelper.GetPaymentTokenCreateModel();
-            new CheckoutClient().TokenService.CreatePaymentToken(paymentTokenCreateModel);
-        }
+        //public void CreatePaymentToken()
+        //{
+        //    var paymentTokenCreateModel = TestHelper.GetPaymentTokenCreateModel();
+        //    new APIClient().TokenService.CreatePaymentToken(paymentTokenCreateModel);
+        //}
         #endregion
 
-        #region Payment Providers Tests
-        public void GetCardProviders()
-        {
-            new CheckoutClient().PaymentProviderService.GetCardProviderList();
-        }
-        public void GetCardPaymentProvider()
-        {
-            var cardProvider = new CheckoutClient().PaymentProviderService.GetCardProviderList().Model.Data.First();
+        //#region Payment Providers Tests
+        //public void GetCardProviders()
+        //{
+        //    new APIClient().PaymentProviderService.GetCardProviderList();
+        //}
+        //public void GetCardPaymentProvider()
+        //{
+        //    var cardProvider = new APIClient().PaymentProviderService.GetCardProviderList().Model.Data.First();
 
-           new CheckoutClient().PaymentProviderService.GetCardProvider(cardProvider.Id);
-        }
-        #endregion
+        //   new APIClient().PaymentProviderService.GetCardProvider(cardProvider.Id);
+        //}
+        //#endregion
 
         #region Customers Tests
         public void CreateCustomerWithCard()
         {
             var customerCreateModel = TestHelper.GetCustomerCreateModelWithCard();
-            new CheckoutClient().CustomerService.CreateCustomer(customerCreateModel);
+            new APIClient().CustomerService.CreateCustomer(customerCreateModel);
         }
 
         public void CreateCustomerWithNoCard()
         {
             var customerCreateModel = TestHelper.GetCustomerCreateModelWithNoCard();
-            new CheckoutClient().CustomerService.CreateCustomer(customerCreateModel);
+            new APIClient().CustomerService.CreateCustomer(customerCreateModel);
         }
 
         public void GetCustomerList()
         {
+            var customerGetList = new CustomerGetList()
+            {
+                Count = 10,
+                Offset = 0,
+                FromDate = DateTime.Now.AddMinutes(-1),
+                ToDate = DateTime.Now
+            };
+
             //Get all customers created since yesterday
-            new CheckoutClient().CustomerService.GetCustomerList(10, 0, DateTime.Now.AddMinutes(-1), DateTime.Now);
+            new APIClient().CustomerService.GetCustomerList(customerGetList);
         }
 
         public void GetCustomer()
         {
-            var customer = new CheckoutClient().
+            var customer = new APIClient().
                                 CustomerService.
                                 CreateCustomer(TestHelper.GetCustomerCreateModelWithCard()).Model;
 
-            new CheckoutClient().CustomerService.GetCustomer(customer.Id);
+            new APIClient().CustomerService.GetCustomer(customer.Id);
         }
 
         public void UpdateCustomer()
         {
-            var customer = new CheckoutClient().CustomerService.CreateCustomer(TestHelper.GetCustomerCreateModelWithCard()).Model;
+            var customer = new APIClient().CustomerService.CreateCustomer(TestHelper.GetCustomerCreateModelWithCard()).Model;
 
-            var customerUpdateModel = TestHelper.GetCustomerUpdateModel(customer.Id);
-
-            new CheckoutClient().CustomerService.UpdateCustomer(customerUpdateModel);
+            new APIClient().CustomerService.UpdateCustomer(customer.Id, TestHelper.GetCustomerUpdateModel());
         }
 
         public void DeleteCustomer()
         {
-            var customer = new CheckoutClient().CustomerService.CreateCustomer(TestHelper.GetCustomerCreateModelWithCard()).Model;
+            var customer = new APIClient().CustomerService.CreateCustomer(TestHelper.GetCustomerCreateModelWithCard()).Model;
 
-            new CheckoutClient().CustomerService.DeleteCustomer(customer.Id);
+            new APIClient().CustomerService.DeleteCustomer(customer.Id);
         }
 
         #endregion
@@ -92,44 +99,44 @@ namespace Checkout.LoadTestClient.Helpers
         #region Cards Tests
         public void CreateCard()
         {
-            var customer = new CheckoutClient().CustomerService.CreateCustomer(TestHelper.GetCustomerCreateModelWithNoCard()).Model;
+            var customer = new APIClient().CustomerService.CreateCustomer(TestHelper.GetCustomerCreateModelWithNoCard()).Model;
 
-            var cardCreateModel = TestHelper.GetCardCreateModel(customer.Id);
-            new CheckoutClient().CardService.CreateCard(cardCreateModel);
+            var cardCreateModel = TestHelper.GetCardCreateModel();
+            new APIClient().CardService.CreateCard(customer.Id,cardCreateModel);
         }
 
         public void GetCard()
         {
-            var customer = new CheckoutClient().CustomerService.CreateCustomer(TestHelper.GetCustomerCreateModelWithCard()).Model;
+            var customer = new APIClient().CustomerService.CreateCustomer(TestHelper.GetCustomerCreateModelWithCard()).Model;
             var customerCardId = customer.Cards.Data.First().Id;
 
-            new CheckoutClient().CardService.GetCard(customer.Id, customerCardId);
+            new APIClient().CardService.GetCard(customer.Id, customerCardId);
         }
 
         public void GetCardList()
         {
-            var customer = new CheckoutClient().CustomerService.CreateCustomer(TestHelper.GetCustomerCreateModelWithNoCard()).Model;
-            var customerCard1 = new CheckoutClient().CardService.CreateCard(TestHelper.GetCardCreateModel(customer.Id, Tests.Utils.CardProvider.Visa)).Model;
-            var customerCard2 = new CheckoutClient().CardService.CreateCard(TestHelper.GetCardCreateModel(customer.Id, Tests.Utils.CardProvider.Mastercard)).Model;
+            var customer = new APIClient().CustomerService.CreateCustomer(TestHelper.GetCustomerCreateModelWithNoCard()).Model;
+            var customerCard1 = new APIClient().CardService.CreateCard(customer.Id, TestHelper.GetCardCreateModel()).Model;
+            var customerCard2 = new APIClient().CardService.CreateCard(customer.Id, TestHelper.GetCardCreateModel()).Model;
 
-            new CheckoutClient().CardService.GetCardList(customer.Id);
+            new APIClient().CardService.GetCardList(customer.Id);
         }
 
         public void UpdateCard()
         {
-            var customer = new CheckoutClient().CustomerService.CreateCustomer(TestHelper.GetCustomerCreateModelWithCard()).Model;
+            var customer = new APIClient().CustomerService.CreateCustomer(TestHelper.GetCustomerCreateModelWithCard()).Model;
             var customerCardId = customer.Cards.Data.First().Id;
 
-            var cardUpdateModel = TestHelper.GetCardUpdateModel(customer.Id, customerCardId);
-            new CheckoutClient().CardService.UpdateCard(cardUpdateModel);
+            var cardUpdateModel = TestHelper.GetCardUpdateModel();
+            new APIClient().CardService.UpdateCard(customer.Id, customerCardId,cardUpdateModel);
         }
 
         public void DeleteCard()
         {
-            var customer = new CheckoutClient().CustomerService.CreateCustomer(TestHelper.GetCustomerCreateModelWithCard()).Model;
+            var customer = new APIClient().CustomerService.CreateCustomer(TestHelper.GetCustomerCreateModelWithCard()).Model;
             var customerCardId = customer.Cards.Data.First().Id;
 
-            new CheckoutClient().CardService.DeleteCard(customer.Id, customerCardId);
+            new APIClient().CardService.DeleteCard(customer.Id, customerCardId);
         }
         #endregion
 
@@ -138,62 +145,61 @@ namespace Checkout.LoadTestClient.Helpers
         {
             var cardCreateModel = TestHelper.GetCardChargeCreateModel(TestHelper.RandomData.Email);
 
-           new CheckoutClient().ChargeService.ChargeWithCard(cardCreateModel);
+           new APIClient().ChargeService.ChargeWithCard(cardCreateModel);
         }
 
         public void CreateChargeWithCardId()
         {
-            var customer = new CheckoutClient().CustomerService.CreateCustomer(TestHelper.GetCustomerCreateModelWithCard()).Model;
+            var customer = new APIClient().CustomerService.CreateCustomer(TestHelper.GetCustomerCreateModelWithCard()).Model;
 
             var cardIdChargeCreateModel = TestHelper.GetCardIdChargeCreateModel(customer.Cards.Data[0].Id, customer.Email);
 
-            new CheckoutClient().ChargeService.ChargeWithCardId(cardIdChargeCreateModel);
+            new APIClient().ChargeService.ChargeWithCardId(cardIdChargeCreateModel);
         }
 
-        public void CreateChargeWithCardToken()
-        {
-            var cardToken = new CheckoutClient().TokenService.CreateCardToken(TestHelper.GetCardTokenCreateModel()).Model;
-            var customer = new CheckoutClient().CustomerService.CreateCustomer(TestHelper.GetCustomerCreateModelWithCard()).Model;
+        //public void CreateChargeWithCardToken()
+        //{
+        //    var cardToken = new APIClient().TokenService.CreateCardToken(TestHelper.GetCardTokenCreateModel()).Model;
+        //    var customer = new APIClient().CustomerService.CreateCustomer(TestHelper.GetCustomerCreateModelWithCard()).Model;
 
-            var cardTokenChargeCreateModel = TestHelper.GetCardTokenChargeCreateModel(cardToken.Id, customer.Email);
+        //    var cardTokenChargeCreateModel = TestHelper.GetCardTokenChargeCreateModel(cardToken.Id, customer.Email);
 
-            new CheckoutClient().ChargeService.ChargeWithCardToken(cardTokenChargeCreateModel);
-        }
+        //    new APIClient().ChargeService.ChargeWithCardToken(cardTokenChargeCreateModel);
+        //}
 
         public void CreateChargeWithCustomerDefaultCard()
         {
-            var customer = new CheckoutClient().CustomerService.CreateCustomer(TestHelper.GetCustomerCreateModelWithCard()).Model;
+            var customer = new APIClient().CustomerService.CreateCustomer(TestHelper.GetCustomerCreateModelWithCard()).Model;
 
-            var baseChargeModel = TestHelper.GetBaseChargeModel(customerId: customer.Id);
-            new CheckoutClient().ChargeService.ChargeWithDefaultCustomerCard(baseChargeModel);
+            new APIClient().ChargeService.ChargeWithDefaultCustomerCard(TestHelper.GetCustomerDefaultCardChargeCreateModel(customer.Id));
         }
 
         public void RefundCharge()
         {
             var cardCreateModel = TestHelper.GetCardChargeCreateModel(TestHelper.RandomData.Email);
-            var charge = new CheckoutClient().ChargeService.ChargeWithCard(cardCreateModel).Model;
+            var charge = new APIClient().ChargeService.ChargeWithCard(cardCreateModel).Model;
 
-            var chargeRefundModel = TestHelper.GetChargeRefundModel(charge.Id, (int)charge.Value);
-            new CheckoutClient().ChargeService.RefundCardChargeRequest(chargeRefundModel);
+            var chargeRefundModel = TestHelper.GetChargeRefundModel(charge.Value);
+            new APIClient().ChargeService.RefundCharge(charge.Id,chargeRefundModel);
         }
 
         public void CaptureCharge()
         {
             var cardCreateModel = TestHelper.GetCardChargeCreateModel(TestHelper.RandomData.Email);
-            var charge = new CheckoutClient().ChargeService.ChargeWithCard(cardCreateModel).Model;
+            var charge = new APIClient().ChargeService.ChargeWithCard(cardCreateModel).Model;
 
-            var chargeCaptureModel = TestHelper.GetChargeCaptureModel(charge.Id, (int)charge.Value);
-            new CheckoutClient().ChargeService.CaptureCardCharge(chargeCaptureModel);
+            var chargeCaptureModel = TestHelper.GetChargeCaptureModel(charge.Value);
+            new APIClient().ChargeService.CaptureCharge(charge.Id, chargeCaptureModel);
         }
 
         public void UpdateCharge()
         {
             var cardCreateModel = TestHelper.GetCardChargeCreateModel(TestHelper.RandomData.Email);
-            var charge = new CheckoutClient().ChargeService.ChargeWithCard(cardCreateModel).Model;
+            var charge = new APIClient().ChargeService.ChargeWithCard(cardCreateModel).Model;
 
-            var chargeUpdateModel = TestHelper.GetChargeUpdateModel(charge.Id);
+            var chargeUpdateModel = TestHelper.GetChargeUpdateModel();
 
-            new CheckoutClient().ChargeService.UpdateCardCharge(chargeUpdateModel);
+            new APIClient().ChargeService.UpdateCharge(charge.Id, chargeUpdateModel);
         }
         #endregion
     }
