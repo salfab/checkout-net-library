@@ -61,11 +61,14 @@
     <GenerateManifests>true</GenerateManifests>
   </PropertyGroup>
   <PropertyGroup>
-    <SignManifests>true</SignManifests>
+    <SignManifests>false</SignManifests>
   </PropertyGroup>
   <!--Custom Solution Configuration Support for console applications for e.g. Debug.config and Release.config -->
   <PropertyGroup>
     <AppConfig>App.$(Configuration).config</AppConfig>
+  </PropertyGroup>
+  <PropertyGroup>
+    <NoWin32Manifest>true</NoWin32Manifest>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -98,7 +101,6 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <SubType>Designer</SubType>
     </Content>
-    <None Include="Checkout.LoadTestClient_TemporaryKey.pfx" />
     <None Include="App.Release.config">
       <SubType>Designer</SubType>
     </None>
