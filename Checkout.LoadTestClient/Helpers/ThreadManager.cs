@@ -96,38 +96,38 @@ namespace Checkout.LoadTestClient.Helpers
             }
         }
 
-        void Test(List<Action> taskList)
-        {
-            var timeout = 5000;
+        //void Test(List<Action> taskList)
+        //{
+        //    var timeout = 5000;
 
-            using (var finished = new CountdownEvent(1))
-            {
-                foreach (var task in taskList)
-                {
-                    finished.AddCount();
-                    // var localData = (DataObject)data.Clone(); 
-                    var thread = new Thread(
-                        () =>
-                        {
-                            try
-                            {
-                                //DoThreadStuff(localData); 
-                                // threadFinish.Set();
-                                //finished.IsSet;
-                            }
-                            finally
-                            {
-                                finished.Signal();
-                            }
-                        });
+        //    using (var finished = new CountdownEvent(1))
+        //    {
+        //        foreach (var task in taskList)
+        //        {
+        //            finished.AddCount();
+        //            // var localData = (DataObject)data.Clone(); 
+        //            var thread = new Thread(
+        //                () =>
+        //                {
+        //                    try
+        //                    {
+        //                        //DoThreadStuff(localData); 
+        //                        // threadFinish.Set();
+        //                        //finished.IsSet;
+        //                    }
+        //                    finally
+        //                    {
+        //                        finished.Signal();
+        //                    }
+        //                });
 
-                    thread.Start();
-                }
+        //            thread.Start();
+        //        }
 
-                finished.Signal();
-                finished.Wait(timeout);
-            };
-        }
+        //        finished.Signal();
+        //        finished.Wait(timeout);
+        //    };
+        //}
 
           public int GetSuccessfullCalls(){
             return _successfulCalls;
