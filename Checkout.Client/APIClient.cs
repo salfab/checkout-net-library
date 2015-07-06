@@ -20,6 +20,7 @@ namespace Checkout
 
         public APIClient()
         {
+            AppSettings.SetEnvironment(Environment.Undefined);
             ContentAdaptor.Setup();
         }
 
@@ -35,10 +36,11 @@ namespace Checkout
             AppSettings.DebugMode = debugMode;
         }
 
-        public APIClient(string secretKey, Environment env):this()
+        public APIClient(string secretKey, Environment env)
         {
             AppSettings.SecretKey = secretKey;
-            AppSettings.Environment=env;
+            AppSettings.SetEnvironment(env);
+            ContentAdaptor.Setup();
         }
 
         public APIClient(string secretKey, bool debugMode)

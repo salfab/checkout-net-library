@@ -88,6 +88,31 @@ namespace Tests
         }
 
          [Test]
+         public void CreateChargeWithCardToken()
+         {
+             string cardToken = "card_tok_34FF74EC-5E8A-41CD-A7FF-8992F54DAA9F";// card token for the JS charge
+
+             var cardTokenChargeModel = TestHelper.GetCardTokenChargeCreateModel(cardToken, TestHelper.RandomData.Email);
+
+             var response = CheckoutClient.ChargeService.ChargeWithCardToken(cardTokenChargeModel);
+
+             ////Check if charge details match
+             Assert.NotNull(response);
+             Assert.IsTrue(response.HttpStatusCode == System.Net.HttpStatusCode.OK);
+             Assert.IsTrue(response.Model.Id.StartsWith("charge_"));
+
+             Assert.IsTrue(response.Model.AutoCapTime == cardTokenChargeModel.AutoCapTime);
+             Assert.IsTrue(response.Model.AutoCapture.Equals(cardTokenChargeModel.AutoCapture, System.StringComparison.OrdinalIgnoreCase));
+             Assert.IsTrue(response.Model.Email.Equals(cardTokenChargeModel.Email, System.StringComparison.OrdinalIgnoreCase));
+             Assert.IsTrue(response.Model.Currency.Equals(cardTokenChargeModel.Currency, System.StringComparison.OrdinalIgnoreCase));
+             Assert.IsTrue(response.Model.Description.Equals(cardTokenChargeModel.Description, System.StringComparison.OrdinalIgnoreCase));
+             Assert.IsTrue(response.Model.Value == cardTokenChargeModel.Value);
+             Assert.IsNotNullOrEmpty(response.Model.Status);
+             Assert.IsNotNullOrEmpty(response.Model.AuthCode);
+             Assert.IsNotNullOrEmpty(response.Model.ResponseCode);
+         }
+
+         [Test]
          public void CreateChargeWithCustomerDefaultCard()
          {
              var customer = CheckoutClient.CustomerService.CreateCustomer(TestHelper.GetCustomerCreateModelWithCard(Utils.CardProvider.Mastercard)).Model;
@@ -134,6 +159,24 @@ namespace Tests
          }
 
          [Test]
+         public void VoidCharge()
+         {
+             var cardCreateModel = TestHelper.GetCardChargeCreateModel(TestHelper.RandomData.Email);
+             cardCreateModel.AutoCapture = "N";
+
+             var charge = CheckoutClient.ChargeService.ChargeWithCard(cardCreateModel).Model;
+
+             var chargeVoidModel = TestHelper.GetChargeVoidModel();
+
+             var response = CheckoutClient.ChargeService.VoidCharge(charge.Id, chargeVoidModel);
+
+             //Check if charge details match
+             Assert.NotNull(response);
+             Assert.IsTrue(response.HttpStatusCode == System.Net.HttpStatusCode.OK);
+             Assert.IsTrue(response.Model.OriginalId == charge.Id);
+         }
+
+         [Test]
          public void CaptureCharge()
          {
              var cardCreateModel = TestHelper.GetCardChargeCreateModel(TestHelper.RandomData.Email);
@@ -149,8 +192,6 @@ namespace Tests
              Assert.NotNull(response);
              Assert.IsTrue(response.HttpStatusCode == System.Net.HttpStatusCode.OK);
              Assert.IsTrue(response.Model.OriginalId.Equals(charge.Id, System.StringComparison.OrdinalIgnoreCase));
-             
-             //Assert.IsTrue(response.Model.Value == chargeCaptureModel.Value);
          }
 
          [Test]
@@ -181,55 +222,21 @@ namespace Tests
              Assert.NotNull(response);
              Assert.IsTrue(response.HttpStatusCode == System.Net.HttpStatusCode.OK);
              Assert.IsTrue(response.Model.Id.StartsWith("charge_"));
-             
-             Assert.IsTrue(response.Model.Id == response.Model.Id);
+
+             Assert.IsTrue(chargeResponse.Model.Id == response.Model.Id);
          }
 
          [Test]
-         public void VerifyCharge()
+         public void VerifyChargeByPaymentToken()
          {
-             //var cardCreateModel = TestHelper.GetCardChargeCreateModel(TestHelper.RandomData.Email);
+             string paymentToken = "pay_tok_cacdc3d0-f912-4ebb-9f84-8fde65e05fbd";// payment token for the JS charge
 
-             //var chargeResponse = CheckoutClient.ChargeService.ChargeWithCard(cardCreateModel);
+             var response = CheckoutClient.ChargeService.VerifyCharge(paymentToken);
 
-             //var response = CheckoutClient.ChargeService.GetCharge(chargeResponse.Model.Id);
-
-             ////Check if charge details match
-             //Assert.NotNull(response);
-             //Assert.IsTrue(response.HttpStatusCode == System.Net.HttpStatusCode.OK);
-             //Assert.IsTrue(response.Model.Id.StartsWith("charge_"));
-
-             //Assert.IsTrue(response.Model.Id == response.Model.Id);
+             //Check if charge details match
+             Assert.NotNull(response);
+             Assert.IsTrue(response.HttpStatusCode == System.Net.HttpStatusCode.OK);
+             Assert.IsTrue(response.Model.Id.StartsWith("charge_"));
          }
-
-         //[Test]
-         //public void GetChargeList()
-         //{
-         //    var startTime = DateTime.UtcNow;
-
-         //    var customer = CheckoutClient.CustomerService.CreateCustomer(TestHelper.GetCustomerCreateModelWithCard()).Model;
-         //    var baseChargeModel = TestHelper.GetCustomerDefaultCardChargeCreateModel(customer.Id);
-
-         //    var charge1 = CheckoutClient.ChargeService.ChargeWithDefaultCustomerCard(baseChargeModel);
-         //    var charge2 = CheckoutClient.ChargeService.ChargeWithDefaultCustomerCard(baseChargeModel);
-         //    var charge3 = CheckoutClient.ChargeService.ChargeWithDefaultCustomerCard(baseChargeModel);
-
-         //    var chargeGetListRequest = new ChargeGetList()
-         //    {
-         //        FromDate = startTime,
-         //        ToDate = DateTime.UtcNow
-         //    };
-
-         //    //Get all charges created
-         //    var response = CheckoutClient.ChargeService.GetChargeList(chargeGetListRequest);
-
-         //    Assert.NotNull(response);
-         //    Assert.IsTrue(response.HttpStatusCode == System.Net.HttpStatusCode.OK);
-         //    Assert.IsTrue(response.Model.Count == 3);
-
-         //    Assert.IsTrue(response.Model.Data[0].Id == charge3.Model.Id);
-         //    Assert.IsTrue(response.Model.Data[1].Id == charge2.Model.Id);
-         //    Assert.IsTrue(response.Model.Data[2].Id == charge1.Model.Id);
-         //}
     }
 }

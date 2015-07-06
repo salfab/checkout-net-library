@@ -1,1 +1,0 @@
-start Checkout.LoadTestClient.exe

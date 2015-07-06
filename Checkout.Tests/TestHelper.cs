@@ -2,6 +2,7 @@
 using Checkout.ApiServices.Charges.RequestModels;
 using Checkout.ApiServices.Customers.RequestModels;
 using Checkout.ApiServices.SharedModels;
+using Checkout.ApiServices.Tokens.RequestModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,22 +17,30 @@ namespace Tests
         public static RandomData RandomData { get { return _randomData ?? (_randomData = new RandomData()); } }
 
         #region Token Helpers
-        //public static CardTokenCreate GetCardTokenCreateModel()
-        //{
-        //    return new CardTokenCreate()
-        //       {
-        //           Card = GetBaseCreateCardModel()
-        //       };
-        //}
 
-        //public static PaymentTokenCreate GetPaymentTokenCreateModel()
-        //{
-        //    return new PaymentTokenCreate()
-        //      {
-        //          Currency = "usd",
-        //          Value = RandomData.GetNumber(50, 500)
-        //      };
-        //}
+        public static PaymentTokenCreate GetPaymentTokenCreateModel(string email)
+        {
+            return new PaymentTokenCreate()
+              {
+                  Currency = "usd",
+                  Value = RandomData.GetNumber(50, 500).ToString(),
+                  AutoCapTime = 1,
+                  AutoCapture = "N",
+                  ChargeMode = 1,
+                  Email = email,
+                  CustomerIp = "82.23.168.254",
+                  TrackId = "TRK12345", 
+                  Description = RandomData.String,
+                  Products = GetProducts(),
+                  ShippingDetails = GetAddress(),
+                  Metadata = new Dictionary<string, string>() { { "extraInformation", RandomData.CompanyName } },
+                  Udf1 = RandomData.String,
+                  Udf2 = RandomData.String,
+                  Udf3 = RandomData.String,
+                  Udf4 = RandomData.String,
+                  Udf5 = RandomData.String, 
+              };
+        }
 
         #endregion
 
@@ -153,6 +162,32 @@ namespace Tests
                 Number = "999 999 9999"
             };
         }
+        
+        public static DefaultCardCharge GetCustomerDefaultCardChargeCreateModel(string customerId)
+         {
+             DefaultCardCharge defaultCardCharge = new DefaultCardCharge
+             {
+                 CustomerId = customerId,
+                 AutoCapture = "Y",
+                 AutoCapTime = 10,
+                 Currency = "Usd",
+                 TrackId = "TRK12345",
+                 TransactionIndicator = "1",
+                 CustomerIp = "82.23.168.254",
+                 Description = RandomData.String,
+                 Value = RandomData.GetNumber(50, 500).ToString(),
+                 Products = GetProducts(),
+                 ShippingDetails = GetAddress(),
+                 Metadata = new Dictionary<string, string>() { { "extraInformation", RandomData.CompanyName } },
+                 Udf1 = RandomData.String,
+                 Udf2 = RandomData.String,
+                 Udf3 = RandomData.String,
+                 Udf4 = RandomData.String,
+                 Udf5 = RandomData.String
+             };
+
+             return defaultCardCharge;
+         }
         #endregion
 
         #region Charge Helpers
@@ -245,7 +280,7 @@ namespace Tests
             {
                 CardToken = cardToken,
                 CustomerId = customerId,
-                Email = customerEmail,
+                Email = customerEmail?? RandomData.Email,
                 AutoCapture = "Y",
                 AutoCapTime = 10,
                 Currency = "Usd",
@@ -316,25 +351,14 @@ namespace Tests
                  Udf5 = RandomData.String
              };
          }
-        
-        #endregion
 
-
-         public static DefaultCardCharge GetCustomerDefaultCardChargeCreateModel(string customerId)
+         public static ChargeVoid GetChargeVoidModel()
          {
-             DefaultCardCharge defaultCardCharge = new DefaultCardCharge
+             return new ChargeVoid()
              {
-                 CustomerId = customerId,
-                 AutoCapture = "Y",
-                 AutoCapTime = 10,
-                 Currency = "Usd",
                  TrackId = "TRK12345",
-                 TransactionIndicator = "1",
-                 CustomerIp = "82.23.168.254",
                  Description = RandomData.String,
-                 Value = RandomData.GetNumber(50, 500).ToString(),
                  Products = GetProducts(),
-                 ShippingDetails = GetAddress(),
                  Metadata = new Dictionary<string, string>() { { "extraInformation", RandomData.CompanyName } },
                  Udf1 = RandomData.String,
                  Udf2 = RandomData.String,
@@ -342,8 +366,9 @@ namespace Tests
                  Udf4 = RandomData.String,
                  Udf5 = RandomData.String
              };
-
-             return defaultCardCharge;
          }
+
+        #endregion
+
     }
 }

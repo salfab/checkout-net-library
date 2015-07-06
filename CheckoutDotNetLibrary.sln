@@ -14,10 +14,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{4F9E33
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Installers", "Installers", "{E98BFE25-ACB3-4AE4-8787-10149DBB2C2A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Checkout.LoadTestClient", "Checkout.LoadTestClient\Checkout.LoadTestClient.csproj", "{8212087F-CFA2-48D4-8024-A76F5FC7FE73}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Checkout.CommonLibraries", "Checkout.CommonLibraries\Checkout.CommonLibraries.csproj", "{5413F452-1D70-4E4F-A740-3DED95A4086E}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -32,14 +28,6 @@ Global
 		{EC891A3C-20BF-4AB7-9B39-6C4120F99EB2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EC891A3C-20BF-4AB7-9B39-6C4120F99EB2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EC891A3C-20BF-4AB7-9B39-6C4120F99EB2}.Release|Any CPU.Build.0 = Release|Any CPU
-		{8212087F-CFA2-48D4-8024-A76F5FC7FE73}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{8212087F-CFA2-48D4-8024-A76F5FC7FE73}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{8212087F-CFA2-48D4-8024-A76F5FC7FE73}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{8212087F-CFA2-48D4-8024-A76F5FC7FE73}.Release|Any CPU.Build.0 = Release|Any CPU
-		{5413F452-1D70-4E4F-A740-3DED95A4086E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{5413F452-1D70-4E4F-A740-3DED95A4086E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{5413F452-1D70-4E4F-A740-3DED95A4086E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{5413F452-1D70-4E4F-A740-3DED95A4086E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

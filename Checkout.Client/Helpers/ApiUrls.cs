@@ -9,15 +9,13 @@ namespace Checkout
 {
     public class ApiUrls
     {
-        private static string _baseApiUri= AppSettings.BaseApiUri;
         private static string _cardTokensApiUri;
         private static string _paymentTokensApiUri;
-        private static string _cardProvidersUri;
-        private static string _localPaymentProvidersUri;
         private static string _cardChargesApiUri;
         private static string _cardTokenChargesApiUri;
         private static string _defaultCardChargesApiUri;
         private static string _chargeRefundsApiUri;
+        private static string _chargeVoidApiUri;
         private static string _captureChargesApiUri;
         private static string _updateChargesApiUri;
 
@@ -30,11 +28,30 @@ namespace Checkout
         private static string _cardsApiUri;
         private static string _cardApiUri;
 
+        public static void ResetApiUrls()
+        {
+            _cardTokensApiUri = null;
+            _paymentTokensApiUri = null;
+            _cardChargesApiUri = null;
+            _cardTokenChargesApiUri = null;
+            _defaultCardChargesApiUri = null;
+            _chargeRefundsApiUri = null;
+            _chargeVoidApiUri = null;
+            _captureChargesApiUri = null;
+            _updateChargesApiUri = null;
+            _chargesApiUri = null;
+            _chargeApiUri = null;
+            _customersApiUri = null;
+            _customerApiUri = null;
+            _cardsApiUri = null;
+            _cardApiUri = null;
+        }
+
         public static string Charges
         {
             get
             {
-                return _chargesApiUri ?? (_chargesApiUri = string.Concat(_baseApiUri, "/charges"));
+                return _chargesApiUri ?? (_chargesApiUri = string.Concat(AppSettings.BaseApiUri, "/charges"));
             }
         }
 
@@ -42,7 +59,7 @@ namespace Checkout
         {
             get
             {
-                return _chargeApiUri ?? (_chargeApiUri = string.Concat(_baseApiUri, "/charges/{0}"));
+                return _chargeApiUri ?? (_chargeApiUri = string.Concat(AppSettings.BaseApiUri, "/charges/{0}"));
             }
         }
 
@@ -50,7 +67,7 @@ namespace Checkout
         {
             get
             {
-                return _captureChargesApiUri ?? (_captureChargesApiUri = string.Concat(_baseApiUri, "/charges/{0}/capture"));
+                return _captureChargesApiUri ?? (_captureChargesApiUri = string.Concat(AppSettings.BaseApiUri, "/charges/{0}/capture"));
             }
         }
 
@@ -58,7 +75,7 @@ namespace Checkout
         {
             get
             {
-                return _chargeRefundsApiUri ?? (_chargeRefundsApiUri = string.Concat(_baseApiUri, "/charges/{0}/refund"));
+                return _chargeRefundsApiUri ?? (_chargeRefundsApiUri = string.Concat(AppSettings.BaseApiUri, "/charges/{0}/refund"));
             }
         }
 
@@ -66,7 +83,7 @@ namespace Checkout
         {
             get
             {
-                return _chargeRefundsApiUri ?? (_chargeRefundsApiUri = string.Concat(_baseApiUri, "/charges/{0}/refund"));
+                return _chargeVoidApiUri ?? (_chargeVoidApiUri = string.Concat(AppSettings.BaseApiUri, "/charges/{0}/void"));
             }
         }
 
@@ -74,7 +91,7 @@ namespace Checkout
         {
             get
             {
-                return _defaultCardChargesApiUri ?? (_defaultCardChargesApiUri = string.Concat(_baseApiUri, "/charges/customer"));
+                return _defaultCardChargesApiUri ?? (_defaultCardChargesApiUri = string.Concat(AppSettings.BaseApiUri, "/charges/customer"));
             }
         }
 
@@ -82,7 +99,7 @@ namespace Checkout
         {
             get
             {
-                return _cardTokenChargesApiUri ?? (_cardTokenChargesApiUri = string.Concat(_baseApiUri, "/charges/token"));
+                return _cardTokenChargesApiUri ?? (_cardTokenChargesApiUri = string.Concat(AppSettings.BaseApiUri, "/charges/token"));
             }
         }
 
@@ -90,7 +107,7 @@ namespace Checkout
         {
             get
             {
-                return _cardChargesApiUri ?? (_cardChargesApiUri = string.Concat(_baseApiUri, "/charges/card"));
+                return _cardChargesApiUri ?? (_cardChargesApiUri = string.Concat(AppSettings.BaseApiUri, "/charges/card"));
             }
         }
 
@@ -98,7 +115,7 @@ namespace Checkout
         {
             get
             {
-                return _cardTokensApiUri ?? (_cardTokensApiUri = string.Concat(_baseApiUri, "/tokens/card"));
+                return _cardTokensApiUri ?? (_cardTokensApiUri = string.Concat(AppSettings.BaseApiUri, "/tokens/card"));
             }
         }
 
@@ -106,23 +123,7 @@ namespace Checkout
         {
             get
             {
-                return _paymentTokensApiUri ?? (_paymentTokensApiUri = string.Concat(_baseApiUri, "/tokens/payment"));
-            }
-        }
-
-        public static string CardProviders
-        {
-            get
-            {
-                return _cardProvidersUri ?? (_cardProvidersUri = string.Concat(_baseApiUri, "/providers/cards"));
-            }
-        }
-
-        public static string LocalPaymentProviders
-        {
-            get
-            {
-                return _localPaymentProvidersUri ?? (_localPaymentProvidersUri = string.Concat(_baseApiUri, "/providers/localpayments"));
+                return _paymentTokensApiUri ?? (_paymentTokensApiUri = string.Concat(AppSettings.BaseApiUri, "/tokens/payment"));
             }
         }
 
@@ -130,28 +131,28 @@ namespace Checkout
         {
             get
             {
-                return _customersApiUri ?? (_customersApiUri = string.Concat(_baseApiUri, "/customers"));
+                return _customersApiUri ?? (_customersApiUri = string.Concat(AppSettings.BaseApiUri, "/customers"));
             }
         }
         public static string Customer
         {
             get
             {
-                return _customerApiUri ?? (_customerApiUri = string.Concat(_baseApiUri, "/customers/{0}"));
+                return _customerApiUri ?? (_customerApiUri = string.Concat(AppSettings.BaseApiUri, "/customers/{0}"));
             }
         }
 
         public static string Cards {
             get
             {
-                return _cardsApiUri ?? (_cardsApiUri = string.Concat(_baseApiUri, "/customers/{0}/cards"));
+                return _cardsApiUri ?? (_cardsApiUri = string.Concat(AppSettings.BaseApiUri, "/customers/{0}/cards"));
             }
         }
         public static string Card
         {
             get
             {
-                return _cardApiUri ?? (_cardApiUri = string.Concat(_baseApiUri, "/customers/{0}/cards/{1}"));
+                return _cardApiUri ?? (_cardApiUri = string.Concat(AppSettings.BaseApiUri, "/customers/{0}/cards/{1}"));
             }
         }
     }

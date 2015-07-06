@@ -193,47 +193,6 @@ namespace Checkout
                 }
 
                 response = CreateHttpResponse<T>(responseAsString, responseMessage.StatusCode);
-
-                #region log
-                //if (response.ContentType == HttpContentTypes.Xml || response.ContentType == HttpContentTypes.Json)
-                //{
-                //    if (HttpStatusCode.OK == response.HttpResponseStatusCode)
-                //    {
-                //        string responseContent;
-
-                //        //handle Jsonp content
-                //        var regex = new System.Text.RegularExpressions.Regex(@"\((.*)\)$");
-                //        var match = regex.Match(response.HttpResponseAsString);
-                //        if (match.Success && match.Value != string.Empty)
-                //        {
-                //            responseContent = match.Value;
-
-                //            //Get rid of enclosing brackets
-                //            responseContent = responseContent.StartsWith("(") ? responseContent.Substring(1, responseContent.Length - 1) : responseContent;
-                //            responseContent = responseContent.EndsWith(")") ? responseContent.Substring(0, responseContent.Length - 1) : responseContent;
-
-                //            response.HttpResponseAsString = responseContent;
-
-                //            Console.WriteLine(string.Format("\n** HttpResponse is JsonP callback {0}**\n {1}\n", response.HttpResponseStatusCode, response.HttpResponseAsJObject.ToString()));
-                //        }
-                //        else
-                //        {
-                //            //Format output
-                //            responseContent = response.ContentType == HttpContentTypes.Xml ?
-                //                                        response.HttpResponseAsXmlDocument.XToIndentedString() :
-                //                                        response.HttpResponseAsJObject.ToString();
-
-                //            Console.WriteLine(string.Format("\n** HttpResponse {0}**\n {1}\n", response.HttpResponseStatusCode, responseContent));
-                //        }
-
-
-                //    }
-                //    else
-                //    {
-                //        Console.WriteLine(string.Format("\n** HttpResponse {0}**\n {1}\n", response.HttpResponseStatusCode, response.HttpResponseAsString));
-                //    }
-                //}
-                #endregion
             }
             catch (Exception ex)
             {

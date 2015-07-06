@@ -59,13 +59,10 @@ namespace Tests
 
         private static void CompareDictionariesAreEquals(PropertyInfo property, dynamic expectedObj, dynamic actualObj)
         {
+            Type type;
 
-           // if (expectedObj == actualObj) ;
             if ((expectedObj == null) || (actualObj == null)) { throw new ArgumentException("expected or actual object is null"); }
             if (expectedObj.Count != actualObj.Count) { throw new ArgumentException("Dictionary element count doesnt match"); }
-
-            //var valueComparer = EqualityComparer<.Default;
-            Type type;
 
             foreach (var kvp in expectedObj)
             {

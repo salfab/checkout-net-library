@@ -20,14 +20,13 @@ namespace Tests.TokenService
             [Test]
             public void CreatePaymentToken()
             {
-                //var customerCreateModel = TestHelper.GetCustomerCreateModelWithCard();
-                //var response = CheckoutClient.CustomerService.CreateCustomer(customerCreateModel);
+               
+                var paymentTokenCreateModel = TestHelper.GetPaymentTokenCreateModel(TestHelper.RandomData.Email);
+                var response = CheckoutClient.TokenService.CreatePaymentToken(paymentTokenCreateModel);
 
-                //Assert.NotNull(response);
-                //Assert.IsTrue(response.HttpStatusCode == System.Net.HttpStatusCode.OK);
-                //Assert.IsTrue(response.Model.Id.StartsWith("cust_"));
-                //Assert.IsTrue(ReflectionHelper.CompareProperties(customerCreateModel, response.Model, new string[] { "Card" }));
-                //Assert.IsTrue(ReflectionHelper.CompareProperties(customerCreateModel.Card, response.Model.Cards.Data[0], new string[] { "Number", "Cvv", "DefaultCard" }));
+                Assert.NotNull(response);
+                Assert.IsTrue(response.HttpStatusCode == System.Net.HttpStatusCode.OK);
+                Assert.IsTrue(response.Model.Id.StartsWith("pay_tok_"));
             }
         }
     }
