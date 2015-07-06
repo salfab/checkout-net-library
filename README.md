@@ -6,11 +6,9 @@
 
 ### How to use the library
 
-In order to use the .Net library all you have to do is add the latest **Checkout.dll** file as a reference to your project. The latest dll file for Checkout library resides in the **releases\latest\** folder of the project.
+In order to use the .Net library all you have to do is add the latest **Checkout.dll** file and reference it in your project . The latest dll file for Checkout library resides in the **releases\latest\** folder of the solution.
 
-### Example
-
-Import the library namespace **using Checkout;** in your code as below:   
+After that add the library namespace **using Checkout;** in your code as below:   
 ```
 using Checkout;
 ```
@@ -45,7 +43,7 @@ APIClient(string secretKey, bool debugMode)
 APIClient(string secretKey)
 ```
 
-#### Endpoints
+#### Endpoints 
 **APIClient** exposes various service properties to interact with the API endpoints. 
 
 - ####Charges
@@ -55,7 +53,7 @@ APIClient(string secretKey)
 
 ####Charges
 
-#####Charge with card
+#####Charge with card example
 ```
 // Create payload
 var cardChargeRequestModel = new CardCharge()
@@ -151,7 +149,7 @@ catch (Exception e)
 
 
 ####Customers
-#####Create customer with card
+#####Create customer with card example
 ```
 // Create payload
 var customerCreateRequest = new CustomerCreate()
@@ -268,7 +266,7 @@ catch (Exception e)
 ```
 
 ####Tokens
-#####Create payment token
+#####Create payment token example
 
 ```
 // Create payload
@@ -341,7 +339,7 @@ catch (Exception e)
 }
 ```
 
-#####Verify charge**
+#####Verify charge example
 
 ```
 // Create payload
