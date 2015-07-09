@@ -20,8 +20,6 @@ namespace Tests
             Assert.NotNull(response);
             Assert.IsTrue(response.HttpStatusCode != System.Net.HttpStatusCode.OK);
             Assert.IsTrue(response.HasError);
-            Assert.IsTrue(response.Error.Message.ToLower().Contains("invalid card number"));
-
         }
 
         [Test]

@@ -20,7 +20,6 @@ namespace Tests.TokenService
             [Test]
             public void CreatePaymentToken()
             {
-               
                 var paymentTokenCreateModel = TestHelper.GetPaymentTokenCreateModel(TestHelper.RandomData.Email);
                 var response = CheckoutClient.TokenService.CreatePaymentToken(paymentTokenCreateModel);
 
