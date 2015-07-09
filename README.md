@@ -6,7 +6,7 @@
 
 ### How to use the library
 
-In order to use the .Net library all you have to do is add the latest **Checkout.dll** file and reference it in your project . The latest dll file for Checkout library resides in the **releases\latest\** folder of the solution.
+In order to use the .Net library all you have to do is add the latest **Checkout.APIClient.dll** file and reference it in your project . The latest dll file for Checkout library resides in the **releases\latest\** folder of the solution.
 
 After that add the library namespace **using Checkout;** in your code as below:   
 ```
@@ -44,12 +44,12 @@ APIClient(string secretKey)
 ```
 
 #### Endpoints 
-**APIClient** exposes various service properties to interact with the API endpoints. 
+There are various API endpoints that the **APIClient** interacts with. 
 
-- ####Charges
-- ####Customers
-- ####Cards
-- ####Tokens
+- Charges
+- Customers
+- Cards
+- Tokens
 
 ####Charges
 
@@ -125,7 +125,7 @@ var cardChargeRequestModel = new CardCharge()
 try
 {
 	// Create APIClient instance with your secret key
-	APIClient ckoAPIClient = new APIClient("sk_CC937715-4F68-4306-BCBE-640B249A4D50", Checkout.Helpers.Environment.Sandbox);
+	APIClient ckoAPIClient = new APIClient("sk_CC937715-4F68-4306-BCBE-640B249A4D50", Checkout.APIClient.Helpers.Environment.Sandbox);
 
 	// Submit your request and receive an apiResponse
 	HttpResponse<Charge> apiResponse = ckoAPIClient.ChargeService.ChargeWithCard(cardChargeRequestModel);
@@ -190,7 +190,7 @@ var customerCreateRequest = new CustomerCreate()
 try
 {
 	// Create APIClient instance with your secret key
-	APIClient ckoAPIClient = new APIClient("sk_CC937715-4F68-4306-BCBE-640B249A4D50", Checkout.Helpers.Environment.Sandbox);
+	APIClient ckoAPIClient = new APIClient("sk_CC937715-4F68-4306-BCBE-640B249A4D50", Checkout.APIClient.Helpers.Environment.Sandbox);
 
 	// Submit your request and receive an apiResponse
 	HttpResponse<Customer> apiResponse = ckoAPIClient.CustomerService.CreateCustomer(customerCreateRequest);
@@ -243,7 +243,7 @@ var cardCreateRequest = new CardCreate()
 try
 {
 	// Create APIClient instance with your secret key
-	APIClient ckoAPIClient = new APIClient("sk_CC937715-4F68-4306-BCBE-640B249A4D50", Checkout.Helpers.Environment.Sandbox);
+	APIClient ckoAPIClient = new APIClient("sk_CC937715-4F68-4306-BCBE-640B249A4D50", Checkout.APIClient.Helpers.Environment.Sandbox);
 
 	// Submit your request and receive an apiResponse
 	HttpResponse<Card> apiResponse = ckoAPIClient.CardService.CreateCard("cust_9DECF6A8-DBF7-46F3-927D-BA6C3CE1F501", cardCreateRequest);
@@ -317,7 +317,7 @@ var paymentTokenRequest = new PaymentTokenCreate()
 try
 {
 	// Create APIClient instance with your secret key
-	APIClient ckoAPIClient = new APIClient("sk_CC937715-4F68-4306-BCBE-640B249A4D50", Checkout.Helpers.Environment.Sandbox);
+	APIClient ckoAPIClient = new APIClient("sk_CC937715-4F68-4306-BCBE-640B249A4D50", Checkout.APIClient.Helpers.Environment.Sandbox);
 
 	// Submit your request and receive an apiResponse
 	HttpResponse<PaymentToken> apiResponse = ckoAPIClient.TokenService.CreatePaymentToken(paymentTokenRequest);
@@ -348,7 +348,7 @@ string paymentToken = "pay_tok_e6ef69d3-11b2-473d-bdc0-6b03c8713454";
 try
 {
 	// Create APIClient instance with your secret key
-	APIClient ckoAPIClient = new APIClient("sk_CC937715-4F68-4306-BCBE-640B249A4D50", Checkout.Helpers.Environment.Sandbox);
+	APIClient ckoAPIClient = new APIClient("sk_CC937715-4F68-4306-BCBE-640B249A4D50", Checkout.APIClient.Helpers.Environment.Sandbox);
 
 	// Submit your request and receive an apiResponse
 	HttpResponse<Charge> apiResponse = ckoAPIClient.ChargeService.VerifyCharge(paymentToken);
