@@ -132,7 +132,7 @@ var cardChargeRequestModel = new CardCharge()
 try
 {
 	// Create APIClient instance with your secret key
-	APIClient ckoAPIClient = new APIClient("sk_CC937715-4F68-4306-BCBE-640B249A4D50", Checkout.APIClient.Helpers.Environment.Sandbox);
+	APIClient ckoAPIClient = new APIClient("sk_test_32b9cb39-1cd6-4f86-b750-7069a133667d", Checkout.APIClient.Helpers.Environment.Sandbox);
 
 	// Submit your request and receive an apiResponse
 	HttpResponse<Charge> apiResponse = ckoAPIClient.ChargeService.ChargeWithCard(cardChargeRequestModel);
@@ -197,7 +197,7 @@ var customerCreateRequest = new CustomerCreate()
 try
 {
 	// Create APIClient instance with your secret key
-	APIClient ckoAPIClient = new APIClient("sk_CC937715-4F68-4306-BCBE-640B249A4D50", Checkout.APIClient.Helpers.Environment.Sandbox);
+	APIClient ckoAPIClient = new APIClient("sk_test_32b9cb39-1cd6-4f86-b750-7069a133667d", Checkout.APIClient.Helpers.Environment.Sandbox);
 
 	// Submit your request and receive an apiResponse
 	HttpResponse<Customer> apiResponse = ckoAPIClient.CustomerService.CreateCustomer(customerCreateRequest);
@@ -250,7 +250,7 @@ var cardCreateRequest = new CardCreate()
 try
 {
 	// Create APIClient instance with your secret key
-	APIClient ckoAPIClient = new APIClient("sk_CC937715-4F68-4306-BCBE-640B249A4D50", Checkout.APIClient.Helpers.Environment.Sandbox);
+	APIClient ckoAPIClient = new APIClient("sk_test_32b9cb39-1cd6-4f86-b750-7069a133667d", Checkout.APIClient.Helpers.Environment.Sandbox);
 
 	// Submit your request and receive an apiResponse
 	HttpResponse<Card> apiResponse = ckoAPIClient.CardService.CreateCard("cust_9DECF6A8-DBF7-46F3-927D-BA6C3CE1F501", cardCreateRequest);
@@ -324,7 +324,7 @@ var paymentTokenRequest = new PaymentTokenCreate()
 try
 {
 	// Create APIClient instance with your secret key
-	APIClient ckoAPIClient = new APIClient("sk_CC937715-4F68-4306-BCBE-640B249A4D50", Checkout.APIClient.Helpers.Environment.Sandbox);
+	APIClient ckoAPIClient = new APIClient("sk_test_32b9cb39-1cd6-4f86-b750-7069a133667d", Checkout.APIClient.Helpers.Environment.Sandbox);
 
 	// Submit your request and receive an apiResponse
 	HttpResponse<PaymentToken> apiResponse = ckoAPIClient.TokenService.CreatePaymentToken(paymentTokenRequest);
@@ -355,7 +355,7 @@ string paymentToken = "pay_tok_e6ef69d3-11b2-473d-bdc0-6b03c8713454";
 try
 {
 	// Create APIClient instance with your secret key
-	APIClient ckoAPIClient = new APIClient("sk_CC937715-4F68-4306-BCBE-640B249A4D50", Checkout.APIClient.Helpers.Environment.Sandbox);
+	APIClient ckoAPIClient = new APIClient("sk_test_32b9cb39-1cd6-4f86-b750-7069a133667d", Checkout.APIClient.Helpers.Environment.Sandbox);
 
 	// Submit your request and receive an apiResponse
 	HttpResponse<Charge> apiResponse = ckoAPIClient.ChargeService.VerifyCharge(paymentToken);
