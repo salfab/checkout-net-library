@@ -6,27 +6,34 @@
 
 ### How to use the library
 
-In order to use the .Net library all you have to do is add the latest **Checkout.APIClient.dll** file and reference it in your project . The latest dll file for Checkout library resides in the **releases\latest\** folder of the solution.
+In order to use the Checkout .Net library you have two options:
+1- Install the library through Nuget. Search for the nuget package name **Checkout.APIClient** and install it.
+2- Alternatively, you can download the sourcode from our master branch and reference it in your solution.
 
 After that add the library namespace **using Checkout;** in your code as below:   
 ```
 using Checkout;
 ```
 
+if you get class name conflicts please use namespace alias as example below:
+```
+using CheckoutEnvironment = Checkout.Helpers.Environment;
+```
+
 #### Configuration
 You will be required to **set your secret key** when initialising a new **APIClient** instance. You will also have option for other configurations defined in **AppSettings** of the config file. If you prefer to use config file then you need to have the following configuration in your config file:
 
 - **Checkout.SecretKey**: This is your api key 
-- **Checkout.RequestTimeout**: Set your default number of seconds to wait before the request times out on the ApiHttpClient.
-- **Checkout.MaxResponseContentBufferSize**: Sets the maximum number of bytes to buffer when reading the response.
-- **Checkout.DebugMode**: If set to true, the request and response result will be logged to console. Set this option to false when going Live.
+- **Checkout.RequestTimeout**: Set your default number of seconds to wait before the request times out on the ApiHttpClient. Default is 60.
+- **Checkout.MaxResponseContentBufferSize**: Sets the maximum number of bytes to buffer when reading the response. Default is 10240.
+- **Checkout.DebugMode**: If set to true, the request and response result will be logged to console. Set this option to false when going Live. Default is false;
 - **Checkout.Environment**: You can set your environment to point to **Sandbox** or **Live**.
 
 ```html
 <appSettings>
     <add key="Checkout.SecretKey" value="sk_CC937715-4F68-4306-BCBE-640B249A4D50" />
     <add key="Checkout.RequestTimeout" value="60" />
-    <add key="Checkout.MaxResponseContentBufferSize" value="1000000" />
+    <add key="Checkout.MaxResponseContentBufferSize" value="10240" />
     <add key="Checkout.DebugMode" value="true" />
     <add key="Checkout.Environment" value="Sandbox" />
 </appSettings>

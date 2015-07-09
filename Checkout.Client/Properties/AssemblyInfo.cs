@@ -6,12 +6,12 @@ using System.Resources;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Checkout.Client")]
-[assembly: AssemblyDescription("Checkout Api Client Library")]
+[assembly: AssemblyTitle("Checkout.ApiClient")]
+[assembly: AssemblyDescription("Checkout.APIClient is a .net library for Checkout's Merchant API. For documentation, visit https://www.checkout.com/docs/api/API-reference/overview. Git repository available at https://github.com/CKOTech/checkout-net-library")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Checkout ltd")]
-[assembly: AssemblyProduct("Checkout")]
-[assembly: AssemblyCopyright("Copyright ©  2015")]
+[assembly: AssemblyCompany("Checkout.com")]
+[assembly: AssemblyProduct("Checkout.ApiClient")]
+[assembly: AssemblyCopyright("Copyright © 2015")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

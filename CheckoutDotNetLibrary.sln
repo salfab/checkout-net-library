@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Checkout.Client", "Checkout.Client\Checkout.Client.csproj", "{1C69B996-8AB6-4BA2-A5AE-58A350CBB34B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Checkout", "Checkout.Client\Checkout.csproj", "{1C69B996-8AB6-4BA2-A5AE-58A350CBB34B}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Checkout.Tests", "Checkout.Tests\Checkout.Tests.csproj", "{EC891A3C-20BF-4AB7-9B39-6C4120F99EB2}"
 EndProject
