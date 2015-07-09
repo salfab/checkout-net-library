@@ -7,8 +7,8 @@
 ### How to use the library
 
 In order to use the Checkout .Net library you have two options:
-1- Install the library through Nuget. Search for the nuget package name **Checkout.APIClient** and install it.
-2- Alternatively, you can download the sourcode from our master branch and reference it in your solution.
+- Install the library through Nuget. Search for the nuget package name **Checkout.APIClient** and install it.
+- Alternatively, you can download the sourcode from our master branch and reference it in your solution.
 
 After that add the library namespace **using Checkout;** in your code as below:   
 ```
