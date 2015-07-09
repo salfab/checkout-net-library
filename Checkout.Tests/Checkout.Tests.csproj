@@ -77,15 +77,16 @@
     <Compile Include="TestHelper.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="app.config" />
-    <None Include="App.Debug.config" />
+    <None Include="App.Debug.config">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="App.Release.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Checkout.Client\Checkout.Client.csproj">
+    <ProjectReference Include="..\Checkout.Client\Checkout.csproj">
       <Project>{1c69b996-8ab6-4ba2-a5ae-58a350cbb34b}</Project>
-      <Name>Checkout.Client</Name>
+      <Name>Checkout</Name>
     </ProjectReference>
   </ItemGroup>
   <Choose>
