@@ -31,7 +31,7 @@ You will be required to **set your secret key** when initialising a new **APICli
 
 ```html
 <appSettings>
-    <add key="Checkout.SecretKey" value="sk_CC937715-4F68-4306-BCBE-640B249A4D50" />
+    <add key="Checkout.SecretKey" value="sk_test_32b9cb39-1cd6-4f86-b750-7069a133667d" />
     <add key="Checkout.RequestTimeout" value="60" />
     <add key="Checkout.MaxResponseContentBufferSize" value="10240" />
     <add key="Checkout.DebugMode" value="true" />
