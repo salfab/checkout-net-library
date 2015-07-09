@@ -20,7 +20,11 @@ namespace Checkout
 
         public APIClient()
         {
-            AppSettings.SetEnvironment(Environment.Undefined);
+            if (AppSettings.Environment == Environment.Undefined)
+            {
+                AppSettings.SetEnvironmentFromConfig();
+            }
+
             ContentAdaptor.Setup();
         }
 
@@ -39,7 +43,7 @@ namespace Checkout
         public APIClient(string secretKey, Environment env)
         {
             AppSettings.SecretKey = secretKey;
-            AppSettings.SetEnvironment(env);
+            AppSettings.Environment = env;
             ContentAdaptor.Setup();
         }
 
