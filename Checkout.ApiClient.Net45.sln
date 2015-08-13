@@ -1,10 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Checkout", "Checkout.Client\Checkout.csproj", "{1C69B996-8AB6-4BA2-A5AE-58A350CBB34B}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Checkout.Tests", "Checkout.Tests\Checkout.Tests.csproj", "{EC891A3C-20BF-4AB7-9B39-6C4120F99EB2}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{4F9E338C-45F7-40EF-A7D2-793F392263ED}"
 	ProjectSection(SolutionItems) = preProject
 		.nuget\NuGet.Config = .nuget\NuGet.Config
@@ -12,7 +8,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{4F9E33
 		.nuget\NuGet.targets = .nuget\NuGet.targets
 	EndProjectSection
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Installers", "Installers", "{E98BFE25-ACB3-4AE4-8787-10149DBB2C2A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Checkout.ApiClient.Net45", "Checkout.ApiClient.Net45\Checkout.ApiClient.Net45.csproj", "{1C69B996-8AB6-4BA2-A5AE-58A350CBB34B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Checkout.ApiClient.Net45.Tests", "Checkout.ApiClient.Tests\Checkout.ApiClient.Net45.Tests.csproj", "{EC891A3C-20BF-4AB7-9B39-6C4120F99EB2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

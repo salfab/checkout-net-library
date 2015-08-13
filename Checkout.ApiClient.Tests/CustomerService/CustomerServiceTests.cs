@@ -77,7 +77,7 @@ namespace Tests
 
             Assert.NotNull(response);
             Assert.IsTrue(response.HttpStatusCode == System.Net.HttpStatusCode.OK);
-            Assert.IsTrue(response.Model.Count == 4);
+            Assert.IsTrue(response.Model.Count >= 4);
 
             Assert.IsTrue(response.Model.Data[0].Id == customer4.Model.Id);
             Assert.IsTrue(response.Model.Data[1].Id == customer3.Model.Id);

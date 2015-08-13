@@ -124,7 +124,9 @@
     <Compile Include="Utilities\UrlHelper.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.Debug.config" />
+    <None Include="App.Debug.config">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="App.Release.config" />
     <None Include="Checkout.APIClient.nuspec" />
     <None Include="CreateNugetPackage.bat" />

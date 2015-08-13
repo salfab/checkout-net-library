@@ -84,9 +84,9 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Checkout.Client\Checkout.csproj">
+    <ProjectReference Include="..\Checkout.ApiClient.Net45\Checkout.ApiClient.Net45.csproj">
       <Project>{1c69b996-8ab6-4ba2-a5ae-58a350cbb34b}</Project>
-      <Name>Checkout</Name>
+      <Name>Checkout.ApiClient.Net45</Name>
     </ProjectReference>
   </ItemGroup>
   <Choose>
