@@ -176,6 +176,7 @@ namespace Tests
                  CustomerIp = "82.23.168.254",
                  Description = RandomData.String,
                  Value = RandomData.GetNumber(50, 500).ToString(),
+                 Descriptor = new BillingDescriptor { Name = "Amigo ltd.", City = "London" },
                  Products = GetProducts(),
                  ShippingDetails = GetAddress(),
                  Metadata = new Dictionary<string, string>() { { "extraInformation", RandomData.CompanyName } },
@@ -198,7 +199,7 @@ namespace Tests
                     CustomerId = customerId,
                     Email = customerEmail,
                     AutoCapture = "N",
-                    AutoCapTime = 10,
+                    AutoCapTime = 0,
                     Currency = "Usd",
                     TrackId = "TRK12345",
                     TransactionIndicator="1",
@@ -206,6 +207,7 @@ namespace Tests
                     Description = RandomData.String,
                     Value = RandomData.GetNumber(50, 500).ToString(),
                     Card = GetCardCreateModel(),
+                    Descriptor =new BillingDescriptor { Name = "Amigo ltd.", City = "London" },
                     Products = GetProducts(),
                     ShippingDetails = GetAddress(),
                     Metadata = new Dictionary<string, string>() { { "extraInformation", RandomData.CompanyName } },
@@ -270,7 +272,8 @@ namespace Tests
                     Value = RandomData.GetNumber(50, 500).ToString(),
                     Products = GetProducts(),
                     ShippingDetails = GetAddress(),
-                    Metadata = new Dictionary<string, string>() { { "extraInformation", RandomData.CompanyName } }
+                    Metadata = new Dictionary<string, string>() { { "extraInformation", RandomData.CompanyName } },
+                    Descriptor = new BillingDescriptor { Name = "Amigo ltd.", City = "London" }
                 };
         }
 
@@ -285,7 +288,8 @@ namespace Tests
                 AutoCapTime = 10,
                 Currency = "Usd",
                 Description = RandomData.String,
-                Value = RandomData.GetNumber(50, 500).ToString()
+                Value = RandomData.GetNumber(50, 500).ToString(),
+                Descriptor = new BillingDescriptor { Name = "Amigo ltd.", City = "London" }
             };
         }
 
