@@ -1,10 +1,4 @@
-﻿using Checkout.Helpers;
-using Checkout.Utilities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
+﻿
 namespace Checkout
 {
     public class ApiUrls
@@ -21,6 +15,7 @@ namespace Checkout
 
         private static string _chargesApiUri;
         private static string _chargeApiUri;
+        private static string _chargeHistoryApiUri;
 
         private static string _customersApiUri;
         private static string _customerApiUri;
@@ -41,6 +36,7 @@ namespace Checkout
             _updateChargesApiUri = null;
             _chargesApiUri = null;
             _chargeApiUri = null;
+            _chargeHistoryApiUri = null;
             _customersApiUri = null;
             _customerApiUri = null;
             _cardsApiUri = null;
@@ -60,6 +56,14 @@ namespace Checkout
             get
             {
                 return _chargeApiUri ?? (_chargeApiUri = string.Concat(AppSettings.BaseApiUri, "/charges/{0}"));
+            }
+        }
+
+        public static string ChargeHistory
+        {
+            get
+            {
+                return _chargeHistoryApiUri ?? (_chargeHistoryApiUri = string.Concat(AppSettings.BaseApiUri, "/charges/{0}/history"));
             }
         }
 
@@ -155,5 +159,8 @@ namespace Checkout
                 return _cardApiUri ?? (_cardApiUri = string.Concat(AppSettings.BaseApiUri, "/customers/{0}/cards/{1}"));
             }
         }
+
+
+      
     }
 }

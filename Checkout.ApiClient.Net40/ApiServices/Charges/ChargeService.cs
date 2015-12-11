@@ -86,6 +86,15 @@ namespace Checkout.ApiServices.Charges
         }
 
         /// <summary>
+        /// Retrieves charge history by chargeId
+        /// </summary>
+        public HttpResponse<ChargeHistory> GetChargeHistory(string chargeId)
+        {
+            var getChargeHistoryUri = string.Format(ApiUrls.ChargeHistory, chargeId);
+            return new ApiHttpClient().GetRequest<ChargeHistory>(getChargeHistoryUri, AppSettings.SecretKey);
+        }
+
+        /// <summary>
         /// Retrieves a charge by payment token or chargeId
         /// </summary>
         public HttpResponse<Charge> VerifyCharge(string paymentToken)
