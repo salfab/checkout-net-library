@@ -82,6 +82,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="ApiServices\SharedModels\BasePagination.cs" />
+    <Compile Include="ApiServices\SharedModels\BillingDescriptor.cs" />
     <Compile Include="ApiServices\SharedModels\Phone.cs" />
     <Compile Include="ApiServices\Tokens\RequestModels\PaymentTokenCreate.cs" />
     <Compile Include="ApiServices\Tokens\ResponseModels\PaymentTokenCreate.cs" />
