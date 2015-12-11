@@ -57,6 +57,7 @@
     <Compile Include="ApiServices\Charges\RequestModels\ChargeVoid.cs" />
     <Compile Include="ApiServices\Charges\RequestModels\DefaultCardCharge.cs" />
     <Compile Include="ApiServices\Charges\ResponseModels\Capture.cs" />
+    <Compile Include="ApiServices\Charges\ResponseModels\ChargeHistory.cs" />
     <Compile Include="ApiServices\Charges\ResponseModels\Void.cs" />
     <Compile Include="ApiServices\Customers\CustomerService.cs">
       <SubType>Code</SubType>
