@@ -140,7 +140,6 @@ namespace Tests
          public void RefundCharge()
          {
              var cardCreateModel = TestHelper.GetCardChargeCreateModel(TestHelper.RandomData.Email);
-             cardCreateModel.AutoCapture = "N";
 
              var charge = CheckoutClient.ChargeService.ChargeWithCard(cardCreateModel).Model;
 
@@ -162,7 +161,6 @@ namespace Tests
          public void VoidCharge()
          {
              var cardCreateModel = TestHelper.GetCardChargeCreateModel(TestHelper.RandomData.Email);
-             cardCreateModel.AutoCapture = "N";
 
              var charge = CheckoutClient.ChargeService.ChargeWithCard(cardCreateModel).Model;
 
@@ -180,7 +178,6 @@ namespace Tests
          public void CaptureCharge()
          {
              var cardCreateModel = TestHelper.GetCardChargeCreateModel(TestHelper.RandomData.Email);
-             cardCreateModel.AutoCapture = "N";
 
              var charge = CheckoutClient.ChargeService.ChargeWithCard(cardCreateModel).Model;
 
@@ -224,6 +221,29 @@ namespace Tests
              Assert.IsTrue(response.Model.Id.StartsWith("charge_"));
 
              Assert.IsTrue(chargeResponse.Model.Id == response.Model.Id);
+         }
+
+         [Test]
+         public void GetChargeHistory()
+         {
+             #region setup charge history
+             var cardCreateModel = TestHelper.GetCardChargeCreateModel(TestHelper.RandomData.Email);
+
+             var chargeResponse = CheckoutClient.ChargeService.ChargeWithCard(cardCreateModel);
+
+             var chargeVoidModel = TestHelper.GetChargeVoidModel();
+
+             var voidResponse = CheckoutClient.ChargeService.VoidCharge(chargeResponse.Model.Id, chargeVoidModel);
+             #endregion
+
+             var response = CheckoutClient.ChargeService.GetChargeHistory(voidResponse.Model.Id);
+
+             Assert.NotNull(response);
+             Assert.IsTrue(response.HttpStatusCode == System.Net.HttpStatusCode.OK);
+             Assert.IsTrue(response.Model.Charges.Count ==2);
+
+             Assert.IsTrue(response.Model.Charges[0].Id == voidResponse.Model.Id);
+             Assert.IsTrue(response.Model.Charges[1].Id == chargeResponse.Model.Id);
          }
 
          [Test]

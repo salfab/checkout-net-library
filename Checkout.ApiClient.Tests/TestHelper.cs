@@ -197,7 +197,7 @@ namespace Tests
                 {
                     CustomerId = customerId,
                     Email = customerEmail,
-                    AutoCapture = "Y",
+                    AutoCapture = "N",
                     AutoCapTime = 10,
                     Currency = "Usd",
                     TrackId = "TRK12345",
