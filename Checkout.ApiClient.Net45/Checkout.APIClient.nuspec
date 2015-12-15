@@ -18,6 +18,6 @@
         </dependencies>
     </metadata>
     <files>
-        <file src="c:\Projects\Checkout-Libraries\DotNet\Checkout.Client\bin\Release\Checkout.dll" target="lib\net45\Checkout.dll" />
+        <file src="C:\Projects\Checkout-Libraries\DotNet\Checkout.ApiClient.Net45\bin\Release\Checkout.dll" target="lib\net45\Checkout.dll" />
     </files>
 </package>
