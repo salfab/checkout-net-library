@@ -246,7 +246,36 @@ namespace Tests
              Assert.IsTrue(response.Model.Charges[1].Id == chargeResponse.Model.Id);
          }
 
-         [Test]
+        [Test]
+        public void GetChargeWithMultipleHistory()
+        {
+            // charge
+            var cardCreateModel = TestHelper.GetCardChargeCreateModel(TestHelper.RandomData.Email);
+            var chargeResponse = CheckoutClient.ChargeService.ChargeWithCard(cardCreateModel);
+
+            // capture
+            var chargeCaptureModel = TestHelper.GetChargeCaptureModel(chargeResponse.Model.Value);
+            var captureResponse = CheckoutClient.ChargeService.CaptureCharge(chargeResponse.Model.Id, chargeCaptureModel);
+
+            // refund
+            var chargeRefundModel = TestHelper.GetChargeRefundModel(chargeResponse.Model.Value);
+            var refundResponse = CheckoutClient.ChargeService.RefundCharge(captureResponse.Model.Id, chargeRefundModel);
+
+            var response = CheckoutClient.ChargeService.GetChargeHistory(chargeResponse.Model.Id);
+
+            Assert.NotNull(response);
+            Assert.IsTrue(response.HttpStatusCode == System.Net.HttpStatusCode.OK);
+            Assert.IsTrue(response.Model.Charges.Count == 3);
+
+            Assert.IsTrue(response.Model.Charges[0].Id == refundResponse.Model.Id);
+            Assert.IsTrue(response.Model.Charges[1].Id == captureResponse.Model.Id);
+            Assert.IsTrue(response.Model.Charges[2].Id == chargeResponse.Model.Id);
+
+            Assert.IsTrue(chargeResponse.Model.Id == captureResponse.Model.OriginalId);
+            Assert.IsTrue(refundResponse.Model.OriginalId == captureResponse.Model.Id);
+        }
+
+        [Test]
          public void VerifyChargeByPaymentToken()
          {
              string paymentToken = "pay_tok_cacdc3d0-f912-4ebb-9f84-8fde65e05fbd";// payment token for the JS charge
