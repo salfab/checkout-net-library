@@ -1,6 +1,7 @@
 ﻿using Checkout.ApiServices.Cards;
 using Checkout.ApiServices.Charges;
 using Checkout.ApiServices.Customers;
+using Checkout.ApiServices.Reporting;
 using Checkout.ApiServices.Tokens;
 using Checkout.Helpers;
 
@@ -12,12 +13,14 @@ namespace Checkout
         private CustomerService _customerService;
         private CardService _cardService;
         private ChargeService _chargeService;
+        private ReportingService _reportingService;
 
         public ChargeService ChargeService { get { return _chargeService ?? (_chargeService = new ChargeService()); } }
         public CardService CardService { get { return _cardService ?? (_cardService = new CardService()); } }
         public CustomerService CustomerService { get { return _customerService ?? (_customerService = new CustomerService()); } }
         public TokenService TokenService { get { return _tokenService ?? (_tokenService = new TokenService()); } }
-
+        public ReportingService ReportingService { get { return _reportingService ?? (_reportingService = new ReportingService()); } }
+   
         public APIClient()
         {
             if (AppSettings.Environment == Environment.Undefined)

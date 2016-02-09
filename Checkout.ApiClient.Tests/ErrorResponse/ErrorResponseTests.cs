@@ -1,18 +1,15 @@
 ﻿using Checkout;
 using NUnit.Framework;
-using System;
-
 
 namespace Tests
 {
     [TestFixture(Category = "ErrorResponseTests")]
     public class ErrorResponseTests
     {
-      
         [Test]
         public void CreateCharge_FailsWithError_IfCardNumberIsInvalid()
         {
-            var cardCreateModel = TestHelper.GetCardChargeCreateModel(TestHelper.RandomData.Email);;
+            var cardCreateModel = TestHelper.GetCardChargeCreateModel(TestHelper.RandomData.Email); ;
             cardCreateModel.Card.Number = "4242424242424243";
 
             var response = new APIClient().ChargeService.ChargeWithCard(cardCreateModel);
@@ -36,7 +33,6 @@ namespace Tests
             Assert.IsTrue(response.HasError);
             Assert.IsTrue(response.Error.ErrorCode == "70000");
             Assert.IsTrue(response.Error.Message.ToLower() == "validation error");
-
         }
     }
 }

@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
@@ -85,7 +86,6 @@ namespace Tests
             }
         }
 
-
         private static void CompareListsAreEquals(PropertyInfo property, IList expectedList, IList actualList)
         {
             if (expectedList.Count != actualList.Count)
@@ -126,6 +126,29 @@ namespace Tests
         {
             //typeof(IComparable).IsAssignableFrom(type) || type.IsPrimitive || type.IsValueType;
             return type.IsGenericType && type.GetGenericTypeDefinition() == typeof(Dictionary<,>);
+        }
+
+        /// <summary>
+        /// Gets value from a property name and object
+        /// When nested property, use full name eg: Customer.Email
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <param name="propertyName"></param>
+        /// <returns></returns>
+        public static object GetPropValue(object obj, string propertyName)
+        {
+            try
+            {
+                foreach (var prop in propertyName.Split('.').Select(s => obj.GetType().GetProperty(s)))
+                {
+                    obj = prop.GetValue(obj, null);
+                }
+                return obj;
+            }
+            catch (NullReferenceException)
+            {
+                return null;
+            }
         }
     }
 }

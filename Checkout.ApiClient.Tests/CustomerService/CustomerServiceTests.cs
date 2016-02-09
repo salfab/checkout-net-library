@@ -1,21 +1,12 @@
-﻿using Checkout;
-using Checkout.ApiServices.Customers.RequestModels;
-using Checkout.ApiServices.SharedModels;
+﻿using Checkout.ApiServices.Customers.RequestModels;
 using NUnit.Framework;
 using System;
-using System.Collections.Generic;
 
 namespace Tests
 {
     [TestFixture(Category = "CustomersApi")]
-    public class CustomersApiTests
+    public class CustomersApiTests : BaseService
     {
-        APIClient CheckoutClient;
-        
-        [SetUp]
-        public void Init()
-        { CheckoutClient = new APIClient(); }
-
         [Test]
         public void CreateCustomerWithCard()
         {

@@ -4,6 +4,7 @@ public class ApiUrls
 {
     private static string _cardTokensApiUri;
     private static string _paymentTokensApiUri;
+    private static string _updatePaymentTokensApiUri;
     private static string _cardChargesApiUri;
     private static string _cardTokenChargesApiUri;
     private static string _defaultCardChargesApiUri;
@@ -22,10 +23,13 @@ public class ApiUrls
     private static string _cardsApiUri;
     private static string _cardApiUri;
 
+    private static string _reportingUri;
+
     public static void ResetApiUrls()
     {
         _cardTokensApiUri = null;
         _paymentTokensApiUri = null;
+        _updatePaymentTokensApiUri = null;
         _cardChargesApiUri = null;
         _cardTokenChargesApiUri = null;
         _defaultCardChargesApiUri = null;
@@ -40,6 +44,7 @@ public class ApiUrls
         _customerApiUri = null;
         _cardsApiUri = null;
         _cardApiUri = null;
+        _reportingUri = null;
     }
 
     public static string Charges
@@ -130,6 +135,14 @@ public class ApiUrls
         }
     }
 
+    public static string UpdatePaymentToken
+    {
+        get
+        {
+            return _updatePaymentTokensApiUri ?? (_paymentTokensApiUri = string.Concat(AppSettings.BaseApiUri, "/tokens/payment/{0}"));
+        }
+    }
+
     public static string Customers
     {
         get
@@ -159,7 +172,12 @@ public class ApiUrls
             return _cardApiUri ?? (_cardApiUri = string.Concat(AppSettings.BaseApiUri, "/customers/{0}/cards/{1}"));
         }
     }
-
-
+    public static string Reporting
+    {
+        get
+        {
+            return _reportingUri ?? (_reportingUri = string.Concat(AppSettings.BaseApiUri, "/reporting/transactions"));
+        }
+    }
 
 }

@@ -2,18 +2,13 @@
 using Checkout.ApiServices.SharedModels;
 using NUnit.Framework;
 using System.Linq;
+using Tests.Utils;
 
 namespace Tests
 {
     [TestFixture(Category = "CardsApi")]
-    public class CardServiceTests
+    public class CardServiceTests : BaseService
     {
-        APIClient CheckoutClient;
-
-        [SetUp]
-        public void Init()
-        { CheckoutClient = new APIClient(); }
-
         [Test]
         public void CreateCard()
         {

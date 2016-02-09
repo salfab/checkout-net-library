@@ -1,12 +1,14 @@
 ﻿using Checkout.ApiServices.Cards.RequestModels;
 using Checkout.ApiServices.Charges.RequestModels;
 using Checkout.ApiServices.Customers.RequestModels;
+using Checkout.ApiServices.Reporting.RequestModels;
 using Checkout.ApiServices.SharedModels;
 using Checkout.ApiServices.Tokens.RequestModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using Tests.Utils;
+using FilterAction = Checkout.ApiServices.SharedModels.Action;
 
 namespace Tests
 {
@@ -339,7 +341,22 @@ namespace Tests
             };
         }
 
-         public static ChargeCapture GetChargeCaptureModel(string amount=null)
+        public static PaymentTokenUpdate GetPaymentTokenUpdateModel()
+        {
+            return new PaymentTokenUpdate()
+            {
+                TrackId = "TRK12345",
+                Description = RandomData.String,
+                Metadata = new Dictionary<string, string>() { { "extraInformation", RandomData.CompanyName }, { "extraInformation2", RandomData.String } },
+                Udf1 = RandomData.String,
+                Udf2 = RandomData.String,
+                Udf3 = RandomData.String,
+                Udf4 = RandomData.String,
+                Udf5 = RandomData.String
+            };
+        }
+
+        public static ChargeCapture GetChargeCaptureModel(string amount=null)
          {
              return new ChargeCapture()
              {
@@ -374,5 +391,87 @@ namespace Tests
 
         #endregion
 
+        #region Reporting Helpers
+
+        /// <summary>
+        /// Creates the model for the transactions dynamic query
+        /// </summary>
+        /// <param name="searchValue"></param>
+        /// <param name="filterValue"></param>
+        /// <param name="field"></param>
+        /// <param name="fromDate"></param>
+        /// <param name="toDate"></param>
+        /// <param name="sortColumn"></param>
+        /// <param name="sortOrder"></param>
+        /// <param name="action"></param>
+        /// <param name="operation"></param>
+        /// <param name="pageSize"></param>
+        /// <param name="pageNumber"></param>
+        /// <returns></returns>
+        public static QueryTransaction GetQueryTransactionModel(string searchValue, DateTime? fromDate = null, DateTime? toDate = null, 
+            SortColumn? sortColumn = null, SortOrder? sortOrder = null ,int? pageSize = null, string pageNumber = null, 
+            string filterValue = null, Field? field = Field.Email, FilterAction? action = null, Operator? operation = null)
+        {
+            return new QueryTransaction()
+            {
+                FromDate = fromDate,
+                ToDate = toDate,
+                PageSize = pageSize,
+                PageNumber = pageNumber,
+                SortColumn = sortColumn,
+                SortOrder = sortOrder,
+                Search = searchValue,
+                Filters = new List<Filter>()
+                {
+                    new Filter()
+                    {
+                        Action = action,
+                        Field = field.Value,
+                        Operator = operation,
+                        Value = filterValue
+                    }
+                }
+            };
+        }
+
+        public static QueryTransaction GetQueryTransactionModel(string searchValue, DateTime? fromDate = null, DateTime? toDate = null, 
+            SortColumn? sortColumn = null, SortOrder? sortOrder = null, int? pageSize = null, string pageNumber = null, List<Filter> filters = null)
+        {
+            return new QueryTransaction()
+            {
+                FromDate = fromDate,
+                ToDate = toDate,
+                PageSize = pageSize,
+                PageNumber = pageNumber,
+                SortColumn = sortColumn,
+                SortOrder = sortOrder,
+                Search = searchValue,
+                Filters = filters
+            };
+        }
+
+        public static QueryTransaction GetQueryTransactionModel()
+        {
+            return new QueryTransaction()
+            {
+                FromDate = DateTime.Now.AddDays(-1),
+                ToDate = DateTime.Now,
+                PageSize = 10,
+                SortColumn = SortColumn.Amount,
+                SortOrder = SortOrder.Desc,
+                Search = "captured",
+                Filters = new List<Filter>()
+                {
+                    new Filter()
+                    {
+                        Field = Field.Email,
+                        Operator = Operator.Contains,
+                        Value = "test"
+                    }
+                }
+            };
+        }
+
+        #endregion
     }
 }

@@ -10,5 +10,11 @@ namespace Checkout.ApiServices.Tokens
         {
             return new ApiHttpClient().PostRequest<PaymentToken>(ApiUrls.PaymentToken, AppSettings.SecretKey, requestModel);
         }
+
+        public HttpResponse<OkResponse> UpdatePaymentToken(string paymentToken, PaymentTokenUpdate requestModel)
+        {
+            var updatePaymentTokenUri = string.Format(ApiUrls.UpdatePaymentToken, paymentToken);
+            return new ApiHttpClient().PutRequest<OkResponse>(updatePaymentTokenUri, AppSettings.SecretKey, requestModel);
+        }
     }
 }
