@@ -7,7 +7,7 @@ namespace Checkout.ApiServices.SharedModels
     {
         public Action? Action { get; set; }
 
-        public Field Field { get; set; }
+        public Field? Field { get; set; }
 
         public Operator? Operator { get; set; }
 

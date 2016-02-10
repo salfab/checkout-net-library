@@ -394,47 +394,18 @@ namespace Tests
         #region Reporting Helpers
 
         /// <summary>
-        /// Creates the model for the transactions dynamic query
+        /// Creates a model for the transactions dynamic query
         /// </summary>
         /// <param name="searchValue"></param>
-        /// <param name="filterValue"></param>
-        /// <param name="field"></param>
         /// <param name="fromDate"></param>
         /// <param name="toDate"></param>
         /// <param name="sortColumn"></param>
         /// <param name="sortOrder"></param>
-        /// <param name="action"></param>
-        /// <param name="operation"></param>
         /// <param name="pageSize"></param>
         /// <param name="pageNumber"></param>
+        /// <param name="filters"></param>
         /// <returns></returns>
-        public static QueryTransaction GetQueryTransactionModel(string searchValue, DateTime? fromDate = null, DateTime? toDate = null, 
-            SortColumn? sortColumn = null, SortOrder? sortOrder = null ,int? pageSize = null, string pageNumber = null, 
-            string filterValue = null, Field? field = Field.Email, FilterAction? action = null, Operator? operation = null)
-        {
-            return new QueryTransaction()
-            {
-                FromDate = fromDate,
-                ToDate = toDate,
-                PageSize = pageSize,
-                PageNumber = pageNumber,
-                SortColumn = sortColumn,
-                SortOrder = sortOrder,
-                Search = searchValue,
-                Filters = new List<Filter>()
-                {
-                    new Filter()
-                    {
-                        Action = action,
-                        Field = field.Value,
-                        Operator = operation,
-                        Value = filterValue
-                    }
-                }
-            };
-        }
-
-        public static QueryTransaction GetQueryTransactionModel(string searchValue, DateTime? fromDate = null, DateTime? toDate = null, 
+        public static QueryTransaction GetQueryTransactionModel(string searchValue = null, DateTime? fromDate = null, DateTime? toDate = null, 
             SortColumn? sortColumn = null, SortOrder? sortOrder = null, int? pageSize = null, string pageNumber = null, List<Filter> filters = null)
         {
             return new QueryTransaction()
@@ -450,28 +421,36 @@ namespace Tests
             };
         }
 
+        /// <summary>
+        /// Creates a model for the transactions dynamic query using filters
+        /// </summary>
+        /// <param name="filters"></param>
+        /// <returns></returns>
+        public static QueryTransaction GetQueryTransactionModel(List<Filter> filters = null)
+        {
+            return GetQueryTransactionModel(null, null, null, null, null, null, null, filters);
+        }
+
+        /// <summary>
+        /// Creates an empty model for the transactions dynamic query
+        /// </summary>
+        /// <returns></returns>
         public static QueryTransaction GetQueryTransactionModel()
         {
-            return new QueryTransaction()
-            {
-                FromDate = DateTime.Now.AddDays(-1),
-                ToDate = DateTime.Now,
-                PageSize = 10,
-                SortColumn = SortColumn.Amount,
-                SortOrder = SortOrder.Desc,
-                Search = "captured",
-                Filters = new List<Filter>()
-                {
-                    new Filter()
-                    {
-                        Field = Field.Email,
-                        Operator = Operator.Contains,
-                        Value = "test"
-                    }
-                }
-            };
+            return GetQueryTransactionModel(null, null, null, null, null, null, null, null);
         }
 
         #endregion
+
+        /// <summary>
+        /// Masks a card number to query transactions
+        /// eg: 4242424242424242 -> 424242******4242
+        /// </summary>
+        /// <param name="cardNumber"></param>
+        /// <returns></returns>
+        public static string MaskCardNumber(string cardNumber)
+        {
+            return cardNumber.Replace(6, 6, '*');
+        }
     }
 }

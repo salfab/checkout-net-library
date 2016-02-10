@@ -19,5 +19,35 @@ namespace Tests
             if (source == null) return false;
             return source.IndexOf(match, StringComparison.OrdinalIgnoreCase) != -1;
         }
+
+        /// <summary>
+        /// Replace char in string at a specific index
+        /// </summary>
+        /// <param name="value"></param>
+        /// <param name="index"></param>
+        /// <param name="newchar"></param>
+        /// <returns></returns>
+        public static string ReplaceAt(this string value, int index, char newChar)
+        {
+            if (value.Length <= index)
+                return value;
+            else
+                return string.Concat(value.Select((c, i) => i == index ? newChar : c));
+        }
+
+        /// <summary>
+        /// Replaces substring with repeated char in a determined interval
+        /// </summary>
+        /// <param name="value"></param>
+        /// <param name="startIndex"></param>
+        /// <param name="length"></param>
+        /// <param name="newchar"></param>
+        /// <returns></returns>
+        public static string Replace(this string value, int startIndex, int length, char newChar)
+        {
+            for (int i = startIndex; i < startIndex + length; i++)
+                value = value.ReplaceAt(i, newChar);
+            return value;
+        }
     }
 }
