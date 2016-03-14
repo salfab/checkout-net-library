@@ -81,6 +81,8 @@
     <Compile Include="ApiServices\Customers\ResponseModels\CustomerList.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="ApiServices\Lookups\LookupsService.cs" />
+    <Compile Include="ApiServices\Lookups\ResponseModels\CountryInfo.cs" />
     <Compile Include="ApiServices\Reporting\ReportingService.cs" />
     <Compile Include="ApiServices\SharedModels\Filter.cs" />
     <Compile Include="ApiServices\Reporting\RequestModels\QueryTransaction.cs" />

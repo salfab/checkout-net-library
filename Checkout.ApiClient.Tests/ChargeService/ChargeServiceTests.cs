@@ -4,7 +4,7 @@ using System;
 namespace Tests
 {
     [TestFixture(Category = "ChargesApi")]
-    public class ChargeService : BaseService
+    public class ChargeService : BaseServiceTest
     {
         [Test]
         public void CreateChargeWithCard()

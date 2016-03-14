@@ -7,7 +7,7 @@ using Tests.Utils;
 namespace Tests
 {
     [TestFixture(Category = "CardsApi")]
-    public class CardServiceTests : BaseService
+    public class CardServiceTests : BaseServiceTest
     {
         [Test]
         public void CreateCard()

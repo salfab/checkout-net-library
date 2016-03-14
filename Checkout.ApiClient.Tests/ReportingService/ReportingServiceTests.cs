@@ -12,7 +12,7 @@ using Checkout.ApiServices.Charges.ResponseModels;
 namespace Tests
 {
     [TestFixture(Category = "ReportingApi")]
-    public class ReportingServiceTests : BaseService
+    public class ReportingServiceTests : BaseServiceTest
     {
         [Test]
         public void QueryTransactions_FromDateAfterTransactionCreated_NoTransactionsFound()
@@ -112,7 +112,7 @@ namespace Tests
             Assert.AreEqual(response.Model.TotalRecords, 1);
         }
 
-        [TestCaseSource(typeof(TestScenarios), "QueryTransaction_PageSize")]
+        [TestCaseSource(typeof(TestScenarios), TestScenarios.Test_QueryTransaction_PageSize)]
         public void QueryTransactions_PageSizeWithLimits(int? pageSize)
         {
             var request = TestHelper.GetQueryTransactionModel(string.Empty, null, null, null, null, pageSize, null, null);
@@ -131,7 +131,7 @@ namespace Tests
             }
         }
 
-        [TestCaseSource(typeof(TestScenarios), "QueryTransaction_ColumnSorting")]
+        [TestCaseSource(typeof(TestScenarios), TestScenarios.Test_QueryTransaction_ColumnSorting)]
         public void QueryTransactions_ColumnSortingBy(SortColumn? sortColumn)
         {
             var request = TestHelper.GetQueryTransactionModel(string.Empty, null, null, sortColumn, null, null, null, null);
@@ -176,7 +176,7 @@ namespace Tests
             CollectionAssert.AreEqual(orderedData, response.Model.Data);
         }
 
-        [TestCaseSource(typeof(TestScenarios), "QueryTransaction_Sorting")]
+        [TestCaseSource(typeof(TestScenarios), TestScenarios.Test_QueryTransaction_Sorting)]
         public void QueryTransactions_SortingOrder(SortOrder? sortOrder)
         {
             var request = TestHelper.GetQueryTransactionModel(string.Empty, null, null, SortColumn.Amount, sortOrder, null, null, null);
@@ -200,7 +200,7 @@ namespace Tests
             CollectionAssert.AreEqual(orderedData, response.Model.Data);
         }
 
-        [TestCaseSource(typeof(TestScenarios), "QueryTransaction_Pagination")]
+        [TestCaseSource(typeof(TestScenarios), TestScenarios.Test_QueryTransaction_Pagination)]
         public void QueryTransactions_Pagination(string pageNumber)
         {
             var request = TestHelper.GetQueryTransactionModel(string.Empty, null, null, null, null, null, pageNumber, null);
@@ -236,7 +236,7 @@ namespace Tests
             }
         }
 
-        [TestCaseSource(typeof(TestScenarios), "QueryTransaction_SearchString")]
+        [TestCaseSource(typeof(TestScenarios), TestScenarios.Test_QueryTransaction_SearchString)]
         public void QueryTransactions_FilterBySearchString(string searchValue)
         {
             var request = TestHelper.GetQueryTransactionModel(searchValue, null, null, null, null, null, null, null);
@@ -276,7 +276,7 @@ namespace Tests
             Assert.IsTrue(response.Model.Data.Any(t => t.TrackId == chargeResponse.Model.TrackId));
         }
 
-        [TestCaseSource(typeof(TestScenarios), "QueryTransaction_Filter_Action")]
+        [TestCaseSource(typeof(TestScenarios), TestScenarios.Test_QueryTransaction_Filter_Action)]
         public void QueryTransactions_FilterWithAction(FilterAction? action)
         {
             var filters = new List<Filter> {new Filter() { Action = action, Value = "test", Field = Field.Email, Operator = Operator.Contains } };
@@ -299,7 +299,7 @@ namespace Tests
             }
         }
 
-        [TestCaseSource(typeof(TestScenarios), "QueryTransaction_Filter_Field")]
+        [TestCaseSource(typeof(TestScenarios), TestScenarios.Test_QueryTransaction_Filter_Field)]
         public void QueryTransactions_FilterByField(Field? field)
         {
             string cardNumber;
@@ -364,7 +364,7 @@ namespace Tests
             }
         }
 
-        [TestCaseSource(typeof(TestScenarios), "QueryTransaction_Filter_Operator")]
+        [TestCaseSource(typeof(TestScenarios), TestScenarios.Test_QueryTransaction_Filter_Operator)]
         public void QueryTransactions_FilterWithOperator(string value, Operator? op)
         {
             var filters = new List<Filter> { new Filter() { Value = value, Field = Field.Email, Operator = op } };
@@ -395,7 +395,7 @@ namespace Tests
             }
         }
 
-        [TestCaseSource(typeof(TestScenarios), "QueryTransaction_Filter_Value")]
+        [TestCaseSource(typeof(TestScenarios), TestScenarios.Test_QueryTransaction_Filter_Value)]
         public void QueryTransactions_FilterWithValue(string value)
         {
             var filters = new List<Filter> { new Filter() { Value = value, Field = Field.Email, Operator = Operator.Contains } };
@@ -449,7 +449,7 @@ namespace Tests
             Assert.IsTrue(response.Model.Data.All(t => t.Status.Equals(request.Filters.Last().Value, StringComparison.OrdinalIgnoreCase)));
         }
 
-        [TestCaseSource(typeof(TestScenarios), "QueryTransaction_Filter_Field")]
+        [TestCaseSource(typeof(TestScenarios), TestScenarios.Test_QueryTransaction_Filter_Field)]
         public void QueryTransactions_CreateChargeAndCapture_BothTransactionsFoundBy(Field? field)
         {
             string cardNumber;
@@ -564,7 +564,7 @@ namespace Tests
             #endregion Assert Second Query Response
         }
 
-        [TestCaseSource(typeof(TestScenarios), "QueryTransaction_Charge_FilterByCardNumber")]
+        [TestCaseSource(typeof(TestScenarios), TestScenarios.Test_QueryTransaction_Charge_FilterByCardNumber)]
         public void QueryTransactions_CreateChargeFilterByCardNumber_MatchTrackId(string cardNumber, string cvv, string expirityMonth, string expirityYear)
         {
             var chargeResponse = CreateChargeWithNewTrackId(cardNumber, cvv, expirityMonth, expirityYear);

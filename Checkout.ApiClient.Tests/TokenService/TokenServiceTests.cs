@@ -3,7 +3,7 @@
 namespace Tests
 {
     [TestFixture(Category = "TokensApi")]
-    public class TokenServiceTests : BaseService
+    public class TokenServiceTests : BaseServiceTest
     {
         [Test]
         public void CreatePaymentToken()

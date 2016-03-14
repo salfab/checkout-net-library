@@ -25,6 +25,8 @@ public class ApiUrls
 
     private static string _reportingUri;
 
+    private static string _binLookupUri;
+
     public static void ResetApiUrls()
     {
         _cardTokensApiUri = null;
@@ -45,6 +47,7 @@ public class ApiUrls
         _cardsApiUri = null;
         _cardApiUri = null;
         _reportingUri = null;
+        _binLookupUri = null;
     }
 
     public static string Charges
@@ -179,5 +182,11 @@ public class ApiUrls
             return _reportingUri ?? (_reportingUri = string.Concat(AppSettings.BaseApiUri, "/reporting/transactions"));
         }
     }
-
+    public static string BinLookup
+    {
+        get
+        {
+            return _binLookupUri ?? (_binLookupUri = string.Concat(AppSettings.BaseApiUri, "/lookups/bins/{0}"));
+        }
+    }
 }

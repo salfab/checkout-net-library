@@ -3,7 +3,7 @@ using NUnit.Framework;
 
 namespace Tests
 {
-    public abstract class BaseService
+    public abstract class BaseServiceTest
     {
         protected APIClient CheckoutClient;
 

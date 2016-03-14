@@ -4,7 +4,7 @@ using NUnit.Framework;
 namespace Tests
 {
     [TestFixture(Category = "ErrorResponseTests")]
-    public class ErrorResponseTests
+    public class ErrorResponseTests : BaseServiceTest
     {
         [Test]
         public void CreateCharge_FailsWithError_IfCardNumberIsInvalid()
@@ -12,7 +12,7 @@ namespace Tests
             var cardCreateModel = TestHelper.GetCardChargeCreateModel(TestHelper.RandomData.Email); ;
             cardCreateModel.Card.Number = "4242424242424243";
 
-            var response = new APIClient().ChargeService.ChargeWithCard(cardCreateModel);
+            var response = CheckoutClient.ChargeService.ChargeWithCard(cardCreateModel);
 
             Assert.NotNull(response);
             Assert.IsTrue(response.HttpStatusCode != System.Net.HttpStatusCode.OK);
@@ -26,7 +26,7 @@ namespace Tests
             cardCreateModel.Currency = string.Empty;
             cardCreateModel.Value = "-100";
 
-            var response = new APIClient().ChargeService.ChargeWithCard(cardCreateModel);
+            var response = CheckoutClient.ChargeService.ChargeWithCard(cardCreateModel);
 
             Assert.NotNull(response);
             Assert.IsTrue(response.HttpStatusCode != System.Net.HttpStatusCode.OK);
