@@ -1,6 +1,7 @@
 ﻿using Checkout.ApiServices.Cards.RequestModels;
 using Checkout.ApiServices.Charges.RequestModels;
 using Checkout.ApiServices.Customers.RequestModels;
+using Checkout.ApiServices.RecurringPayments.RequestModels;
 using Checkout.ApiServices.SharedModels;
 using Checkout.ApiServices.Tokens.RequestModels;
 using System;
@@ -15,6 +16,124 @@ namespace Tests
         private static RandomData _randomData;
 
         public static RandomData RandomData { get { return _randomData ?? (_randomData = new RandomData()); } }
+
+        #region Recurring Plans Helpers
+
+        public static SinglePaymentPlanCreateRequest GetSinglePaymentPlanCreateModel(string value = null, string currency = null)
+        {
+            return new SinglePaymentPlanCreateRequest
+            {
+                PaymentPlans = new List<PaymentPlanCreate>
+                {
+                    new PaymentPlanCreate
+                    {
+                        Name = RandomData.String,
+                        AutoCapTime = 0,
+                        Currency = currency ?? "USD",
+                        PlanTrackId = RandomData.UniqueString,
+                        Value = value ?? RandomData.GetNumber(50, 500).ToString(),
+                        RecurringCount = 5,
+                        Cycle = "1d"
+                    }
+                }
+            };
+        }
+
+        public static PaymentPlanUpdate GetPaymentPlanUpdateModel(string value = null, string currency = null)
+        {
+            return new PaymentPlanUpdate
+            {
+                Name = RandomData.String,
+                AutoCapTime = 0,
+                Currency = currency ?? "GBP",
+                PlanTrackId = RandomData.UniqueString,
+                Value = value ?? RandomData.GetNumber(50, 500).ToString(),
+                RecurringCount = 5,
+                Cycle = "3d",
+                Status = 4
+            };
+        }
+
+        public static CustomerPaymentPlanCreate GetCustomerPaymentPlanCreateModel(string value = null, string currency = null)
+        {
+            return new CustomerPaymentPlanCreate
+            {
+                Name = RandomData.String,
+                AutoCapTime = 0,
+                PlanTrackId = RandomData.UniqueString,
+                Value = value ?? RandomData.GetNumber(50, 500).ToString(),
+                RecurringCount = 5,
+                Cycle = "3d"
+            };
+        }
+
+        public static CustomerPaymentPlanUpdate GetCustomerPaymentPlanUpdateModel(string cardId, int status)
+        {
+            return new CustomerPaymentPlanUpdate
+            {
+                Status = status,
+                CardId = cardId
+            };
+        }
+
+        public static CardCharge GetCardChargeCreateModelWithNewPaymentPlan(string customerEmail = null, string customerId = null)
+        {
+            return new CardCharge
+            {
+                CustomerId = customerId,
+                Email = customerEmail,
+                AutoCapture = "N",
+                AutoCapTime = 0,
+                Currency = "Usd",
+                TrackId = "TRK12345",
+                TransactionIndicator = "1",
+                CustomerIp = "82.23.168.254",
+                Description = RandomData.String,
+                Value = RandomData.GetNumber(50, 500).ToString(),
+                Card = GetCardCreateModel(),
+                Descriptor = new BillingDescriptor { Name = "Amigo ltd.", City = "London" },
+                Products = GetProducts(),
+                ShippingDetails = GetAddress(),
+                Metadata = new Dictionary<string, string>() { { "extraInformation", RandomData.CompanyName } },
+                Udf1 = RandomData.String,
+                Udf2 = RandomData.String,
+                Udf3 = RandomData.String,
+                Udf4 = RandomData.String,
+                Udf5 = RandomData.String,
+                PaymentPlans = new List<CustomerPaymentPlanCreate> { GetCustomerPaymentPlanCreateModel() }
+            };
+        }
+
+        public static CardCharge GetCardChargeCreateModelWithExistingPaymentPlan(string planId, DateTime? startDate = null, 
+            string customerEmail = null, string customerId = null)
+        {
+            return new CardCharge
+            {
+                CustomerId = customerId,
+                Email = customerEmail,
+                AutoCapture = "N",
+                AutoCapTime = 0,
+                Currency = "Usd",
+                TrackId = "TRK12345",
+                TransactionIndicator = "1",
+                CustomerIp = "82.23.168.254",
+                Description = RandomData.String,
+                Value = RandomData.GetNumber(50, 500).ToString(),
+                Card = GetCardCreateModel(),
+                Descriptor = new BillingDescriptor { Name = "Amigo ltd.", City = "London" },
+                Products = GetProducts(),
+                ShippingDetails = GetAddress(),
+                Metadata = new Dictionary<string, string>() { { "extraInformation", RandomData.CompanyName } },
+                Udf1 = RandomData.String,
+                Udf2 = RandomData.String,
+                Udf3 = RandomData.String,
+                Udf4 = RandomData.String,
+                Udf5 = RandomData.String,
+                PaymentPlans = new List<CustomerPaymentPlanCreate> { new CustomerPaymentPlan { PlanId = planId, StartDate = startDate} }
+            };
+        }
+
+        #endregion
 
         #region Token Helpers
 
