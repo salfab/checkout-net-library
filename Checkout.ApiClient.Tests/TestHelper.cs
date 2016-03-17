@@ -104,7 +104,7 @@ namespace Tests
             };
         }
 
-        public static CardCharge GetCardChargeCreateModelWithExistingPaymentPlan(string planId, DateTime? startDate = null, 
+        public static CardCharge GetCardChargeCreateModelWithExistingPaymentPlan(string planId, string startDate = null, 
             string customerEmail = null, string customerId = null)
         {
             return new CardCharge
@@ -129,7 +129,7 @@ namespace Tests
                 Udf3 = RandomData.String,
                 Udf4 = RandomData.String,
                 Udf5 = RandomData.String,
-                PaymentPlans = new List<CustomerPaymentPlanCreate> { new CustomerPaymentPlan { PlanId = planId, StartDate = startDate.Value.ToString("yyyy-MM-dd")} }
+                PaymentPlans = new List<CustomerPaymentPlanCreate> { new CustomerPaymentPlan { PlanId = planId, StartDate = startDate} }
             };
         }
 
