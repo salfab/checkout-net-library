@@ -15,7 +15,7 @@ namespace Tests
     {
         private static RandomData _randomData;
 
-        public static RandomData RandomData { get { return _randomData ?? (_randomData = new RandomData()); } }
+        public static RandomData RandomData => _randomData ?? (_randomData = new RandomData());
 
         #region Recurring Plans Helpers
 
@@ -28,11 +28,11 @@ namespace Tests
                     new PaymentPlanCreate
                     {
                         Name = RandomData.String,
-                        AutoCapTime = 0,
+                        AutoCapTime = RandomData.GetNumber(0, 168),
                         Currency = currency ?? "USD",
                         PlanTrackId = RandomData.UniqueString,
                         Value = value ?? RandomData.GetNumber(50, 500).ToString(),
-                        RecurringCount = 5,
+                        RecurringCount = RandomData.GetNumber(1, 19),
                         Cycle = "1d"
                     }
                 }
@@ -44,13 +44,13 @@ namespace Tests
             return new PaymentPlanUpdate
             {
                 Name = RandomData.String,
-                AutoCapTime = 0,
+                AutoCapTime = RandomData.GetNumber(0, 168),
                 Currency = currency ?? "GBP",
                 PlanTrackId = RandomData.UniqueString,
                 Value = value ?? RandomData.GetNumber(50, 500).ToString(),
-                RecurringCount = 5,
+                RecurringCount = RandomData.GetNumber(1, 19),
                 Cycle = "3d",
-                Status = 4
+                Status = RecurringPlanStatus.Suspended
             };
         }
 
@@ -62,12 +62,12 @@ namespace Tests
                 AutoCapTime = 0,
                 PlanTrackId = RandomData.UniqueString,
                 Value = value ?? RandomData.GetNumber(50, 500).ToString(),
-                RecurringCount = 5,
+                RecurringCount = RandomData.GetNumber(1, 19),
                 Cycle = "3d"
             };
         }
 
-        public static CustomerPaymentPlanUpdate GetCustomerPaymentPlanUpdateModel(string cardId, int status)
+        public static CustomerPaymentPlanUpdate GetCustomerPaymentPlanUpdateModel(string cardId, RecurringPlanStatus status)
         {
             return new CustomerPaymentPlanUpdate
             {
@@ -129,7 +129,7 @@ namespace Tests
                 Udf3 = RandomData.String,
                 Udf4 = RandomData.String,
                 Udf5 = RandomData.String,
-                PaymentPlans = new List<CustomerPaymentPlanCreate> { new CustomerPaymentPlan { PlanId = planId, StartDate = startDate} }
+                PaymentPlans = new List<CustomerPaymentPlanCreate> { new CustomerPaymentPlan { PlanId = planId, StartDate = startDate.Value.ToString("yyyy-MM-dd")} }
             };
         }
 

@@ -6,9 +6,8 @@ using System.Threading.Tasks;
 
 namespace Checkout.ApiServices.RecurringPayments.RequestModels
 {
-    public class CustomerPaymentPlanUpdate
+    public class PaymentPlanCreate : BaseRecurringPlan
     {
-        public string CardId { get; set; }
-        public RecurringPlanStatus? Status { get; set; }
+        public string Currency { get; set; }
     }
 }

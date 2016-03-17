@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Net;
 using Checkout.ApiServices.RecurringPayments.RequestModels;
 using FluentAssertions;
@@ -10,7 +11,7 @@ namespace Tests.RecurringPaymentsService
     public class RecurringPaymentsServiceTests : BaseServiceTests
     {
         [Test]
-        public void CancelCustomerPaymentPlan()
+        public void CancelCustomerPaymentPlan_ShouldReturnOk()
         {
             var cardCreateModel = TestHelper.GetCardChargeCreateModelWithNewPaymentPlan(TestHelper.RandomData.Email);
             var createResponse = CheckoutClient.ChargeService.ChargeWithCard(cardCreateModel);
@@ -24,7 +25,7 @@ namespace Tests.RecurringPaymentsService
         }
 
         [Test]
-        public void CancelPaymentPlan()
+        public void CancelPaymentPlan_ShouldReturnOk()
         {
             var paymentPlanModel = TestHelper.GetSinglePaymentPlanCreateModel();
             var createResponseModel =
@@ -37,7 +38,7 @@ namespace Tests.RecurringPaymentsService
         }
 
         [Test]
-        public void CreateFromExistingCustomerPaymentPlanWithCharge()
+        public void CreateFromExistingCustomerPaymentPlanWithCharge_ShouldReturnEquivalentPlan()
         {
             var paymentPlanModel = TestHelper.GetSinglePaymentPlanCreateModel();
             var createResponseModel =
@@ -64,7 +65,7 @@ namespace Tests.RecurringPaymentsService
         }
 
         [Test]
-        public void CreateNewCustomerPaymentPlanWithCharge()
+        public void CreateNewCustomerPaymentPlanWithCharge_ShouldReturnEquivalentPlan()
         {
             var cardCreateModel = TestHelper.GetCardChargeCreateModelWithNewPaymentPlan(TestHelper.RandomData.Email);
             var response = CheckoutClient.ChargeService.ChargeWithCard(cardCreateModel);
@@ -76,7 +77,7 @@ namespace Tests.RecurringPaymentsService
             var responseModel = response.Model.CustomerPaymentPlans.Single();
 
             responseModel.PlanId.Should().NotBeNullOrEmpty();
-            responseModel.Status.Should().HaveValue();
+            responseModel.Status.Should().NotBeNull();
             responseModel.Name.Should().Be(customerPaymentPlanModel.Name);
             responseModel.PlanTrackId.Should().Be(customerPaymentPlanModel.PlanTrackId);
             responseModel.RecurringCount.Should().Be(customerPaymentPlanModel.RecurringCount);
@@ -86,7 +87,7 @@ namespace Tests.RecurringPaymentsService
         }
 
         [Test]
-        public void CreatePaymentPlan()
+        public void CreatePaymentPlan_ShouldReturnEquivalentPlan()
         {
             var paymentPlanCreateModel = TestHelper.GetSinglePaymentPlanCreateModel();
             var response = CheckoutClient.RecurringPaymentsService.CreatePaymentPlan(paymentPlanCreateModel);
@@ -100,11 +101,11 @@ namespace Tests.RecurringPaymentsService
             responseModel.ShouldBeEquivalentTo(singlePlanModel,
                 options => options.Excluding(o => o.PlanId).Excluding(o => o.Status));
             responseModel.PlanId.Should().NotBeNullOrEmpty();
-            responseModel.Status.Should().HaveValue();
+            responseModel.Status.Should().NotBeNull();
         }
 
         [Test]
-        public void GetCustomerPaymentPlan()
+        public void GetCustomerPaymentPlan_ShouldReturnEquivalentPlan()
         {
             var cardCreateModel = TestHelper.GetCardChargeCreateModelWithNewPaymentPlan(TestHelper.RandomData.Email);
             var customerPlanModel =
@@ -119,7 +120,7 @@ namespace Tests.RecurringPaymentsService
         }
 
         [Test]
-        public void GetPaymentPlan()
+        public void GetPaymentPlan_ShouldReturnEquivalentPlan()
         {
             var paymentPlanModel = TestHelper.GetSinglePaymentPlanCreateModel();
             var createResponseModel =
@@ -133,45 +134,16 @@ namespace Tests.RecurringPaymentsService
             getResponseModel.ShouldBeEquivalentTo(createResponseModel,
                 options => options.Excluding(o => o.PlanId).Excluding(o => o.Status));
             getResponseModel.PlanId.Should().NotBeNullOrEmpty();
-            getResponseModel.Status.Should().HaveValue();
+            getResponseModel.Status.Should().NotBeNull();
         }
 
         [Test]
-        public void QueryPaymentPlan()
-        {
-            var paymentPlanModel = TestHelper.GetSinglePaymentPlanCreateModel();
-            var createResponse = CheckoutClient.RecurringPaymentsService.CreatePaymentPlan(paymentPlanModel);
-            var queryResponse = CheckoutClient.RecurringPaymentsService.QueryPaymentPlan(
-                new QueryPaymentPlanRequest
-                {
-                    PlanTrackId = createResponse.Model.PaymentPlans.Single().PlanTrackId
-                });
-
-            queryResponse.Should().NotBeNull();
-            queryResponse.HttpStatusCode.Should().Be(HttpStatusCode.OK);
-
-            Assert.IsTrue(queryResponse.Model.TotalRows == 1);
-            Assert.IsTrue(queryResponse.Model.Data.Single().Name == createResponse.Model.PaymentPlans.Single().Name);
-            Assert.IsTrue(queryResponse.Model.Data.Single().PlanTrackId ==
-                          createResponse.Model.PaymentPlans.Single().PlanTrackId);
-            Assert.IsTrue(queryResponse.Model.Data.Single().RecurringCount ==
-                          createResponse.Model.PaymentPlans.Single().RecurringCount);
-            Assert.IsTrue(queryResponse.Model.Data.Single().PlanId == createResponse.Model.PaymentPlans.Single().PlanId);
-            Assert.IsTrue(queryResponse.Model.Data.Single().Value == createResponse.Model.PaymentPlans.Single().Value);
-            Assert.IsTrue(queryResponse.Model.Data.Single().AutoCapTime ==
-                          createResponse.Model.PaymentPlans.Single().AutoCapTime);
-            Assert.IsTrue(queryResponse.Model.Data.Single().Currency ==
-                          createResponse.Model.PaymentPlans.Single().Currency);
-            Assert.IsTrue(queryResponse.Model.Data.Single().Cycle == createResponse.Model.PaymentPlans.Single().Cycle);
-        }
-
-        [Test]
-        public void UpdateCustomerPaymentPlan()
+        public void UpdateCustomerPaymentPlan_ShouldReturnOk()
         {
             var cardCreateModel = TestHelper.GetCardChargeCreateModelWithNewPaymentPlan(TestHelper.RandomData.Email);
             var createResponseModel =
                 CheckoutClient.ChargeService.ChargeWithCard(cardCreateModel).Model.CustomerPaymentPlans.Single();
-            var customerPlanUpdateModel = TestHelper.GetCustomerPaymentPlanUpdateModel(createResponseModel.CardId, 4);
+            var customerPlanUpdateModel = TestHelper.GetCustomerPaymentPlanUpdateModel(createResponseModel.CardId, RecurringPlanStatus.Suspended);
             var updateResponse =
                 CheckoutClient.RecurringPaymentsService.UpdateCustomerPaymentPlan(createResponseModel.CustomerPlanId,
                     customerPlanUpdateModel);
@@ -182,7 +154,7 @@ namespace Tests.RecurringPaymentsService
         }
 
         [Test]
-        public void UpdatePaymentPlan()
+        public void UpdatePaymentPlan_ShouldReturnOk()
         {
             var paymentPlanModel = TestHelper.GetSinglePaymentPlanCreateModel();
             var createResponseModel =
@@ -193,6 +165,145 @@ namespace Tests.RecurringPaymentsService
             updateResponse.Should().NotBeNull();
             updateResponse.HttpStatusCode.Should().Be(HttpStatusCode.OK);
             updateResponse.Model.Message.Should().BeEquivalentTo("OK");
+        }
+
+        public void QueryPaymentPlan_ShouldAllowDateFiltering()
+        {
+            var fromDate = DateTime.Now;
+            var paymentPlanResponse = CheckoutClient.RecurringPaymentsService.CreatePaymentPlan(TestHelper.GetSinglePaymentPlanCreateModel());
+
+            var queryResponse1 = CheckoutClient.RecurringPaymentsService.QueryPaymentPlan(new QueryPaymentPlanRequest {FromDate = fromDate});
+            queryResponse1.Should().NotBeNull();
+            queryResponse1.HttpStatusCode.Should().Be(HttpStatusCode.OK);
+            queryResponse1.Model.TotalRows.Should().Be(1);
+
+            var queryResponse2 = CheckoutClient.RecurringPaymentsService.QueryPaymentPlan(new QueryPaymentPlanRequest { ToDate = fromDate.AddDays(-1) });
+            queryResponse2.Should().NotBeNull();
+            queryResponse2.HttpStatusCode.Should().Be(HttpStatusCode.OK);
+            queryResponse2.Model.Data.Should().NotContain(x => x.PlanId == paymentPlanResponse.Model.PaymentPlans.Single().PlanId);
+        }
+
+        public void QueryCustomerPaymentPlan_ShouldAllowDateFiltering()
+        {
+            var fromDate = DateTime.Now;
+            var cardCreateModel = TestHelper.GetCardChargeCreateModelWithNewPaymentPlan(TestHelper.RandomData.Email);
+            var chargeResponse = CheckoutClient.ChargeService.ChargeWithCard(cardCreateModel);
+
+            var queryResponse1 = CheckoutClient.RecurringPaymentsService.QueryPaymentPlan(new QueryPaymentPlanRequest { FromDate = fromDate });
+            queryResponse1.Should().NotBeNull();
+            queryResponse1.HttpStatusCode.Should().Be(HttpStatusCode.OK);
+            queryResponse1.Model.TotalRows.Should().Be(1);
+
+            var queryResponse2 = CheckoutClient.RecurringPaymentsService.QueryPaymentPlan(new QueryPaymentPlanRequest { ToDate = fromDate.AddDays(-1) });
+            queryResponse2.Should().NotBeNull();
+            queryResponse2.HttpStatusCode.Should().Be(HttpStatusCode.OK);
+            queryResponse2.Model.Data.Should().NotContain(x => x.PlanId == chargeResponse.Model.CustomerPaymentPlans.Single().PlanId);
+        }
+
+        [TestCase("Offset", 2)]
+        [TestCase("Count", 15)]
+        public void QueryPaymentPlan_ShouldAllowPagination(string propertyName, int propertyValue)
+        {
+            var queryRequest = new QueryPaymentPlanRequest();
+            ReflectionHelper.SetPropertyValue(queryRequest, propertyName, propertyValue);
+            var queryResponse = CheckoutClient.RecurringPaymentsService.QueryPaymentPlan(queryRequest);
+
+            queryResponse.Should().NotBeNull();
+            queryResponse.HttpStatusCode.Should().Be(HttpStatusCode.OK);
+            queryResponse.Model.TotalRows.Should().BeGreaterThan(0);
+            ReflectionHelper.GetPropertyValue(queryResponse.Model, propertyName).ShouldBeEquivalentTo(propertyValue);
+        }
+
+        [TestCase("Offset", 2)]
+        [TestCase("Count", 15)]
+        public void QueryCustomerPaymentPlan_ShouldAllowPagination(string propertyName, int propertyValue)
+        {
+            var queryRequest = new QueryCustomerPaymentPlanRequest();
+            ReflectionHelper.SetPropertyValue(queryRequest, propertyName, propertyValue);
+            var queryResponse = CheckoutClient.RecurringPaymentsService.QueryCustomerPaymentPlan(queryRequest);
+
+            queryResponse.Should().NotBeNull();
+            queryResponse.HttpStatusCode.Should().Be(HttpStatusCode.OK);
+            queryResponse.Model.TotalRows.Should().BeGreaterThan(0);
+            ReflectionHelper.GetPropertyValue(queryResponse.Model, propertyName).ShouldBeEquivalentTo(propertyValue);
+        }
+
+        [TestCase("Name")]
+        [TestCase("PlanTrackId")]
+        [TestCase("AutoCapTime")]
+        [TestCase("Currency")]
+        [TestCase("Value")]
+        [TestCase("Status")]
+        public void QueryPaymentPlan_ShouldReturnEquivalentSearchObjects(string propertyName)
+        {
+            var createResponse = CheckoutClient.RecurringPaymentsService.CreatePaymentPlan(TestHelper.GetSinglePaymentPlanCreateModel());
+            var paymentPlan = createResponse.Model.PaymentPlans.Single();
+
+            var queryRequest = new QueryPaymentPlanRequest();
+            var propertyValue = ReflectionHelper.GetPropertyValue(paymentPlan, propertyName);
+            ReflectionHelper.SetPropertyValue(queryRequest, propertyName, propertyValue);
+
+            var queryResponse = CheckoutClient.RecurringPaymentsService.QueryPaymentPlan(queryRequest);
+            queryResponse.Should().NotBeNull();
+            queryResponse.HttpStatusCode.Should().Be(HttpStatusCode.OK);
+            queryResponse.Model.TotalRows.Should().BeGreaterThan(0);
+
+            foreach (var paymenPlan in queryResponse.Model.Data)
+            {
+                ReflectionHelper.GetPropertyValue(paymenPlan, propertyName).ShouldBeEquivalentTo(propertyValue);
+            }
+        }
+
+        [TestCase("PlanId")]
+        [TestCase("CardId")]
+        [TestCase("CustomerId")]
+        [TestCase("Name")]
+        [TestCase("PlanTrackId")]
+        [TestCase("AutoCapTime")]
+        [TestCase("Currency")]
+        [TestCase("Value")]
+        [TestCase("Cycle")]
+        [TestCase("StartDate")]
+        [TestCase("Status")]
+        public void QueryCustomerPaymentPlan_ShouldReturnEquivalentSearchObjects(string propertyName)
+        {
+            object propertyValue;
+            var cardCreateModel = TestHelper.GetCardChargeCreateModelWithNewPaymentPlan(TestHelper.RandomData.Email);
+            var chargeResponseModel = CheckoutClient.ChargeService.ChargeWithCard(cardCreateModel).Model;
+            var customerPaymentPlan = chargeResponseModel.CustomerPaymentPlans.First();
+
+            // Hack for CardId and CustomerId property match
+            if (propertyName == "CardId")
+            {
+                propertyValue = ReflectionHelper.GetPropertyValue(chargeResponseModel, "Card.Id");
+            }
+            else if (propertyName == "CustomerId")
+            {
+                propertyValue = ReflectionHelper.GetPropertyValue(chargeResponseModel, "Card.CustomerId");
+            }
+            else
+            {
+                propertyValue = ReflectionHelper.GetPropertyValue(customerPaymentPlan, propertyName);
+
+                // convert query request to YYYY-MM-DD format
+                if (propertyName == "StartDate")
+                {
+                    propertyValue = Convert.ToDateTime(propertyValue).ToString("yyyy-MM-dd");
+                }
+            }
+
+            var queryRequest = new QueryCustomerPaymentPlanRequest();
+            ReflectionHelper.SetPropertyValue(queryRequest, propertyName, propertyValue);
+
+            var queryResponse = CheckoutClient.RecurringPaymentsService.QueryCustomerPaymentPlan(queryRequest);
+            queryResponse.Should().NotBeNull();
+            queryResponse.HttpStatusCode.Should().Be(HttpStatusCode.OK);
+            queryResponse.Model.TotalRows.Should().BeGreaterThan(0);
+
+            foreach (var customerPaymenPlan in queryResponse.Model.Data)
+            {
+                ReflectionHelper.GetPropertyValue(customerPaymenPlan, propertyName).ShouldBeEquivalentTo(propertyValue);
+            }
         }
     }
 }

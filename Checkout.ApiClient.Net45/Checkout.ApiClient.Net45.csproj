@@ -87,6 +87,7 @@
     <Compile Include="ApiServices\RecurringPayments\RequestModels\CustomerPaymentPlanUpdate.cs" />
     <Compile Include="ApiServices\RecurringPayments\RequestModels\PaymentPlan.cs" />
     <Compile Include="ApiServices\RecurringPayments\RequestModels\PaymentPlanCreate.cs" />
+    <Compile Include="ApiServices\RecurringPayments\RequestModels\RecurringPlanStatus.cs" />
     <Compile Include="ApiServices\RecurringPayments\RequestModels\SinglePaymentPlanCreateRequest.cs" />
     <Compile Include="ApiServices\RecurringPayments\RequestModels\PaymentPlanUpdate.cs" />
     <Compile Include="ApiServices\RecurringPayments\RequestModels\QueryCustomerPaymentPlanRequest.cs" />

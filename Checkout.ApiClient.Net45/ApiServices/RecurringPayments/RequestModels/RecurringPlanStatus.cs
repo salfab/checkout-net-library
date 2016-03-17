@@ -6,9 +6,14 @@ using System.Threading.Tasks;
 
 namespace Checkout.ApiServices.RecurringPayments.RequestModels
 {
-    public class CustomerPaymentPlanUpdate
+    public enum RecurringPlanStatus
     {
-        public string CardId { get; set; }
-        public RecurringPlanStatus? Status { get; set; }
+        FailedInitial,
+        Active,
+        Cancelled,
+        InArrears,
+        Suspended,
+        Completed,
+        AutoSuspended
     }
 }
