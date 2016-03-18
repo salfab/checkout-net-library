@@ -5,6 +5,7 @@ using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using System.Net;
+using System.Security.Cryptography.X509Certificates;
 using FluentAssertions;
 
 namespace Tests
@@ -27,8 +28,9 @@ namespace Tests
             response.Should().NotBeNull();
             response.HttpStatusCode.Should().Be(HttpStatusCode.OK);
             response.Model.Id.Should().StartWith("cust_");
-            ReflectionHelper.CompareProperties(customerCreateModel, response.Model, "Card").Should().BeTrue();
-            ReflectionHelper.CompareProperties(customerCreateModel.Card, response.Model.Cards.Data[0], "Number", "Cvv", "DefaultCard").Should().BeTrue();
+            customerCreateModel.ShouldBeEquivalentTo(response.Model, options => options.Excluding(x => x.Card));
+            customerCreateModel.Card.ShouldBeEquivalentTo(response.Model.Cards.Data[0],
+                options => options.Excluding(c => c.Number).Excluding(c => c.Cvv).Excluding(c => c.DefaultCard));
         }
 
         [Test]
@@ -40,7 +42,7 @@ namespace Tests
             response.Should().NotBeNull();
             response.HttpStatusCode.Should().Be(HttpStatusCode.OK);
             response.Model.Id.Should().StartWith("cust_");
-            ReflectionHelper.CompareProperties(customerCreateModel, response.Model, "Card").Should().BeTrue();
+            customerCreateModel.ShouldBeEquivalentTo(response.Model, options => options.Excluding(x => x.Card));
         }
 
         [Test]
@@ -55,7 +57,7 @@ namespace Tests
             response.HttpStatusCode.Should().Be(HttpStatusCode.OK);
             response.Model.Id.Should().Be(customer.Id);
             response.Model.Id.Should().StartWith("cust_");
-            ReflectionHelper.CompareProperties(customer, response.Model).Should().BeTrue();
+            customer.ShouldBeEquivalentTo(response.Model);
         }
 
         [Test]

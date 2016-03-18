@@ -43,19 +43,13 @@ namespace Tests
             response.Model.Card.ExpiryMonth.Should().Be(cardCreateModel.Card.ExpiryMonth);
             response.Model.Card.ExpiryYear.Should().Be(cardCreateModel.Card.ExpiryYear);
             cardCreateModel.Card.Number.Should().EndWith(response.Model.Card.Last4);
-            ReflectionHelper.CompareProperties(response.Model.Card.BillingDetails, cardCreateModel.Card.BillingDetails).Should().BeTrue();
+            response.Model.Card.BillingDetails.ShouldBeEquivalentTo(cardCreateModel.Card.BillingDetails);
 
             //Check if shipping details match
-            for (var i = 0; i < cardCreateModel.Products.Count; i++)
-            {
-                ReflectionHelper.CompareProperties(response.Model.Products[i], cardCreateModel.Products[i], "ProductId","customerId" ).Should().BeTrue();
-            }
+            response.Model.Products.ShouldBeEquivalentTo(cardCreateModel.Products);
 
             //Check if metadatadetails match
-            foreach (var key in cardCreateModel.Metadata.Keys)
-            {
-                response.Model.Metadata[key].Should().BeEquivalentTo(cardCreateModel.Metadata[key]);
-            }
+            response.Model.Metadata.ShouldBeEquivalentTo(cardCreateModel.Metadata);
         }
 
          [Test]
