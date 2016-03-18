@@ -11,14 +11,8 @@ using FluentAssertions;
 namespace Tests
 {
     [TestFixture(Category = "CustomersApi")]
-    public class CustomersApiTests
+    public class CustomersApiTests : BaseServiceTest
     {
-        APIClient CheckoutClient;
-        
-        [SetUp]
-        public void Init()
-        { CheckoutClient = new APIClient(); }
-
         [Test]
         public void CreateCustomerWithCard()
         {

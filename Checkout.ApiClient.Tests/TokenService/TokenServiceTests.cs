@@ -5,31 +5,20 @@ using System.Collections.Generic;
 using System.Net;
 using FluentAssertions;
 
-namespace Tests.TokenService
+namespace Tests
 {
-  
-    namespace Tests
+    [TestFixture(Category = "TokensApi")]
+    public class TokenServiceTests : BaseServiceTest
     {
-        [TestFixture(Category = "TokensApi")]
-        public class TokenServiceTests
+        [Test]
+        public void CreatePaymentToken()
         {
-            APIClient CheckoutClient;
+            var paymentTokenCreateModel = TestHelper.GetPaymentTokenCreateModel(TestHelper.RandomData.Email);
+            var response = CheckoutClient.TokenService.CreatePaymentToken(paymentTokenCreateModel);
 
-            [SetUp]
-            public void Init()
-            { CheckoutClient = new APIClient(); }
-
-            [Test]
-            public void CreatePaymentToken()
-            {
-                var paymentTokenCreateModel = TestHelper.GetPaymentTokenCreateModel(TestHelper.RandomData.Email);
-                var response = CheckoutClient.TokenService.CreatePaymentToken(paymentTokenCreateModel);
-
-                response.Should().NotBeNull();
-                response.HttpStatusCode.Should().Be(HttpStatusCode.OK);
-                response.Model.Id.Should().StartWith("pay_tok_");
-            }
+            response.Should().NotBeNull();
+            response.HttpStatusCode.Should().Be(HttpStatusCode.OK);
+            response.Model.Id.Should().StartWith("pay_tok_");
         }
     }
-
 }

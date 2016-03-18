@@ -9,14 +9,8 @@ using FluentAssertions;
 namespace Tests
 {
     [TestFixture(Category = "ChargesApi")]
-    public class ChargeService
+    public class ChargeService : BaseServiceTest
     {
-        APIClient CheckoutClient;
-
-        [SetUp]
-        public void Init()
-        { CheckoutClient = new APIClient(); }
-
         [Test]
         public void CreateChargeWithCard()
        {

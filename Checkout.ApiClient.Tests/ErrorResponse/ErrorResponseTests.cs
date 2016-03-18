@@ -10,7 +10,6 @@ namespace Tests
     [TestFixture(Category = "ErrorResponseTests")]
     public class ErrorResponseTests
     {
-      
         [Test]
         public void CreateCharge_FailsWithError_IfCardNumberIsInvalid()
         {

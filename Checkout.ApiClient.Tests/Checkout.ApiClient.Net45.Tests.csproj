@@ -69,6 +69,7 @@
     <Otherwise />
   </Choose>
   <ItemGroup>
+    <Compile Include="BaseServiceTest.cs" />
     <Compile Include="CardService\CardServiceTests.cs" />
     <Compile Include="ChargeService\ChargeServiceTests.cs">
       <SubType>Code</SubType>
