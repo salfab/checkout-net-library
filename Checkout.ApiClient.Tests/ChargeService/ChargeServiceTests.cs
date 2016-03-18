@@ -225,7 +225,7 @@ namespace Tests
 
              response.Should().NotBeNull();
              response.HttpStatusCode.Should().Be(HttpStatusCode.OK);
-             response.Model.Charges.Count.Should().Be(2);
+             response.Model.Charges.Should().HaveCount(2);
 
              response.Model.Charges[0].Id.Should().Be(voidResponse.Model.Id);
              response.Model.Charges[1].Id.Should().Be(chargeResponse.Model.Id);
@@ -250,7 +250,7 @@ namespace Tests
 
             response.Should().NotBeNull();
             response.HttpStatusCode.Should().Be(HttpStatusCode.OK);
-            response.Model.Charges.Count.Should().Be(3);
+            response.Model.Charges.Should().HaveCount(3);
 
             response.Model.Charges[0].Id.Should().Be(refundResponse.Model.Id);
             response.Model.Charges[1].Id.Should().Be(captureResponse.Model.Id);
