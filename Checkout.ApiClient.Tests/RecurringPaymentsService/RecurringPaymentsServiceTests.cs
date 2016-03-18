@@ -238,11 +238,9 @@ namespace Tests.RecurringPaymentsService
         {
             var createResponse = CheckoutClient.RecurringPaymentsService.CreatePaymentPlan(TestHelper.GetSinglePaymentPlanCreateModel());
             var paymentPlan = createResponse.Model.PaymentPlans.Single();
-
-            var queryRequest = new QueryPaymentPlanRequest();
             var propertyValue = ReflectionHelper.GetPropertyValue(paymentPlan, propertyName);
-            ReflectionHelper.SetPropertyValue(queryRequest, propertyName, propertyValue);
 
+            var queryRequest = TestHelper.GetCustomQueryPaymentPlanRequest(propertyName, propertyValue, paymentPlan.Currency);
             var queryResponse = CheckoutClient.RecurringPaymentsService.QueryPaymentPlan(queryRequest);
             queryResponse.Should().NotBeNull();
             queryResponse.HttpStatusCode.Should().Be(HttpStatusCode.OK);
@@ -283,18 +281,10 @@ namespace Tests.RecurringPaymentsService
             }
             else
             {
-                propertyValue = ReflectionHelper.GetPropertyValue(customerPaymentPlan, propertyName);
-
-                // convert query request to YYYY-MM-DD format
-                if (propertyName == "StartDate")
-                {
-                    propertyValue = Convert.ToDateTime(propertyValue).ToString("yyyy-MM-dd");
-                }
+                propertyValue = TestHelper.GetRecurringPlanPropertyValue(customerPaymentPlan, propertyName);
             }
 
-            var queryRequest = new QueryCustomerPaymentPlanRequest();
-            ReflectionHelper.SetPropertyValue(queryRequest, propertyName, propertyValue);
-
+            var queryRequest = TestHelper.GetCustomQueryCustomerPaymentPlanRequest(propertyName, propertyValue, cardCreateModel.Currency);
             var queryResponse = CheckoutClient.RecurringPaymentsService.QueryCustomerPaymentPlan(queryRequest);
             queryResponse.Should().NotBeNull();
             queryResponse.HttpStatusCode.Should().Be(HttpStatusCode.OK);
@@ -302,7 +292,7 @@ namespace Tests.RecurringPaymentsService
 
             foreach (var customerPaymenPlan in queryResponse.Model.Data)
             {
-                ReflectionHelper.GetPropertyValue(customerPaymenPlan, propertyName).ShouldBeEquivalentTo(propertyValue);
+                TestHelper.GetRecurringPlanPropertyValue(customerPaymenPlan, propertyName).ShouldBeEquivalentTo(propertyValue);
             }
         }
     }

@@ -133,6 +133,47 @@ namespace Tests
             };
         }
 
+        public static QueryPaymentPlanRequest GetCustomQueryPaymentPlanRequest(string propertyName, object value, string currency = null)
+        {
+            var queryRequest = new QueryPaymentPlanRequest();
+            ReflectionHelper.SetPropertyValue(queryRequest, propertyName, value);
+
+            // set currency in request when querying by value
+            if (propertyName == "Value")
+            {
+                queryRequest.Currency = currency;
+            }
+
+            return queryRequest;
+        }
+
+        public static QueryCustomerPaymentPlanRequest GetCustomQueryCustomerPaymentPlanRequest(string propertyName, object value, string currency = null)
+        {
+            var queryRequest = new QueryCustomerPaymentPlanRequest();
+            ReflectionHelper.SetPropertyValue(queryRequest, propertyName, value);
+
+            // set currency in request when querying by value
+            if (propertyName == "Value")
+            {
+                queryRequest.Currency = currency;
+            }
+
+            return queryRequest;
+        }
+
+        public static object GetRecurringPlanPropertyValue(object source, string propertyName)
+        {
+            var propertyValue = ReflectionHelper.GetPropertyValue(source, propertyName);
+
+            // converts date into YYYY-MM-DD format
+            if (propertyName.IndexOf("Date", StringComparison.OrdinalIgnoreCase) >= 0)
+            {
+                propertyValue = Convert.ToDateTime(propertyValue).ToString("yyyy-MM-dd");
+            }
+
+            return propertyValue;
+        }
+
         #endregion
 
         #region Token Helpers
