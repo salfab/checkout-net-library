@@ -14,13 +14,14 @@ namespace Tests
     [TestFixture(Category = "ReportingApi")]
     public class ReportingServiceTests : BaseServiceTests
     {
-        private StringComparison _ignoreCase = StringComparison.OrdinalIgnoreCase;
+        private readonly StringComparison _ignoreCase = StringComparison.OrdinalIgnoreCase;
 
         [TestCase(null, HttpStatusCode.OK, false)]
         [TestCase(9, HttpStatusCode.BadRequest, true)]
         [TestCase(15, HttpStatusCode.OK, false)]
         [TestCase(251, HttpStatusCode.BadRequest, true)]
-        public void QueryTransactions_PageSizeShouldBeWithinLimits(int? pageSize, HttpStatusCode responseStatus, bool hasError)
+        public void QueryTransactions_PageSizeShouldBeWithinLimits(int? pageSize, HttpStatusCode responseStatus,
+            bool hasError)
         {
             var request = TestHelper.GetQueryTransactionModel(string.Empty, null, null, null, null, pageSize);
             var response = CheckoutClient.ReportingService.QueryTransaction(request);
@@ -190,9 +191,9 @@ namespace Tests
         {
             string cardNumber;
             var charge = CreateChargeWithNewTrackId(out cardNumber);
-            var filter = new Filter { Field = field, Value = GetChargePropertyValueFromField(charge, field, cardNumber)};
+            var filter = new Filter {Field = field, Value = GetChargePropertyValueFromField(charge, field, cardNumber)};
 
-            var request = TestHelper.GetQueryTransactionModel(new List<Filter> { filter });
+            var request = TestHelper.GetQueryTransactionModel(new List<Filter> {filter});
             var response = CheckoutClient.ReportingService.QueryTransaction(request);
 
             response.Should().NotBeNull();
@@ -284,9 +285,9 @@ namespace Tests
         {
             string cardNumber;
             var charge = CreateChargeWithNewTrackId(out cardNumber);
-            var filter = new Filter { Field = field, Value = GetChargePropertyValueFromField(charge, field, cardNumber) };
+            var filter = new Filter {Field = field, Value = GetChargePropertyValueFromField(charge, field, cardNumber)};
 
-            var request = TestHelper.GetQueryTransactionModel(new List<Filter> { filter });
+            var request = TestHelper.GetQueryTransactionModel(new List<Filter> {filter});
             var firstQueryResponse = CheckoutClient.ReportingService.QueryTransaction(request);
 
             #region Assert First Query Response
@@ -304,7 +305,8 @@ namespace Tests
                 }
                 else if (field == Field.Email)
                 {
-                    firstQueryResponse.Model.Data.Should().OnlyContain(t => t.Customer.Email.Equals(filter.Value, _ignoreCase));
+                    firstQueryResponse.Model.Data.Should()
+                        .OnlyContain(t => t.Customer.Email.Equals(filter.Value, _ignoreCase));
                 }
                 else
                 {
@@ -344,15 +346,20 @@ namespace Tests
                 }
                 else if (field == Field.Email)
                 {
-                    secondQueryResponse.Model.Data.Should().OnlyContain(t => t.Customer.Email.Equals(filter.Value, _ignoreCase));
+                    secondQueryResponse.Model.Data.Should()
+                        .OnlyContain(t => t.Customer.Email.Equals(filter.Value, _ignoreCase));
                 }
                 else if (field == Field.CardNumber || field == Field.ChargeId)
                 {
-                    secondQueryResponse.Model.Data.Should().OnlyContain(t => t.TrackId == charge.TrackId).And.HaveCount(1);
+                    secondQueryResponse.Model.Data.Should()
+                        .OnlyContain(t => t.TrackId == charge.TrackId)
+                        .And.HaveCount(1);
                 }
                 else if (field == Field.TrackId)
                 {
-                    secondQueryResponse.Model.Data.Should().OnlyContain(t => t.TrackId == charge.TrackId).And.HaveCount(2);
+                    secondQueryResponse.Model.Data.Should()
+                        .OnlyContain(t => t.TrackId == charge.TrackId)
+                        .And.HaveCount(2);
                 }
             }
             else
@@ -364,20 +371,24 @@ namespace Tests
             #endregion Assert Second Query Response
         }
 
-        [Test]
-        public void QueryTransactions_ShouldAllowFilteringBySearchWithCardNumber()
+        private static string GetChargePropertyValueFromField(Charge charge, Field? field, string cardNumber = null)
         {
-            string cardNumber;
-            var charge = CreateChargeWithNewTrackId(out cardNumber);
+            if (!field.HasValue) return null;
 
-            // query transactions containing the generated card number
-            var request = TestHelper.GetQueryTransactionModel(TestHelper.MaskCardNumber(cardNumber), null, null, SortColumn.Date);
-            var response = CheckoutClient.ReportingService.QueryTransaction(request);
+            // card number has to be masked for querying
+            if (field == Field.CardNumber)
+            {
+                return TestHelper.MaskCardNumber(cardNumber);
+            }
 
-            response.Should().NotBeNull();
-            response.HttpStatusCode.Should().Be(HttpStatusCode.OK);
-            response.Model.TotalRecords.Should().BeGreaterThan(0);
-            response.Model.Data.Should().Contain(t => t.TrackId == charge.TrackId);
+            // Charge object does not contain ChargeId property
+            var propertyName = field.ToString();
+            if (field == Field.ChargeId)
+            {
+                propertyName = "Id";
+            }
+
+            return ReflectionHelper.GetPropertyValue(charge, propertyName) as string;
         }
 
         [Test]
@@ -470,6 +481,23 @@ namespace Tests
         }
 
         [Test]
+        public void QueryTransactions_ShouldAllowFilteringBySearchWithCardNumber()
+        {
+            string cardNumber;
+            var charge = CreateChargeWithNewTrackId(out cardNumber);
+
+            // query transactions containing the generated card number
+            var request = TestHelper.GetQueryTransactionModel(TestHelper.MaskCardNumber(cardNumber), null, null,
+                SortColumn.Date);
+            var response = CheckoutClient.ReportingService.QueryTransaction(request);
+
+            response.Should().NotBeNull();
+            response.HttpStatusCode.Should().Be(HttpStatusCode.OK);
+            response.Model.TotalRecords.Should().BeGreaterThan(0);
+            response.Model.Data.Should().Contain(t => t.TrackId == charge.TrackId);
+        }
+
+        [Test]
         public void QueryTransactions_ToDateAfterTransactionCreated_OneTransactionsFound()
         {
             // create new charge
@@ -516,29 +544,5 @@ namespace Tests
             response.HttpStatusCode.Should().Be(HttpStatusCode.OK);
             response.Model.TotalRecords.Should().Be(1);
         }
-
-        #region Helper methods
-
-        private static string GetChargePropertyValueFromField(Charge charge, Field? field, string cardNumber = null)
-        {
-            if (!field.HasValue) return null;
-
-            // card number has to be masked for querying
-            if (field == Field.CardNumber)
-            {
-                return TestHelper.MaskCardNumber(cardNumber);
-            }
-
-            // Charge object does not contain ChargeId property
-            var propertyName = field.ToString();
-            if (field == Field.ChargeId)
-            {
-                propertyName = "Id";
-            }
-
-            return ReflectionHelper.GetPropertyValue(charge, propertyName) as string;
-        }
-
-        #endregion
     }
 }

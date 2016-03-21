@@ -1,9 +1,9 @@
-﻿using Checkout;
-using Checkout.ApiServices.Charges.ResponseModels;
-using NUnit.Framework;
-using System;
+﻿using System;
 using System.Net;
+using Checkout;
+using Checkout.ApiServices.Charges.ResponseModels;
 using FluentAssertions;
+using NUnit.Framework;
 
 namespace Tests
 {

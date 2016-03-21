@@ -1,4 +1,5 @@
-﻿using Checkout;
+﻿using System.Net;
+using FluentAssertions;
 using NUnit.Framework;
 
 namespace Tests
@@ -9,14 +10,15 @@ namespace Tests
         [Test]
         public void CreateCharge_FailsWithError_IfCardNumberIsInvalid()
         {
-            var cardCreateModel = TestHelper.GetCardChargeCreateModel(TestHelper.RandomData.Email); ;
+            var cardCreateModel = TestHelper.GetCardChargeCreateModel(TestHelper.RandomData.Email);
+            ;
             cardCreateModel.Card.Number = "4242424242424243";
 
             var response = CheckoutClient.ChargeService.ChargeWithCard(cardCreateModel);
 
-            Assert.NotNull(response);
-            Assert.IsTrue(response.HttpStatusCode != System.Net.HttpStatusCode.OK);
-            Assert.IsTrue(response.HasError);
+            response.Should().NotBeNull();
+            response.HttpStatusCode.Should().NotBe(HttpStatusCode.OK);
+            response.HasError.Should().BeTrue();
         }
 
         [Test]
@@ -27,12 +29,11 @@ namespace Tests
             cardCreateModel.Value = "-100";
 
             var response = CheckoutClient.ChargeService.ChargeWithCard(cardCreateModel);
-
-            Assert.NotNull(response);
-            Assert.IsTrue(response.HttpStatusCode != System.Net.HttpStatusCode.OK);
-            Assert.IsTrue(response.HasError);
-            Assert.IsTrue(response.Error.ErrorCode == "70000");
-            Assert.IsTrue(response.Error.Message.ToLower() == "validation error");
+            response.Should().NotBeNull();
+            response.HttpStatusCode.Should().NotBe(HttpStatusCode.OK);
+            response.HasError.Should().BeTrue();
+            response.Error.ErrorCode.Should().Be("70000");
+            response.Error.Message.Should().BeEquivalentTo("validation error");
         }
     }
 }

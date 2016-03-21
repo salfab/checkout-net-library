@@ -1,6 +1,8 @@
-﻿using Checkout.ApiServices.Customers.RequestModels;
+﻿using System;
+using System.Net;
+using Checkout.ApiServices.Customers.RequestModels;
+using FluentAssertions;
 using NUnit.Framework;
-using System;
 
 namespace Tests
 {
@@ -13,11 +15,12 @@ namespace Tests
             var customerCreateModel = TestHelper.GetCustomerCreateModelWithCard();
             var response = CheckoutClient.CustomerService.CreateCustomer(customerCreateModel);
 
-            Assert.NotNull(response);
-            Assert.IsTrue(response.HttpStatusCode == System.Net.HttpStatusCode.OK);
-            Assert.IsTrue(response.Model.Id.StartsWith("cust_"));
-            Assert.IsTrue(ReflectionHelper.CompareProperties(customerCreateModel, response.Model, new string[] { "Card" }));
-            Assert.IsTrue(ReflectionHelper.CompareProperties(customerCreateModel.Card, response.Model.Cards.Data[0], new string[] { "Number", "Cvv", "DefaultCard" }));
+            response.Should().NotBeNull();
+            response.HttpStatusCode.Should().Be(HttpStatusCode.OK);
+            response.Model.Id.Should().StartWith("cust_");
+            customerCreateModel.ShouldBeEquivalentTo(response.Model, options => options.Excluding(x => x.Card));
+            customerCreateModel.Card.ShouldBeEquivalentTo(response.Model.Cards.Data[0],
+                options => options.Excluding(c => c.Number).Excluding(c => c.Cvv).Excluding(c => c.DefaultCard));
         }
 
         [Test]
@@ -26,10 +29,23 @@ namespace Tests
             var customerCreateModel = TestHelper.GetCustomerCreateModelWithNoCard();
             var response = CheckoutClient.CustomerService.CreateCustomer(customerCreateModel);
 
-            Assert.NotNull(response);
-            Assert.IsTrue(response.HttpStatusCode == System.Net.HttpStatusCode.OK);
-            Assert.IsTrue(response.Model.Id.StartsWith("cust_"));
-            Assert.IsTrue(ReflectionHelper.CompareProperties(customerCreateModel, response.Model, new string[] { "Card" }));
+            response.Should().NotBeNull();
+            response.HttpStatusCode.Should().Be(HttpStatusCode.OK);
+            response.Model.Id.Should().StartWith("cust_");
+            customerCreateModel.ShouldBeEquivalentTo(response.Model, options => options.Excluding(x => x.Card));
+        }
+
+        [Test]
+        public void DeleteCustomer()
+        {
+            var customer =
+                CheckoutClient.CustomerService.CreateCustomer(TestHelper.GetCustomerCreateModelWithCard()).Model;
+
+            var response = CheckoutClient.CustomerService.DeleteCustomer(customer.Id);
+
+            response.Should().NotBeNull();
+            response.HttpStatusCode.Should().Be(HttpStatusCode.OK);
+            response.Model.Message.Should().BeEquivalentTo("Ok");
         }
 
         [Test]
@@ -40,24 +56,24 @@ namespace Tests
 
             var response = CheckoutClient.CustomerService.GetCustomer(customer.Id);
 
-            Assert.NotNull(response);
-            Assert.IsTrue(response.HttpStatusCode == System.Net.HttpStatusCode.OK);
-            Assert.IsTrue(response.Model.Id == customer.Id);
-            Assert.IsTrue(response.Model.Id.StartsWith("cust_"));
-            Assert.IsTrue(ReflectionHelper.CompareProperties(customer, response.Model));
+            response.Should().NotBeNull();
+            response.HttpStatusCode.Should().Be(HttpStatusCode.OK);
+            response.Model.Id.Should().Be(customer.Id);
+            response.Model.Id.Should().StartWith("cust_");
+            customer.ShouldBeEquivalentTo(response.Model);
         }
 
         [Test]
         public void GetCustomerList()
         {
-            var startTime = DateTime.UtcNow.AddHours(-1);// records for the past hour
+            var startTime = DateTime.UtcNow.AddHours(-1); // records for the past hour
 
             var customer1 = CheckoutClient.CustomerService.CreateCustomer(TestHelper.GetCustomerCreateModelWithCard());
             var customer2 = CheckoutClient.CustomerService.CreateCustomer(TestHelper.GetCustomerCreateModelWithCard());
             var customer3 = CheckoutClient.CustomerService.CreateCustomer(TestHelper.GetCustomerCreateModelWithCard());
             var customer4 = CheckoutClient.CustomerService.CreateCustomer(TestHelper.GetCustomerCreateModelWithCard());
 
-            var custGetListRequest = new CustomerGetList()
+            var custGetListRequest = new CustomerGetList
             {
                 FromDate = startTime,
                 ToDate = DateTime.UtcNow
@@ -66,40 +82,28 @@ namespace Tests
             //Get all customers created
             var response = CheckoutClient.CustomerService.GetCustomerList(custGetListRequest);
 
-            Assert.NotNull(response);
-            Assert.IsTrue(response.HttpStatusCode == System.Net.HttpStatusCode.OK);
-            Assert.IsTrue(response.Model.Count >= 4);
+            response.Should().NotBeNull();
+            response.HttpStatusCode.Should().Be(HttpStatusCode.OK);
+            response.Model.Count.Should().BeGreaterOrEqualTo(4);
 
-            Assert.IsTrue(response.Model.Data[0].Id == customer4.Model.Id);
-            Assert.IsTrue(response.Model.Data[1].Id == customer3.Model.Id);
-            Assert.IsTrue(response.Model.Data[2].Id == customer2.Model.Id);
-            Assert.IsTrue(response.Model.Data[3].Id == customer1.Model.Id);
+            response.Model.Data[0].Id.Should().Be(customer4.Model.Id);
+            response.Model.Data[1].Id.Should().Be(customer3.Model.Id);
+            response.Model.Data[2].Id.Should().Be(customer2.Model.Id);
+            response.Model.Data[3].Id.Should().Be(customer1.Model.Id);
         }
 
         [Test]
         public void UpdateCustomer()
         {
-            var customer = CheckoutClient.CustomerService.CreateCustomer(TestHelper.GetCustomerCreateModelWithCard()).Model;
+            var customer =
+                CheckoutClient.CustomerService.CreateCustomer(TestHelper.GetCustomerCreateModelWithCard()).Model;
 
             var customerUpdateModel = TestHelper.GetCustomerUpdateModel();
             var response = CheckoutClient.CustomerService.UpdateCustomer(customer.Id, customerUpdateModel);
 
-            Assert.NotNull(response);
-            Assert.IsTrue(response.HttpStatusCode == System.Net.HttpStatusCode.OK);
-            Assert.IsTrue(response.Model.Message.Equals("Ok", System.StringComparison.OrdinalIgnoreCase));
+            response.Should().NotBeNull();
+            response.HttpStatusCode.Should().Be(HttpStatusCode.OK);
+            response.Model.Message.Should().BeEquivalentTo("Ok");
         }
-
-         [Test]
-        public void DeleteCustomer()
-        {
-            var customer = CheckoutClient.CustomerService.CreateCustomer(TestHelper.GetCustomerCreateModelWithCard()).Model;
-
-            var response = CheckoutClient.CustomerService.DeleteCustomer(customer.Id);
-
-            Assert.NotNull(response);
-            Assert.IsTrue(response.HttpStatusCode == System.Net.HttpStatusCode.OK);
-            Assert.IsTrue(response.Model.Message.Equals("Ok", System.StringComparison.OrdinalIgnoreCase));
-        }
-        
     }
 }

@@ -87,9 +87,8 @@
     <Compile Include="Utils\CardProviders.cs" />
     <Compile Include="Utils\Extensions.cs" />
     <Compile Include="Utils\RandomData.cs" />
-    <Compile Include="Utils\ReflectionHelper.cs" />
     <Compile Include="TestHelper.cs" />
-    <Compile Include="Utils\TestScenarios.cs" />
+    <Compile Include="Utils\ReflectionHelper.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.Debug.config">

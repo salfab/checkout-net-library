@@ -1,7 +1,7 @@
-﻿using Checkout;
-using Checkout.ApiServices.SharedModels;
+﻿using System.Linq;
+using System.Net;
+using FluentAssertions;
 using NUnit.Framework;
-using System.Linq;
 using Tests.Utils;
 
 namespace Tests
@@ -12,20 +12,34 @@ namespace Tests
         [Test]
         public void CreateCard()
         {
-            var customer = CheckoutClient.CustomerService.CreateCustomer(TestHelper.GetCustomerCreateModelWithNoCard()).Model;
-
+            var customer =
+                CheckoutClient.CustomerService.CreateCustomer(TestHelper.GetCustomerCreateModelWithNoCard()).Model;
             var cardCreateModel = TestHelper.GetCardCreateModel();
-            var response = CheckoutClient.CardService.CreateCard(customer.Id,cardCreateModel);
+            var response = CheckoutClient.CardService.CreateCard(customer.Id, cardCreateModel);
 
-            Assert.NotNull(response);
-            Assert.IsTrue(response.HttpStatusCode == System.Net.HttpStatusCode.OK);
-            Assert.IsTrue(response.Model.Id.StartsWith("card_"));
-            Assert.IsTrue(response.Model.CustomerId.Equals(customer.Id, System.StringComparison.OrdinalIgnoreCase));
-            Assert.IsTrue(response.Model.Name == cardCreateModel.Name);
-            Assert.IsTrue(response.Model.ExpiryMonth == cardCreateModel.ExpiryMonth);
-            Assert.IsTrue(response.Model.ExpiryYear == cardCreateModel.ExpiryYear);
-            Assert.IsTrue(cardCreateModel.Number.EndsWith(response.Model.Last4));
-            Assert.IsTrue(ReflectionHelper.CompareProperties(cardCreateModel.BillingDetails,response.Model.BillingDetails));
+            response.Should().NotBeNull();
+            response.HttpStatusCode.Should().Be(HttpStatusCode.OK);
+            response.Model.Id.Should().StartWith("card_");
+            response.Model.CustomerId.Should().BeEquivalentTo(customer.Id);
+            response.Model.Name.Should().Be(cardCreateModel.Name);
+            response.Model.ExpiryMonth.Should().Be(cardCreateModel.ExpiryMonth);
+            response.Model.ExpiryYear.Should().Be(cardCreateModel.ExpiryYear);
+            cardCreateModel.Number.Should().EndWith(response.Model.Last4);
+            cardCreateModel.BillingDetails.ShouldBeEquivalentTo(response.Model.BillingDetails);
+        }
+
+        [Test]
+        public void DeleteCard()
+        {
+            var customer =
+                CheckoutClient.CustomerService.CreateCustomer(TestHelper.GetCustomerCreateModelWithCard()).Model;
+            var customerCardId = customer.Cards.Data.First().Id;
+
+            var response = CheckoutClient.CardService.DeleteCard(customer.Id, customerCardId);
+
+            response.Should().NotBeNull();
+            response.HttpStatusCode.Should().Be(HttpStatusCode.OK);
+            response.Model.Message.Should().BeEquivalentTo("Ok");
         }
 
         [Test]
@@ -37,56 +51,48 @@ namespace Tests
 
             var response = CheckoutClient.CardService.GetCard(customer.Id, customerCard.Id);
 
-            Assert.NotNull(response);
-            Assert.IsTrue(response.HttpStatusCode == System.Net.HttpStatusCode.OK);
-            Assert.IsTrue(response.Model.Id == customerCard.Id);
-            Assert.IsTrue(response.Model.CustomerId.Equals(customer.Id, System.StringComparison.OrdinalIgnoreCase));
-            Assert.IsTrue(response.Model.Name == customerCard.Name);
-            Assert.IsTrue(response.Model.ExpiryMonth == customerCard.ExpiryMonth);
-            Assert.IsTrue(response.Model.ExpiryYear == customerCard.ExpiryYear);
-            Assert.IsTrue(customerCreateModel.Card.Number.EndsWith(response.Model.Last4));
-            Assert.IsTrue(ReflectionHelper.CompareProperties(customerCard.BillingDetails, response.Model.BillingDetails));
+            response.Should().NotBeNull();
+            response.HttpStatusCode.Should().Be(HttpStatusCode.OK);
+            response.Model.Id.Should().Be(customerCard.Id);
+            response.Model.CustomerId.Should().BeEquivalentTo(customer.Id);
+            response.Model.Name.Should().Be(customerCard.Name);
+            response.Model.ExpiryMonth.Should().Be(customerCard.ExpiryMonth);
+            response.Model.ExpiryYear.Should().Be(customerCard.ExpiryYear);
+            customerCreateModel.Card.Number.Should().EndWith(response.Model.Last4);
+            customerCard.BillingDetails.ShouldBeEquivalentTo(response.Model.BillingDetails);
         }
 
         [Test]
         public void GetCardList()
         {
-            var customer = CheckoutClient.CustomerService.CreateCustomer(TestHelper.GetCustomerCreateModelWithNoCard()).Model;
-            var customerCard1 = CheckoutClient.CardService.CreateCard(customer.Id,TestHelper.GetCardCreateModel(Utils.CardProvider.Visa)).Model;
-            var customerCard2 = CheckoutClient.CardService.CreateCard(customer.Id,TestHelper.GetCardCreateModel(Utils.CardProvider.Mastercard)).Model;
+            var customer =
+                CheckoutClient.CustomerService.CreateCustomer(TestHelper.GetCustomerCreateModelWithNoCard()).Model;
+            var customerCard1 =
+                CheckoutClient.CardService.CreateCard(customer.Id, TestHelper.GetCardCreateModel()).Model;
+            var customerCard2 =
+                CheckoutClient.CardService.CreateCard(customer.Id,
+                    TestHelper.GetCardCreateModel(CardProvider.Mastercard)).Model;
 
             var response = CheckoutClient.CardService.GetCardList(customer.Id);
 
-            Assert.NotNull(response);
-            Assert.IsTrue(response.HttpStatusCode == System.Net.HttpStatusCode.OK);
-            Assert.IsTrue(response.Model.Count == 2);
+            response.Should().NotBeNull();
+            response.HttpStatusCode.Should().Be(HttpStatusCode.OK);
+            response.Model.Count.Should().Be(2);
         }
 
         [Test]
         public void UpdateCard()
         {
-            var customer = CheckoutClient.CustomerService.CreateCustomer(TestHelper.GetCustomerCreateModelWithCard()).Model;
+            var customer =
+                CheckoutClient.CustomerService.CreateCustomer(TestHelper.GetCustomerCreateModelWithCard()).Model;
             var customerCardId = customer.Cards.Data.First().Id;
 
-            var response = CheckoutClient.CardService.UpdateCard(customer.Id, customerCardId, TestHelper.GetCardUpdateModel());
+            var response = CheckoutClient.CardService.UpdateCard(customer.Id, customerCardId,
+                TestHelper.GetCardUpdateModel());
 
-            Assert.NotNull(response);
-            Assert.IsTrue(response.HttpStatusCode == System.Net.HttpStatusCode.OK);
-            Assert.IsTrue(response.Model.Message.Equals("Ok", System.StringComparison.OrdinalIgnoreCase));
+            response.Should().NotBeNull();
+            response.HttpStatusCode.Should().Be(HttpStatusCode.OK);
+            response.Model.Message.Should().BeEquivalentTo("Ok");
         }
-
-        [Test]
-        public void DeleteCard()
-        {
-            var customer = CheckoutClient.CustomerService.CreateCustomer(TestHelper.GetCustomerCreateModelWithCard()).Model;
-            var customerCardId = customer.Cards.Data.First().Id;
-
-            var response = CheckoutClient.CardService.DeleteCard(customer.Id, customerCardId);
-
-            Assert.NotNull(response);
-            Assert.IsTrue(response.HttpStatusCode == System.Net.HttpStatusCode.OK);
-            Assert.IsTrue(response.Model.Message.Equals("Ok", System.StringComparison.OrdinalIgnoreCase));
-        }
-        
     }
 }
