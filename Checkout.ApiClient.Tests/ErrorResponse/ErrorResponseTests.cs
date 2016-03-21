@@ -1,6 +1,8 @@
 ﻿using Checkout;
 using NUnit.Framework;
 using System;
+using System.Net;
+using FluentAssertions;
 
 
 namespace Tests
@@ -8,7 +10,6 @@ namespace Tests
     [TestFixture(Category = "ErrorResponseTests")]
     public class ErrorResponseTests
     {
-      
         [Test]
         public void CreateCharge_FailsWithError_IfCardNumberIsInvalid()
         {
@@ -17,9 +18,9 @@ namespace Tests
 
             var response = new APIClient().ChargeService.ChargeWithCard(cardCreateModel);
 
-            Assert.NotNull(response);
-            Assert.IsTrue(response.HttpStatusCode != System.Net.HttpStatusCode.OK);
-            Assert.IsTrue(response.HasError);
+            response.Should().NotBeNull();
+            response.HttpStatusCode.Should().NotBe(HttpStatusCode.OK);
+            response.HasError.Should().BeTrue();
         }
 
         [Test]
@@ -31,12 +32,11 @@ namespace Tests
 
             var response = new APIClient().ChargeService.ChargeWithCard(cardCreateModel);
 
-            Assert.NotNull(response);
-            Assert.IsTrue(response.HttpStatusCode != System.Net.HttpStatusCode.OK);
-            Assert.IsTrue(response.HasError);
-            Assert.IsTrue(response.Error.ErrorCode == "70000");
-            Assert.IsTrue(response.Error.Message.ToLower() == "validation error");
-
+            response.Should().NotBeNull();
+            response.HttpStatusCode.Should().NotBe(HttpStatusCode.OK);
+            response.HasError.Should().BeTrue();
+            response.Error.ErrorCode.Should().Be("70000");
+            response.Error.Message.Should().BeEquivalentTo("validation error");
         }
     }
 }
