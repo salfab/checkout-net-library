@@ -13,11 +13,12 @@ namespace Tests
         /// </summary>
         /// <param name="source"></param>
         /// <param name="match"></param>
+        /// <param name="comparison"></param>
         /// <returns></returns>
-        public static bool ContainsIgnoreCase(this string source, string match)
+        public static bool Contains(this string source, string match, StringComparison comparison)
         {
             if (source == null) return false;
-            return source.IndexOf(match, StringComparison.OrdinalIgnoreCase) != -1;
+            return source.IndexOf(match, comparison) != -1;
         }
 
         /// <summary>

@@ -426,7 +426,7 @@ namespace Tests
         /// </summary>
         /// <param name="filters"></param>
         /// <returns></returns>
-        public static QueryTransaction GetQueryTransactionModel(List<Filter> filters = null)
+        public static QueryTransaction GetQueryTransactionModel(List<Filter> filters)
         {
             return GetQueryTransactionModel(null, null, null, null, null, null, null, filters);
         }
@@ -437,7 +437,7 @@ namespace Tests
         /// <returns></returns>
         public static QueryTransaction GetQueryTransactionModel()
         {
-            return GetQueryTransactionModel(null, null, null, null, null, null, null, null);
+            return GetQueryTransactionModel(null);
         }
 
         #endregion
