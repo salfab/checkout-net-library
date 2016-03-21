@@ -7,7 +7,7 @@ using FluentAssertions;
 
 namespace Tests
 {
-    public abstract class BaseServiceTest
+    public abstract class BaseServiceTests
     {
         protected APIClient CheckoutClient;
 

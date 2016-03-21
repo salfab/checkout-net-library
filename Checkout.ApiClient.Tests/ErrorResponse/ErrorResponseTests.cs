@@ -4,7 +4,7 @@ using NUnit.Framework;
 namespace Tests
 {
     [TestFixture(Category = "ErrorResponseTests")]
-    public class ErrorResponseTests : BaseServiceTest
+    public class ErrorResponseTests : BaseServiceTests
     {
         [Test]
         public void CreateCharge_FailsWithError_IfCardNumberIsInvalid()

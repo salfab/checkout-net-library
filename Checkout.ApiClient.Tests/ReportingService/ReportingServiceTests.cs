@@ -12,7 +12,7 @@ using FilterAction = Checkout.ApiServices.SharedModels.Action;
 namespace Tests
 {
     [TestFixture(Category = "ReportingApi")]
-    public class ReportingServiceTests : BaseServiceTest
+    public class ReportingServiceTests : BaseServiceTests
     {
         private StringComparison _ignoreCase = StringComparison.OrdinalIgnoreCase;
 

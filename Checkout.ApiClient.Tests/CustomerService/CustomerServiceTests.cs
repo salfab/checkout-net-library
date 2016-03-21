@@ -5,7 +5,7 @@ using System;
 namespace Tests
 {
     [TestFixture(Category = "CustomersApi")]
-    public class CustomersApiTests : BaseServiceTest
+    public class CustomersApiTests : BaseServiceTests
     {
         [Test]
         public void CreateCustomerWithCard()
