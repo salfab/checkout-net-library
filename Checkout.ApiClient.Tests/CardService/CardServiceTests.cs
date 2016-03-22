@@ -8,7 +8,7 @@ using FluentAssertions;
 namespace Tests
 {
     [TestFixture(Category = "CardsApi")]
-    public class CardServiceTests : BaseServiceTest
+    public class CardServiceTests : BaseServiceTests
     {
         [Test]
         public void CreateCard()

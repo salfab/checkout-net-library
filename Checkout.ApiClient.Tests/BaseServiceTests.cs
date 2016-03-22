@@ -8,7 +8,7 @@ using NUnit.Framework;
 
 namespace Tests
 {
-    public class BaseServiceTest
+    public class BaseServiceTests
     {
         protected APIClient CheckoutClient;
 

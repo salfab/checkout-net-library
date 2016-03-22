@@ -8,7 +8,7 @@ using FluentAssertions;
 namespace Tests
 {
     [TestFixture(Category = "TokensApi")]
-    public class TokenServiceTests : BaseServiceTest
+    public class TokenServiceTests : BaseServiceTests
     {
         [Test]
         public void CreatePaymentToken()
