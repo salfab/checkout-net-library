@@ -3,7 +3,11 @@
   <Class Name="Checkout.APIClient" Collapsed="true">
     <Position X="30.75" Y="0.5" Width="1.5" />
     <TypeIdentifier>
+<<<<<<< HEAD
       <HashCode>AAAEAAIAgCCAAAAAgAAAIAAIAAAAIAAAAgAAAAAAAAA=</HashCode>
+=======
+      <HashCode>AAAEAAAAgSCAAAAAgAAAAAAIAIAAIAAAAgAAAAAAAAA=</HashCode>
+>>>>>>> develop
       <FileName>APIClient.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -17,7 +21,7 @@
   <Class Name="Checkout.AppSettings" Collapsed="true">
     <Position X="36" Y="0.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AGAAAAAGIAAAEKCIAAAAAAAAgEAAoAAAAEIAAgAAABA=</HashCode>
+      <HashCode>AGAAAAAGJAAAEKCYAAAAAAAAgEAAoAAAAEIAAgAAABA=</HashCode>
       <FileName>Helpers\AppSettings.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -70,38 +74,63 @@
       <FileName>ApiServices\Charges\ChargeService.cs</FileName>
     </TypeIdentifier>
   </Class>
+<<<<<<< HEAD
   <Class Name="Checkout.ApiServices.Charges.RequestModels.BaseCharge" Collapsed="true">
     <Position X="16.25" Y="1.75" Width="1.5" />
+=======
+  <Class Name="Checkout.ApiServices.Charges.RequestModels.BaseCharge">
+    <Position X="16.25" Y="1.25" Width="1.5" />
+>>>>>>> develop
     <TypeIdentifier>
       <HashCode>AAAAAAAAAGARAAAAAAAAAAAACAAAARQAAAAoAAAAIAQ=</HashCode>
       <FileName>ApiServices\Charges\RequestModels\BaseCharge.cs</FileName>
     </TypeIdentifier>
   </Class>
+<<<<<<< HEAD
   <Class Name="Checkout.ApiServices.Charges.RequestModels.BaseChargeInfo" Collapsed="true">
     <Position X="14" Y="0.5" Width="1.5" />
+=======
+  <Class Name="Checkout.ApiServices.Charges.RequestModels.BaseChargeInfo">
+    <Position X="14.25" Y="0.5" Width="1.5" />
+>>>>>>> develop
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAgAAAAAAAAAAAAAAAEAAAAAAAAAMAHAAA=</HashCode>
       <FileName>ApiServices\Charges\RequestModels\BaseChargeInfo.cs</FileName>
     </TypeIdentifier>
   </Class>
+<<<<<<< HEAD
   <Class Name="Checkout.ApiServices.Charges.RequestModels.CardCharge" Collapsed="true">
     <Position X="15.25" Y="3.25" Width="1.5" />
+=======
+  <Class Name="Checkout.ApiServices.Charges.RequestModels.CardCharge">
+    <Position X="13.75" Y="3.5" Width="1.5" />
+>>>>>>> develop
     <TypeIdentifier>
-      <HashCode>BABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>BABAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>ApiServices\Charges\RequestModels\CardCharge.cs</FileName>
     </TypeIdentifier>
   </Class>
+<<<<<<< HEAD
   <Class Name="Checkout.ApiServices.Charges.RequestModels.CardIdCharge" Collapsed="true">
     <Position X="17.5" Y="3.25" Width="1.5" />
+=======
+  <Class Name="Checkout.ApiServices.Charges.RequestModels.CardIdCharge">
+    <Position X="18.5" Y="2" Width="1.5" />
+>>>>>>> develop
     <TypeIdentifier>
-      <HashCode>BAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAA=</HashCode>
+      <HashCode>BAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAA=</HashCode>
       <FileName>ApiServices\Charges\RequestModels\CardIdCharge.cs</FileName>
     </TypeIdentifier>
   </Class>
+<<<<<<< HEAD
   <Class Name="Checkout.ApiServices.Charges.RequestModels.CardTokenCharge" Collapsed="true">
     <Position X="22" Y="3.25" Width="1.5" />
+=======
+  <Class Name="Checkout.ApiServices.Charges.RequestModels.CardTokenCharge">
+    <Position X="22.5" Y="3.25" Width="1.5" />
+>>>>>>> develop
     <TypeIdentifier>
-      <HashCode>BAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>BAAAAQAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>ApiServices\Charges\RequestModels\CardTokenCharge.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -133,10 +162,15 @@
       <FileName>ApiServices\Charges\RequestModels\ChargeVoid.cs</FileName>
     </TypeIdentifier>
   </Class>
+<<<<<<< HEAD
   <Class Name="Checkout.ApiServices.Charges.RequestModels.DefaultCardCharge" Collapsed="true">
     <Position X="10.75" Y="3.25" Width="1.5" />
+=======
+  <Class Name="Checkout.ApiServices.Charges.RequestModels.DefaultCardCharge">
+    <Position X="11.25" Y="3.5" Width="1.75" />
+>>>>>>> develop
     <TypeIdentifier>
-      <HashCode>BAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>BAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>ApiServices\Charges\RequestModels\DefaultCardCharge.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -147,10 +181,15 @@
       <FileName>ApiServices\Charges\ResponseModels\Capture.cs</FileName>
     </TypeIdentifier>
   </Class>
+<<<<<<< HEAD
   <Class Name="Checkout.ApiServices.Charges.ResponseModels.Charge" Collapsed="true">
     <Position X="19.75" Y="3.25" Width="1.5" />
+=======
+  <Class Name="Checkout.ApiServices.Charges.ResponseModels.Charge">
+    <Position X="20.75" Y="3.25" Width="1.5" />
+>>>>>>> develop
     <TypeIdentifier>
-      <HashCode>BABCgAAEAAIAAAAQAAAAAAAAAAAAABQAAAAABAAgIAA=</HashCode>
+      <HashCode>BABChAAEAAIAAAAQAAAAAAAAAAAAABQAAAAABAAgIAA=</HashCode>
       <FileName>ApiServices\Charges\ResponseModels\Charge.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -322,10 +361,15 @@
       <FileName>ApiServices\SharedModels\ResponseError.cs</FileName>
     </TypeIdentifier>
   </Class>
+<<<<<<< HEAD
   <Class Name="Checkout.ApiServices.Tokens.RequestModels.PaymentTokenCreate" Collapsed="true">
     <Position X="13" Y="3.25" Width="1.5" />
+=======
+  <Class Name="Checkout.ApiServices.Tokens.RequestModels.PaymentTokenCreate">
+    <Position X="9.5" Y="3.5" Width="1.75" />
+>>>>>>> develop
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAQAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAA=</HashCode>
       <FileName>ApiServices\Tokens\RequestModels\PaymentTokenCreate.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -353,7 +397,11 @@
   <Class Name="ApiUrls" Collapsed="true">
     <Position X="34.25" Y="0.5" Width="1.5" />
     <TypeIdentifier>
+<<<<<<< HEAD
       <HashCode>QAHAABAAAgSAAAgAQAIEUABKBgUYAAgAhiEQBKAACAA=</HashCode>
+=======
+      <HashCode>QAHBAJAAAASAAAgAQAAEUAJKBgUAAQkAliERDKBACAA=</HashCode>
+>>>>>>> develop
       <FileName>Helpers\ApiUrls.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -423,7 +471,7 @@
   <Enum Name="Checkout.Helpers.Environment" Collapsed="true">
     <Position X="30.75" Y="5.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAABACA=</HashCode>
+      <HashCode>AAAAAAAAAAAAAACAAAEAAAAAAABAAAAAAAAAAAABACA=</HashCode>
       <FileName>Helpers\Environment.cs</FileName>
     </TypeIdentifier>
   </Enum>

@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace Tests
 {
@@ -48,11 +50,11 @@ namespace Tests
         public static object GetPropertyValue(object source, string propertyName)
         {
             var foundProperty = GetProperty(source, propertyName);
-            return foundProperty?.Item2.GetValue(foundProperty.Item1, null);
+            return foundProperty.Item2.GetValue(foundProperty.Item1, null);
         }
 
         /// <summary>
-        ///     Sets an object's property value based on that property name.
+        /// Sets an object's property value by using reflection 
         /// </summary>
         /// <param name="source"> source object</param>
         /// <param name="propertyName">name of the property to check</param>
@@ -84,3 +86,4 @@ namespace Tests
         }
     }
 }
+
