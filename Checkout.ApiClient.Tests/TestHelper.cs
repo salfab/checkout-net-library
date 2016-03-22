@@ -15,7 +15,7 @@ namespace Tests
     {
         private static RandomData _randomData;
 
-        public static RandomData RandomData => _randomData ?? (_randomData = new RandomData());
+        public static RandomData RandomData{ get{ return _randomData ?? (_randomData = new RandomData());} }
 
         #region Recurring Plans Helpers
 

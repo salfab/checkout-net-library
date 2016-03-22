@@ -191,7 +191,7 @@ namespace Tests
         public static object GetPropertyValue(object source, string propertyName)
         {
             var foundProperty = GetProperty(source, propertyName);
-            return foundProperty?.Item2.GetValue(foundProperty.Item1, null);
+            return foundProperty.Item2.GetValue(foundProperty.Item1, null);
         }
 
         /// <summary>

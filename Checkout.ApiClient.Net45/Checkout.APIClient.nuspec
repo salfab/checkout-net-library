@@ -17,7 +17,5 @@
             <dependency id="Newtonsoft.Json" version="6.0.8" />
         </dependencies>
     </metadata>
-    <files>
-        <file src="C:\Projects\Checkout-Libraries\DotNet\Checkout.ApiClient.Net45\bin\Release\Checkout.dll" target="lib\net45\Checkout.dll" />
-    </files>
+    
 </package>
