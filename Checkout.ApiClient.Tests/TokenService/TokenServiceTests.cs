@@ -2,32 +2,23 @@
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
+using System.Net;
+using FluentAssertions;
 
-namespace Tests.TokenService
+namespace Tests
 {
-  
-    namespace Tests
+    [TestFixture(Category = "TokensApi")]
+    public class TokenServiceTests : BaseServiceTests
     {
-        [TestFixture(Category = "TokensApi")]
-        public class TokenServiceTests
+        [Test]
+        public void CreatePaymentToken()
         {
-            APIClient CheckoutClient;
+            var paymentTokenCreateModel = TestHelper.GetPaymentTokenCreateModel(TestHelper.RandomData.Email);
+            var response = CheckoutClient.TokenService.CreatePaymentToken(paymentTokenCreateModel);
 
-            [SetUp]
-            public void Init()
-            { CheckoutClient = new APIClient(); }
-
-            [Test]
-            public void CreatePaymentToken()
-            {
-                var paymentTokenCreateModel = TestHelper.GetPaymentTokenCreateModel(TestHelper.RandomData.Email);
-                var response = CheckoutClient.TokenService.CreatePaymentToken(paymentTokenCreateModel);
-
-                Assert.NotNull(response);
-                Assert.IsTrue(response.HttpStatusCode == System.Net.HttpStatusCode.OK);
-                Assert.IsTrue(response.Model.Id.StartsWith("pay_tok_"));
-            }
+            response.Should().NotBeNull();
+            response.HttpStatusCode.Should().Be(HttpStatusCode.OK);
+            response.Model.Id.Should().StartWith("pay_tok_");
         }
     }
-
 }
