@@ -1,9 +1,8 @@
-﻿using Checkout;
-using Checkout.ApiServices.SharedModels;
-using NUnit.Framework;
-using System.Linq;
+﻿using System.Linq;
 using System.Net;
 using FluentAssertions;
+using NUnit.Framework;
+using Tests.Utils;
 
 namespace Tests
 {
@@ -13,7 +12,8 @@ namespace Tests
         [Test]
         public void CreateCard()
         {
-            var customer = CheckoutClient.CustomerService.CreateCustomer(TestHelper.GetCustomerCreateModelWithNoCard()).Model;
+            var customer =
+                CheckoutClient.CustomerService.CreateCustomer(TestHelper.GetCustomerCreateModelWithNoCard()).Model;
             var cardCreateModel = TestHelper.GetCardCreateModel();
             var response = CheckoutClient.CardService.CreateCard(customer.Id, cardCreateModel);
 
@@ -26,6 +26,20 @@ namespace Tests
             response.Model.ExpiryYear.Should().Be(cardCreateModel.ExpiryYear);
             cardCreateModel.Number.Should().EndWith(response.Model.Last4);
             cardCreateModel.BillingDetails.ShouldBeEquivalentTo(response.Model.BillingDetails);
+        }
+
+        [Test]
+        public void DeleteCard()
+        {
+            var customer =
+                CheckoutClient.CustomerService.CreateCustomer(TestHelper.GetCustomerCreateModelWithCard()).Model;
+            var customerCardId = customer.Cards.Data.First().Id;
+
+            var response = CheckoutClient.CardService.DeleteCard(customer.Id, customerCardId);
+
+            response.Should().NotBeNull();
+            response.HttpStatusCode.Should().Be(HttpStatusCode.OK);
+            response.Model.Message.Should().BeEquivalentTo("Ok");
         }
 
         [Test]
@@ -51,9 +65,13 @@ namespace Tests
         [Test]
         public void GetCardList()
         {
-            var customer = CheckoutClient.CustomerService.CreateCustomer(TestHelper.GetCustomerCreateModelWithNoCard()).Model;
-            var customerCard1 = CheckoutClient.CardService.CreateCard(customer.Id,TestHelper.GetCardCreateModel()).Model;
-            var customerCard2 = CheckoutClient.CardService.CreateCard(customer.Id,TestHelper.GetCardCreateModel(Utils.CardProvider.Mastercard)).Model;
+            var customer =
+                CheckoutClient.CustomerService.CreateCustomer(TestHelper.GetCustomerCreateModelWithNoCard()).Model;
+            var customerCard1 =
+                CheckoutClient.CardService.CreateCard(customer.Id, TestHelper.GetCardCreateModel()).Model;
+            var customerCard2 =
+                CheckoutClient.CardService.CreateCard(customer.Id,
+                    TestHelper.GetCardCreateModel(CardProvider.Mastercard)).Model;
 
             var response = CheckoutClient.CardService.GetCardList(customer.Id);
 
@@ -65,23 +83,12 @@ namespace Tests
         [Test]
         public void UpdateCard()
         {
-            var customer = CheckoutClient.CustomerService.CreateCustomer(TestHelper.GetCustomerCreateModelWithCard()).Model;
+            var customer =
+                CheckoutClient.CustomerService.CreateCustomer(TestHelper.GetCustomerCreateModelWithCard()).Model;
             var customerCardId = customer.Cards.Data.First().Id;
 
-            var response = CheckoutClient.CardService.UpdateCard(customer.Id, customerCardId, TestHelper.GetCardUpdateModel());
-
-            response.Should().NotBeNull();
-            response.HttpStatusCode.Should().Be(HttpStatusCode.OK);
-            response.Model.Message.Should().BeEquivalentTo("Ok");
-        }
-
-        [Test]
-        public void DeleteCard()
-        {
-            var customer = CheckoutClient.CustomerService.CreateCustomer(TestHelper.GetCustomerCreateModelWithCard()).Model;
-            var customerCardId = customer.Cards.Data.First().Id;
-
-            var response = CheckoutClient.CardService.DeleteCard(customer.Id, customerCardId);
+            var response = CheckoutClient.CardService.UpdateCard(customer.Id, customerCardId,
+                TestHelper.GetCardUpdateModel());
 
             response.Should().NotBeNull();
             response.HttpStatusCode.Should().Be(HttpStatusCode.OK);

@@ -1,9 +1,6 @@
-﻿using Checkout;
-using NUnit.Framework;
-using System;
-using System.Collections.Generic;
 using System.Net;
 using FluentAssertions;
+using NUnit.Framework;
 
 namespace Tests
 {

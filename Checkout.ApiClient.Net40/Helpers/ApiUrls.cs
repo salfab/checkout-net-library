@@ -1,9 +1,10 @@
-﻿
-using Checkout;
+﻿using Checkout;
+
 public class ApiUrls
 {
     private static string _cardTokensApiUri;
     private static string _paymentTokensApiUri;
+    private static string _updatePaymentTokensApiUri;
     private static string _cardChargesApiUri;
     private static string _cardTokenChargesApiUri;
     private static string _defaultCardChargesApiUri;
@@ -22,6 +23,10 @@ public class ApiUrls
     private static string _cardsApiUri;
     private static string _cardApiUri;
 
+    private static string _reportingUri;
+
+    private static string _binLookupUri;
+
     private static string _recurringPaymentPlanCreateApiUri;
     private static string _recurringPaymentPlanApiUri;
     private static string _recurringPaymentPlanSearchApiUri;
@@ -32,6 +37,7 @@ public class ApiUrls
     {
         _cardTokensApiUri = null;
         _paymentTokensApiUri = null;
+        _updatePaymentTokensApiUri = null;
         _cardChargesApiUri = null;
         _cardTokenChargesApiUri = null;
         _defaultCardChargesApiUri = null;
@@ -46,6 +52,8 @@ public class ApiUrls
         _customerApiUri = null;
         _cardsApiUri = null;
         _cardApiUri = null;
+        _reportingUri = null;
+        _binLookupUri = null;
 
         _recurringPaymentPlanApiUri = null;
         _recurringPaymentPlanCreateApiUri = null;
@@ -142,6 +150,14 @@ public class ApiUrls
         }
     }
 
+    public static string UpdatePaymentToken
+    {
+        get
+        {
+            return _updatePaymentTokensApiUri ?? (_paymentTokensApiUri = string.Concat(AppSettings.BaseApiUri, "/tokens/payment/{0}"));
+        }
+    }
+
     public static string Customers
     {
         get
@@ -169,6 +185,21 @@ public class ApiUrls
         get
         {
             return _cardApiUri ?? (_cardApiUri = string.Concat(AppSettings.BaseApiUri, "/customers/{0}/cards/{1}"));
+        }
+    }
+
+    public static string Reporting
+    {
+        get
+        {
+            return _reportingUri ?? (_reportingUri = string.Concat(AppSettings.BaseApiUri, "/reporting/transactions"));
+        }
+    }
+    public static string BinLookup
+    {
+        get
+        {
+            return _binLookupUri ?? (_binLookupUri = string.Concat(AppSettings.BaseApiUri, "/lookups/bins/{0}"));
         }
     }
 

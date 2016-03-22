@@ -1,22 +1,20 @@
-﻿using Checkout;
-using NUnit.Framework;
-using System;
-using System.Net;
+﻿using System.Net;
 using FluentAssertions;
-
+using NUnit.Framework;
 
 namespace Tests
 {
     [TestFixture(Category = "ErrorResponseTests")]
-    public class ErrorResponseTests
+    public class ErrorResponseTests : BaseServiceTests
     {
         [Test]
         public void CreateCharge_FailsWithError_IfCardNumberIsInvalid()
         {
-            var cardCreateModel = TestHelper.GetCardChargeCreateModel(TestHelper.RandomData.Email);;
+            var cardCreateModel = TestHelper.GetCardChargeCreateModel(TestHelper.RandomData.Email);
+            ;
             cardCreateModel.Card.Number = "4242424242424243";
 
-            var response = new APIClient().ChargeService.ChargeWithCard(cardCreateModel);
+            var response = CheckoutClient.ChargeService.ChargeWithCard(cardCreateModel);
 
             response.Should().NotBeNull();
             response.HttpStatusCode.Should().NotBe(HttpStatusCode.OK);
@@ -30,8 +28,7 @@ namespace Tests
             cardCreateModel.Currency = string.Empty;
             cardCreateModel.Value = "-100";
 
-            var response = new APIClient().ChargeService.ChargeWithCard(cardCreateModel);
-
+            var response = CheckoutClient.ChargeService.ChargeWithCard(cardCreateModel);
             response.Should().NotBeNull();
             response.HttpStatusCode.Should().NotBe(HttpStatusCode.OK);
             response.HasError.Should().BeTrue();

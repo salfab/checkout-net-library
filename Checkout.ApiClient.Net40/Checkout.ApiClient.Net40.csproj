@@ -109,6 +109,13 @@
     <Compile Include="ApiServices\Customers\ResponseModels\CustomerList.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="ApiServices\Lookups\LookupsService.cs" />
+    <Compile Include="ApiServices\Lookups\ResponseModels\CountryInfo.cs" />
+    <Compile Include="ApiServices\Reporting\ReportingService.cs" />
+    <Compile Include="ApiServices\Reporting\RequestModels\QueryTransaction.cs" />
+    <Compile Include="ApiServices\Reporting\ResponseModels\GetTransactionList.cs" />
+    <Compile Include="ApiServices\Reporting\ResponseModels\Transaction.cs" />
+    <Compile Include="ApiServices\SharedModels\Filter.cs" />
     <Compile Include="ApiServices\RecurringPayments\RecurringPaymentsService.cs" />
     <Compile Include="ApiServices\RecurringPayments\RequestModels\BaseRecurringPlan.cs" />
     <Compile Include="ApiServices\RecurringPayments\RequestModels\CustomerPaymentPlan.cs" />
@@ -129,7 +136,10 @@
     <Compile Include="ApiServices\SharedModels\IQueryRequest.cs" />
     <Compile Include="ApiServices\SharedModels\IQueryResponse.cs" />
     <Compile Include="ApiServices\SharedModels\Phone.cs" />
+    <Compile Include="ApiServices\SharedModels\SortColumn.cs" />
+    <Compile Include="ApiServices\SharedModels\SortOrder.cs" />
     <Compile Include="ApiServices\Tokens\RequestModels\PaymentTokenCreate.cs" />
+    <Compile Include="ApiServices\Tokens\RequestModels\PaymentTokenUpdate.cs" />
     <Compile Include="ApiServices\Tokens\ResponseModels\PaymentTokenCreate.cs" />
     <Compile Include="ApiServices\Tokens\TokenService.cs" />
     <Compile Include="Helpers\ApiHttpClient.cs" />
@@ -179,6 +189,7 @@
       <SubType>Designer</SubType>
     </None>
     <None Include="CreateNugetPackage.bat" />
+    <None Include="Diagrams\ClassDiagram.cd" />
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>
@@ -187,9 +198,7 @@
     <Compile Include="ApiServices\SharedModels\HttpResponse.cs" />
     <Compile Include="ApiServices\SharedModels\ResponseError.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Diagrams\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

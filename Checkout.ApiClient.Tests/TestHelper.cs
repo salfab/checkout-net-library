@@ -1,6 +1,7 @@
 ﻿using Checkout.ApiServices.Cards.RequestModels;
 using Checkout.ApiServices.Charges.RequestModels;
 using Checkout.ApiServices.Customers.RequestModels;
+using Checkout.ApiServices.Reporting.RequestModels;
 using Checkout.ApiServices.RecurringPayments.RequestModels;
 using Checkout.ApiServices.SharedModels;
 using Checkout.ApiServices.Tokens.RequestModels;
@@ -8,6 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Tests.Utils;
+using FilterAction = Checkout.ApiServices.SharedModels.Action;
 
 namespace Tests
 {
@@ -499,7 +501,22 @@ namespace Tests
             };
         }
 
-         public static ChargeCapture GetChargeCaptureModel(string amount=null)
+        public static PaymentTokenUpdate GetPaymentTokenUpdateModel()
+        {
+            return new PaymentTokenUpdate()
+            {
+                TrackId = "TRK12345",
+                Description = RandomData.String,
+                Metadata = new Dictionary<string, string>() { { "extraInformation", RandomData.CompanyName }, { "extraInformation2", RandomData.String } },
+                Udf1 = RandomData.String,
+                Udf2 = RandomData.String,
+                Udf3 = RandomData.String,
+                Udf4 = RandomData.String,
+                Udf5 = RandomData.String
+            };
+        }
+
+        public static ChargeCapture GetChargeCaptureModel(string amount=null)
          {
              return new ChargeCapture()
              {
@@ -534,5 +551,66 @@ namespace Tests
 
         #endregion
 
+        #region Reporting Helpers
+
+        /// <summary>
+        /// Creates a model for the transactions dynamic query
+        /// </summary>
+        /// <param name="searchValue"></param>
+        /// <param name="fromDate"></param>
+        /// <param name="toDate"></param>
+        /// <param name="sortColumn"></param>
+        /// <param name="sortOrder"></param>
+        /// <param name="pageSize"></param>
+        /// <param name="pageNumber"></param>
+        /// <param name="filters"></param>
+        /// <returns></returns>
+        public static QueryTransaction GetQueryTransactionModel(string searchValue = null, DateTime? fromDate = null, DateTime? toDate = null, 
+            SortColumn? sortColumn = null, SortOrder? sortOrder = null, int? pageSize = null, string pageNumber = null, List<Filter> filters = null)
+        {
+            return new QueryTransaction()
+            {
+                FromDate = fromDate,
+                ToDate = toDate,
+                PageSize = pageSize,
+                PageNumber = pageNumber,
+                SortColumn = sortColumn,
+                SortOrder = sortOrder,
+                Search = searchValue,
+                Filters = filters
+            };
+        }
+
+        /// <summary>
+        /// Creates a model for the transactions dynamic query using filters
+        /// </summary>
+        /// <param name="filters"></param>
+        /// <returns></returns>
+        public static QueryTransaction GetQueryTransactionModel(List<Filter> filters)
+        {
+            return GetQueryTransactionModel(null, null, null, null, null, null, null, filters);
+        }
+
+        /// <summary>
+        /// Creates an empty model for the transactions dynamic query
+        /// </summary>
+        /// <returns></returns>
+        public static QueryTransaction GetQueryTransactionModel()
+        {
+            return GetQueryTransactionModel(null);
+        }
+
+        #endregion
+
+        /// <summary>
+        /// Masks a card number to query transactions
+        /// eg: 4242424242424242 -> 424242******4242
+        /// </summary>
+        /// <param name="cardNumber"></param>
+        /// <returns></returns>
+        public static string MaskCardNumber(string cardNumber)
+        {
+            return cardNumber.Replace(6, 6, '*');
+        }
     }
 }

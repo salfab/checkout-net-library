@@ -1,6 +1,7 @@
 ﻿using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
+using System.Threading.Tasks;
 
 namespace Checkout.Helpers
 {
@@ -11,8 +12,8 @@ namespace Checkout.Helpers
     {
         public static string ConvertToJsonString(object model)
         {
-            return Task.Factory.StartNew(() => JsonConvert.SerializeObject(model)).Result;
             //return JsonConvert.SerializeObjectAsync(model).Result;
+            return Task.Factory.StartNew(() => JsonConvert.SerializeObject(model)).Result;
         }
 
         public static T JsonStringToObject<T>(string jsonString)
