@@ -167,16 +167,16 @@ namespace Checkout
         /// </summary>
         /// <param name="request"></param>
         /// <returns></returns>
-        private async Task<HttpResponse<T>> SendRequest<T>(HttpRequestMessage request)
+        private Task<HttpResponse<T>> SendRequest<T>(HttpRequestMessage request)
         {
-            HttpResponse<T> response = null;
+            Task<HttpResponse<T>> response = null;
             HttpResponseMessage responseMessage = null;
             string responseAsString = null;
             string responseCode = null;
 
             try
             {
-                responseMessage = await httpClient.SendAsync(request); 
+                responseMessage = httpClient.SendAsync(request).Result; 
                
                 responseCode = responseMessage.StatusCode.ToString();
 
@@ -192,7 +192,7 @@ namespace Checkout
                     }
                 }
 
-                response = CreateHttpResponse<T>(responseAsString, responseMessage.StatusCode);
+                response = Task.FromResult(CreateHttpResponse<T>(responseAsString, responseMessage.StatusCode));
             }
             catch (Exception ex)
             {
