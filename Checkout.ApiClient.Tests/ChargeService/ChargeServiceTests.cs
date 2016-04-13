@@ -1,10 +1,18 @@
-﻿using System.Net;
+﻿using System;
+using System.Collections.Concurrent;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
+using System.Net;
+using System.Threading.Tasks;
+using Checkout;
 using Checkout.ApiServices.Charges.RequestModels;
 using Checkout.ApiServices.Charges.ResponseModels;
 using Checkout.ApiServices.SharedModels;
 using FluentAssertions;
 using NUnit.Framework;
 using Tests.Utils;
+using Void = Checkout.ApiServices.Charges.ResponseModels.Void;
 
 namespace Tests
 {
@@ -493,6 +501,45 @@ namespace Tests
             response.Should().NotBeNull();
             response.HttpStatusCode.Should().Be(HttpStatusCode.OK);
             response.Model.OriginalId.Should().Be(charge.Id);
+        }
+
+        #endregion
+
+        #region Async
+
+        [Test]
+        public void AsyncCreateChargeRequestsDoNotLockCpu()
+        {
+            var watchAsync = new Stopwatch();
+            var watchSync = new Stopwatch();
+            var numOfThreads = 5;
+            var emails = Enumerable.Repeat(TestHelper.RandomData.Email, numOfThreads).ToArray();
+
+            // Async requests
+            watchAsync.Start();
+            var asyncTasks = new Task[numOfThreads];
+            for (var i = 0; i < numOfThreads; i++)
+            {
+                var cardCreateModel = TestHelper.GetCardChargeCreateModel(emails[i]);
+                asyncTasks[i] = Task.Factory.StartNew(() => new APIClient().ChargeService.ChargeWithCardAsync(cardCreateModel));
+            }
+            Task.WaitAll(asyncTasks);
+            watchAsync.Stop();
+
+
+            // Sync Requests
+            watchSync.Start();
+            var syncTasks = new Task[numOfThreads];
+            for (var i = 0; i < numOfThreads; i++)
+            {
+                var cardCreateModel = TestHelper.GetCardChargeCreateModel(emails[i]);
+                syncTasks[i] = Task.Factory.StartNew(() => new APIClient().ChargeService.ChargeWithCard(cardCreateModel));
+            }
+            Task.WaitAll(syncTasks);
+            watchSync.Stop();
+
+            watchSync.Elapsed.Seconds.Should().BeGreaterOrEqualTo(watchAsync.Elapsed.Seconds);
+            watchAsync.Elapsed.Seconds.Should().Be(0);
         }
 
         #endregion

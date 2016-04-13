@@ -5,7 +5,7 @@ using Checkout.ApiServices.SharedModels;
 
 namespace Checkout.ApiServices.Reporting
 {
-    public class ReportingService : BaseService
+    public class ReportingService
     {
         /// <summary>
         /// Search for a customer’s transaction by a date range and then drill down using further filters.
@@ -14,7 +14,7 @@ namespace Checkout.ApiServices.Reporting
         /// <returns></returns>
         public HttpResponse<GetTransactionList> QueryTransaction(QueryTransaction requestModel)
         {
-            return ApiHttpClient.PostRequest<GetTransactionList>(ApiUrls.Reporting, AppSettings.SecretKey, requestModel);
+            return new ApiHttpClient().PostRequest<GetTransactionList>(ApiUrls.Reporting, AppSettings.SecretKey, requestModel);
         }
 
         /// <summary>
@@ -24,7 +24,7 @@ namespace Checkout.ApiServices.Reporting
         /// <returns></returns>
         public async Task<HttpResponse<GetTransactionList>> QueryTransactionAsync(QueryTransaction requestModel)
         {
-            return await ApiHttpClient.PostRequestAsync<GetTransactionList>(ApiUrls.Reporting, AppSettings.SecretKey, requestModel);
+            return await new ApiHttpClient().PostRequestAsync<GetTransactionList>(ApiUrls.Reporting, AppSettings.SecretKey, requestModel);
         }
     }
 }

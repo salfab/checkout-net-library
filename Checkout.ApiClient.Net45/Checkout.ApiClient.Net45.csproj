@@ -52,7 +52,6 @@
     <Reference Include="System.Web" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ApiServices\BaseService.cs" />
     <Compile Include="ApiServices\Cards\CardService.cs" />
     <Compile Include="ApiServices\Charges\ChargeService.cs" />
     <Compile Include="ApiServices\Charges\RequestModels\BaseChargeInfo.cs" />

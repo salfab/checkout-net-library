@@ -6,29 +6,29 @@ using Checkout.Utilities;
 
 namespace Checkout.ApiServices.Customers
 {
-    public class CustomerService :BaseService
+    public class CustomerService
     {
         public HttpResponse<Customer> CreateCustomer(CustomerCreate requestModel)
         {
-            return ApiHttpClient.PostRequest<Customer>(ApiUrls.Customers, AppSettings.SecretKey, requestModel);
+            return new ApiHttpClient().PostRequest<Customer>(ApiUrls.Customers, AppSettings.SecretKey, requestModel);
         }
 
         public HttpResponse<OkResponse> UpdateCustomer(string customerId, CustomerUpdate requestModel)
         {
             var updateCustomerUri = string.Format(ApiUrls.Customer, customerId);
-            return ApiHttpClient.PutRequest<OkResponse>(updateCustomerUri, AppSettings.SecretKey, requestModel);
+            return new ApiHttpClient().PutRequest<OkResponse>(updateCustomerUri, AppSettings.SecretKey, requestModel);
         }
 
         public HttpResponse<OkResponse> DeleteCustomer(string customerId)
         {
             var deleteCustomerUri = string.Format(ApiUrls.Customer, customerId);
-            return ApiHttpClient.DeleteRequest<OkResponse>(deleteCustomerUri, AppSettings.SecretKey);
+            return new ApiHttpClient().DeleteRequest<OkResponse>(deleteCustomerUri, AppSettings.SecretKey);
         }
 
         public HttpResponse<Customer> GetCustomer(string customerId)
         {
             var getCustomerUri = string.Format(ApiUrls.Customer, customerId);
-            return ApiHttpClient.GetRequest<Customer>(getCustomerUri, AppSettings.SecretKey);
+            return new ApiHttpClient().GetRequest<Customer>(getCustomerUri, AppSettings.SecretKey);
         }
 
         public HttpResponse<CustomerList> GetCustomerList(CustomerGetList request)
@@ -57,30 +57,30 @@ namespace Checkout.ApiServices.Customers
                     DateTimeHelper.FormatAsUtc(request.ToDate.Value));
             }
 
-            return ApiHttpClient.GetRequest<CustomerList>(getCustomerListUri, AppSettings.SecretKey);
+            return new ApiHttpClient().GetRequest<CustomerList>(getCustomerListUri, AppSettings.SecretKey);
         }
 
         public async Task<HttpResponse<Customer>> CreateCustomerAsync(CustomerCreate requestModel)
         {
-            return await ApiHttpClient.PostRequestAsync<Customer>(ApiUrls.Customers, AppSettings.SecretKey, requestModel);
+            return await new ApiHttpClient().PostRequestAsync<Customer>(ApiUrls.Customers, AppSettings.SecretKey, requestModel);
         }
 
         public async Task<HttpResponse<OkResponse>> UpdateCustomerAsync(string customerId, CustomerUpdate requestModel)
         {
             var updateCustomerUri = string.Format(ApiUrls.Customer, customerId);
-            return await ApiHttpClient.PutRequestAsync<OkResponse>(updateCustomerUri, AppSettings.SecretKey, requestModel);
+            return await new ApiHttpClient().PutRequestAsync<OkResponse>(updateCustomerUri, AppSettings.SecretKey, requestModel);
         }
 
         public async Task<HttpResponse<OkResponse>> DeleteCustomerAsync(string customerId)
         {
             var deleteCustomerUri = string.Format(ApiUrls.Customer, customerId);
-            return await ApiHttpClient.DeleteRequestAsync<OkResponse>(deleteCustomerUri, AppSettings.SecretKey);
+            return await new ApiHttpClient().DeleteRequestAsync<OkResponse>(deleteCustomerUri, AppSettings.SecretKey);
         }
 
         public async Task<HttpResponse<Customer>> GetCustomerAsync(string customerId)
         {
             var getCustomerUri = string.Format(ApiUrls.Customer, customerId);
-            return await ApiHttpClient.GetRequestAsync<Customer>(getCustomerUri, AppSettings.SecretKey);
+            return await new ApiHttpClient().GetRequestAsync<Customer>(getCustomerUri, AppSettings.SecretKey);
         }
 
         public async Task<HttpResponse<CustomerList>> GetCustomerListAsync(CustomerGetList request)
@@ -109,7 +109,7 @@ namespace Checkout.ApiServices.Customers
                     DateTimeHelper.FormatAsUtc(request.ToDate.Value));
             }
 
-            return await ApiHttpClient.GetRequestAsync<CustomerList>(getCustomerListUri, AppSettings.SecretKey);
+            return await new ApiHttpClient().GetRequestAsync<CustomerList>(getCustomerListUri, AppSettings.SecretKey);
         }
     }
 }
