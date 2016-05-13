@@ -21,6 +21,7 @@ namespace Checkout.ApiServices.Charges.RequestModels
         public string CustomerIp { get; set; }
         public string Email { get; set; }
         public string CustomerId { get; set; }
+        public string CustomerName { get; set; }
         public List<Product> Products { get; set; }
         public Address ShippingDetails { get; set; }
         public BillingDescriptor Descriptor { get; set; }
