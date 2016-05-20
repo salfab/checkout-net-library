@@ -23,7 +23,7 @@ namespace Tests
         public void QueryTransactions_PageSizeShouldBeWithinLimits(int? pageSize, HttpStatusCode responseStatus,
             bool hasError)
         {
-            var request = TestHelper.GetQueryTransactionModel(string.Empty, null, null, null, null, pageSize);
+            var request = TestHelper.GetQueryRequest(string.Empty, null, null, null, null, pageSize);
             var response = CheckoutClient.ReportingService.QueryTransaction(request);
 
             response.Should().NotBeNull();
@@ -49,7 +49,7 @@ namespace Tests
         [TestCase(SortColumn.Type)]
         public void QueryTransactions_ShouldAllowColumnSortingBy(SortColumn? sortColumn)
         {
-            var request = TestHelper.GetQueryTransactionModel(string.Empty, null, null, sortColumn);
+            var request = TestHelper.GetQueryRequest(string.Empty, null, null, sortColumn);
             var response = CheckoutClient.ReportingService.QueryTransaction(request);
 
             response.Should().NotBeNull();
@@ -76,7 +76,7 @@ namespace Tests
         [TestCase(SortOrder.Desc)]
         public void QueryTransactions_ShouldAllowSortingOrder(SortOrder? sortOrder)
         {
-            var request = TestHelper.GetQueryTransactionModel(string.Empty, null, null, SortColumn.Date, sortOrder);
+            var request = TestHelper.GetQueryRequest(string.Empty, null, null, SortColumn.Date, sortOrder);
             var response = CheckoutClient.ReportingService.QueryTransaction(request);
 
             response.Should().NotBeNull();
@@ -99,7 +99,7 @@ namespace Tests
         [TestCase("9999")]
         public void QueryTransactions_ShouldAllowPagination(string pageNumber)
         {
-            var request = TestHelper.GetQueryTransactionModel(string.Empty, null, null, null, null, null, pageNumber);
+            var request = TestHelper.GetQueryRequest(string.Empty, null, null, null, null, null, pageNumber);
             var response = CheckoutClient.ReportingService.QueryTransaction(request);
 
             response.Should().NotBeNull();
@@ -138,7 +138,7 @@ namespace Tests
         [TestCase("TRK12345")]
         public void QueryTransactions_ShouldAllowFilteringBySearchString(string searchValue)
         {
-            var request = TestHelper.GetQueryTransactionModel(searchValue);
+            var request = TestHelper.GetQueryRequest(searchValue);
             var response = CheckoutClient.ReportingService.QueryTransaction(request);
 
             response.Should().NotBeNull();
@@ -165,7 +165,7 @@ namespace Tests
         public void QueryTransactions_ShouldAllowFilteringWithAction(FilterAction? action, string value)
         {
             var filter = new Filter {Action = action, Value = value, Field = Field.Email, Operator = Operator.Contains};
-            var request = TestHelper.GetQueryTransactionModel(new List<Filter> {filter});
+            var request = TestHelper.GetQueryRequest(new List<Filter> {filter});
             var response = CheckoutClient.ReportingService.QueryTransaction(request);
 
             response.Should().NotBeNull();
@@ -193,7 +193,7 @@ namespace Tests
             var charge = CreateChargeWithNewTrackId(out cardNumber);
             var filter = new Filter {Field = field, Value = GetChargePropertyValueFromField(charge, field, cardNumber)};
 
-            var request = TestHelper.GetQueryTransactionModel(new List<Filter> {filter});
+            var request = TestHelper.GetQueryRequest(new List<Filter> {filter});
             var response = CheckoutClient.ReportingService.QueryTransaction(request);
 
             response.Should().NotBeNull();
@@ -231,7 +231,7 @@ namespace Tests
         public void QueryTransactions_ShouldAllowFilteringWithOperator(string value, Operator? op)
         {
             var filter = new Filter {Value = value, Field = Field.Email, Operator = op};
-            var request = TestHelper.GetQueryTransactionModel(new List<Filter> {filter});
+            var request = TestHelper.GetQueryRequest(new List<Filter> {filter});
             var response = CheckoutClient.ReportingService.QueryTransaction(request);
 
             response.Should().NotBeNull();
@@ -260,7 +260,7 @@ namespace Tests
         public void QueryTransactions_ShouldAllowFilteringWithValue(string value)
         {
             var filter = new Filter {Value = value, Field = Field.Email, Operator = Operator.Contains};
-            var request = TestHelper.GetQueryTransactionModel(new List<Filter> {filter});
+            var request = TestHelper.GetQueryRequest(new List<Filter> {filter});
             var response = CheckoutClient.ReportingService.QueryTransaction(request);
 
             response.Should().NotBeNull();
@@ -287,7 +287,7 @@ namespace Tests
             var charge = CreateChargeWithNewTrackId(out cardNumber);
             var filter = new Filter {Field = field, Value = GetChargePropertyValueFromField(charge, field, cardNumber)};
 
-            var request = TestHelper.GetQueryTransactionModel(new List<Filter> {filter});
+            var request = TestHelper.GetQueryRequest(new List<Filter> {filter});
             var firstQueryResponse = CheckoutClient.ReportingService.QueryTransaction(request);
 
             #region Assert First Query Response
@@ -399,7 +399,7 @@ namespace Tests
 
             // query transactions starting from charge created date
             var chargeCreatedDate = DateTime.SpecifyKind(DateTime.Parse(charge.Created), DateTimeKind.Utc);
-            var request = TestHelper.GetQueryTransactionModel(charge.Email, chargeCreatedDate.AddHours(1));
+            var request = TestHelper.GetQueryRequest(charge.Email, chargeCreatedDate.AddHours(1));
             var response = CheckoutClient.ReportingService.QueryTransaction(request);
 
             response.Should().NotBeNull();
@@ -415,7 +415,7 @@ namespace Tests
             var chargeResponse = CreateChargeWithNewTrackId();
 
             // query transactions starting from input date
-            var request = TestHelper.GetQueryTransactionModel(chargeResponse.Email, fromDate);
+            var request = TestHelper.GetQueryRequest(chargeResponse.Email, fromDate);
             var response = CheckoutClient.ReportingService.QueryTransaction(request);
 
             response.Should().NotBeNull();
@@ -431,7 +431,7 @@ namespace Tests
             var charge = CreateChargeWithNewTrackId();
 
             // query transactions starting from input date
-            var request = TestHelper.GetQueryTransactionModel(charge.Email);
+            var request = TestHelper.GetQueryRequest(charge.Email);
             var response = CheckoutClient.ReportingService.QueryTransaction(request);
 
             response.Should().NotBeNull();
@@ -448,7 +448,7 @@ namespace Tests
                 new Filter {Value = "captured", Field = Field.Status, Operator = Operator.Equals}
             };
 
-            var request = TestHelper.GetQueryTransactionModel(filters);
+            var request = TestHelper.GetQueryRequest(filters);
             var response = CheckoutClient.ReportingService.QueryTransaction(request);
 
             response.Should().NotBeNull();
@@ -472,7 +472,7 @@ namespace Tests
                     Operator = Operator.Contains
                 }
             };
-            var request = TestHelper.GetQueryTransactionModel(filters);
+            var request = TestHelper.GetQueryRequest(filters);
             var response = CheckoutClient.ReportingService.QueryTransaction(request);
 
             response.Should().NotBeNull();
@@ -487,7 +487,7 @@ namespace Tests
             var charge = CreateChargeWithNewTrackId(out cardNumber);
 
             // query transactions containing the generated card number
-            var request = TestHelper.GetQueryTransactionModel(TestHelper.MaskCardNumber(cardNumber), null, null,
+            var request = TestHelper.GetQueryRequest(TestHelper.MaskCardNumber(cardNumber), null, null,
                 SortColumn.Date);
             var response = CheckoutClient.ReportingService.QueryTransaction(request);
 
@@ -505,7 +505,7 @@ namespace Tests
 
             // query transactions starting from charge created date
             var chargeCreatedDate = DateTime.SpecifyKind(DateTime.Parse(charge.Created), DateTimeKind.Utc);
-            var request = TestHelper.GetQueryTransactionModel(charge.Email, null, chargeCreatedDate.AddHours(1));
+            var request = TestHelper.GetQueryRequest(charge.Email, null, chargeCreatedDate.AddHours(1));
             var response = CheckoutClient.ReportingService.QueryTransaction(request);
 
             response.Should().NotBeNull();
@@ -522,7 +522,7 @@ namespace Tests
             var charge = CreateChargeWithNewTrackId();
 
             // query transactions starting from input date
-            var request = TestHelper.GetQueryTransactionModel(charge.Email, null, toDate);
+            var request = TestHelper.GetQueryRequest(charge.Email, null, toDate);
             var response = CheckoutClient.ReportingService.QueryTransaction(request);
 
             response.Should().NotBeNull();
@@ -537,12 +537,23 @@ namespace Tests
             var charge = CreateChargeWithNewTrackId();
 
             // query transactions starting from input date
-            var request = TestHelper.GetQueryTransactionModel(charge.Email);
+            var request = TestHelper.GetQueryRequest(charge.Email);
             var response = CheckoutClient.ReportingService.QueryTransaction(request);
 
             response.Should().NotBeNull();
             response.HttpStatusCode.Should().Be(HttpStatusCode.OK);
             response.Model.TotalRecords.Should().Be(1);
+        }
+
+        [Test]
+        public void QueryChargebacks()
+        {
+            var request = TestHelper.GetQueryRequest("", DateTime.MinValue);
+            var response = CheckoutClient.ReportingService.QueryChargeback(request);
+
+            response.Should().NotBeNull();
+            response.HttpStatusCode.Should().Be(HttpStatusCode.OK);
+            //response.Model.TotalRecords.Should().BeGreaterThan(1);
         }
     }
 }

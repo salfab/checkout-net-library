@@ -554,7 +554,7 @@ namespace Tests
         #region Reporting Helpers
 
         /// <summary>
-        /// Creates a model for the transactions dynamic query
+        /// Creates a model for a dynamic reporting query
         /// </summary>
         /// <param name="searchValue"></param>
         /// <param name="fromDate"></param>
@@ -565,10 +565,10 @@ namespace Tests
         /// <param name="pageNumber"></param>
         /// <param name="filters"></param>
         /// <returns></returns>
-        public static QueryTransaction GetQueryTransactionModel(string searchValue = null, DateTime? fromDate = null, DateTime? toDate = null, 
+        public static QueryRequest GetQueryRequest(string searchValue = null, DateTime? fromDate = null, DateTime? toDate = null, 
             SortColumn? sortColumn = null, SortOrder? sortOrder = null, int? pageSize = null, string pageNumber = null, List<Filter> filters = null)
         {
-            return new QueryTransaction()
+            return new QueryRequest()
             {
                 FromDate = fromDate,
                 ToDate = toDate,
@@ -586,18 +586,18 @@ namespace Tests
         /// </summary>
         /// <param name="filters"></param>
         /// <returns></returns>
-        public static QueryTransaction GetQueryTransactionModel(List<Filter> filters)
+        public static QueryRequest GetQueryRequest(List<Filter> filters)
         {
-            return GetQueryTransactionModel(null, null, null, null, null, null, null, filters);
+            return GetQueryRequest(null, null, null, null, null, null, null, filters);
         }
 
         /// <summary>
         /// Creates an empty model for the transactions dynamic query
         /// </summary>
         /// <returns></returns>
-        public static QueryTransaction GetQueryTransactionModel()
+        public static QueryRequest GetQueryRequest()
         {
-            return GetQueryTransactionModel(null);
+            return GetQueryRequest(null);
         }
 
         #endregion
