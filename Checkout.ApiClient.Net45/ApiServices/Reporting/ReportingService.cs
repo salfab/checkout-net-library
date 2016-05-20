@@ -1,4 +1,5 @@
-﻿using Checkout.ApiServices.Reporting.RequestModels;
+﻿using System.Threading.Tasks;
+using Checkout.ApiServices.Reporting.RequestModels;
 using Checkout.ApiServices.Reporting.ResponseModels;
 using Checkout.ApiServices.SharedModels;
 
@@ -14,6 +15,16 @@ namespace Checkout.ApiServices.Reporting
         public HttpResponse<GetTransactionList> QueryTransaction(QueryTransaction requestModel)
         {
             return new ApiHttpClient().PostRequest<GetTransactionList>(ApiUrls.Reporting, AppSettings.SecretKey, requestModel);
+        }
+
+        /// <summary>
+        /// Search for a customer’s transaction by a date range and then drill down using further filters.
+        /// </summary>
+        /// <param name="requestModel"></param>
+        /// <returns></returns>
+        public async Task<HttpResponse<GetTransactionList>> QueryTransactionAsync(QueryTransaction requestModel)
+        {
+            return await new ApiHttpClient().PostRequestAsync<GetTransactionList>(ApiUrls.Reporting, AppSettings.SecretKey, requestModel);
         }
     }
 }
