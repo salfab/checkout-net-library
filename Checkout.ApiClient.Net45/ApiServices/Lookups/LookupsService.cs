@@ -1,6 +1,10 @@
-﻿using System.Threading.Tasks;
-using Checkout.ApiServices.Lookups.ResponseModels;
+﻿using Checkout.ApiServices.Lookups.ResponseModels;
 using Checkout.ApiServices.SharedModels;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace Checkout.ApiServices.Lookups
 {
@@ -10,11 +14,6 @@ namespace Checkout.ApiServices.Lookups
         {
             var uri = string.Format(ApiUrls.BinLookup, bin);
             return new ApiHttpClient().GetRequest<CountryInfo>(uri, AppSettings.SecretKey);
-        }
-        public async Task<HttpResponse<CountryInfo>> GetBinLookupAsync(string bin)
-        {
-            var uri = string.Format(ApiUrls.BinLookup, bin);
-            return await new ApiHttpClient().GetRequestAsync<CountryInfo>(uri, AppSettings.SecretKey);
         }
     }
 }
