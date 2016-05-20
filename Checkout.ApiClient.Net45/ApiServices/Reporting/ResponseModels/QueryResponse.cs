@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace Checkout.ApiServices.Reporting.ResponseModels
 {
-    public class GetTransactionList
+    public class QueryResponse<T> where T : class 
     {
         /// <summary>
         /// The total number of records returned
@@ -26,6 +22,6 @@ namespace Checkout.ApiServices.Reporting.ResponseModels
         /// <summary>
         /// An Array of Query Object
         /// </summary>
-        public List<Transaction> Data { get; set; }
+        public List<T> Data { get; set; }
     }
 }
