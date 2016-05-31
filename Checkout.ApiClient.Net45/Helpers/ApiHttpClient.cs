@@ -176,6 +176,8 @@ namespace Checkout
 
             try
             {
+                ServicePointManager.SecurityProtocol = SecurityProtocolType.Ssl3 | SecurityProtocolType.Tls | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls12;
+
                 responseMessage = httpClient.SendAsync(request).Result; 
                
                 responseCode = responseMessage.StatusCode.ToString();
