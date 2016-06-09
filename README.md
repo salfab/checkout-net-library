@@ -23,7 +23,8 @@ using CheckoutEnvironment = Checkout.Helpers.Environment;
 #### Configuration
 You will be required to **set your secret key** when initialising a new **APIClient** instance. You will also have option for other configurations defined in **AppSettings** of the config file. If you prefer to use config file then you need to have the following configuration in your config file:
 
-- **Checkout.SecretKey**: This is your api key 
+- **Checkout.SecretKey**: This is your api secret key 
+- **Checkout.PublicKey**: This is your api public key 
 - **Checkout.RequestTimeout**: Set your default number of seconds to wait before the request times out on the ApiHttpClient. Default is 60.
 - **Checkout.MaxResponseContentBufferSize**: Sets the maximum number of bytes to buffer when reading the response. Default is 10240.
 - **Checkout.DebugMode**: If set to true, the request and response result will be logged to console. Set this option to false when going Live. Default is false;
@@ -32,6 +33,7 @@ You will be required to **set your secret key** when initialising a new **APICli
 ```html
 <appSettings>
     <add key="Checkout.SecretKey" value="sk_test_32b9cb39-1cd6-4f86-b750-7069a133667d" />
+    <add key="Checkout.PublicKey" value="pk_test_2997d616-471e-48a5-ba86-c775ed3ac38a" />
     <add key="Checkout.RequestTimeout" value="60" />
     <add key="Checkout.MaxResponseContentBufferSize" value="10240" />
     <add key="Checkout.DebugMode" value="true" />
