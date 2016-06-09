@@ -1,10 +1,5 @@
 ﻿using Checkout.ApiServices.Lookups.ResponseModels;
 using Checkout.ApiServices.SharedModels;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Checkout.ApiServices.Lookups
 {
@@ -14,6 +9,12 @@ namespace Checkout.ApiServices.Lookups
         {
             var uri = string.Format(ApiUrls.BinLookup, bin);
             return new ApiHttpClient().GetRequest<CountryInfo>(uri, AppSettings.SecretKey);
+        }
+
+        public HttpResponse<LocalPaymentData> GetLocalPaymentIssuerIds(string lppId)
+        {
+            var uri = string.Format(ApiUrls.LocalPaymentIssuerIdLookup, lppId);
+            return new ApiHttpClient().GetRequest<LocalPaymentData>(uri, AppSettings.SecretKey);
         }
     }
 }

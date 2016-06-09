@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Checkout.ApiServices.Reporting.RequestModels
 {
-    public class QueryTransaction : BasePagination
+    public class QueryRequest : BasePagination
     {
         public string Search { get; set; }
 

@@ -29,5 +29,15 @@ namespace Tests
             response.Model.Should().NotBeNull();
             response.Model.Bin.Should().Be(bin);
         }
+
+        public void LocalPaymentIsserIdLookup_ReturnsInformationForIdeal()
+        {
+            var response = CheckoutClient.LookupsService.GetLocalPaymentIssuerIds("lpp_9");
+
+            response.Should().NotBeNull();
+            response.HttpStatusCode.Should().Be(HttpStatusCode.OK);
+            response.Model.Should().NotBeNull();
+            response.Model.LookupDetails.Should().NotBeEmpty();
+        }
     }
 }

@@ -12,6 +12,7 @@
         private static string _chargeVoidApiUri;
         private static string _captureChargesApiUri;
         private static string _updateChargesApiUri;
+        private static string _localPaymentChargesApiUri;
 
         private static string _chargesApiUri;
         private static string _chargeApiUri;
@@ -27,6 +28,7 @@
         private static string _reportingChargebacksUri;
 
         private static string _binLookupUri;
+        private static string _localPaymentIssuerIdLookup;
 
         private static string _recurringPaymentPlanCreateApiUri;
         private static string _recurringPaymentPlanApiUri;
@@ -58,12 +60,14 @@
             _reportingChargebacksUri = null;
             _binLookupUri = null;
             _visaCheckout = null;
+            _localPaymentIssuerIdLookup = null;
 
             _recurringPaymentPlanApiUri = null;
             _recurringPaymentPlanCreateApiUri = null;
             _recurringPaymentPlanSearchApiUri = null;
             _recurringCustomerPaymentPlanSearchApiUri = null;
             _recurringCustomerPaymentPlanApiUri = null;
+            _localPaymentChargesApiUri = null;
         }
 
         public static string Charges
@@ -94,6 +98,11 @@
             =>
                 _defaultCardChargesApiUri ??
                 (_defaultCardChargesApiUri = string.Concat(AppSettings.BaseApiUri, "/charges/customer"));
+
+        public static string LocalPaymentCharge
+            =>
+                _localPaymentChargesApiUri ??
+                (_localPaymentChargesApiUri = string.Concat(AppSettings.BaseApiUri, "/charges/localpayment"));
 
         public static string CardTokenCharge
             =>
@@ -142,6 +151,9 @@
 
         public static string BinLookup
             => _binLookupUri ?? (_binLookupUri = string.Concat(AppSettings.BaseApiUri, "/lookups/bins/{0}"));
+
+        public static string LocalPaymentIssuerIdLookup
+            => _localPaymentIssuerIdLookup ?? (_localPaymentIssuerIdLookup = string.Concat(AppSettings.BaseApiUri, "/lookups/localpayments/{0}/tags/issuerid"));
 
         public static string RecurringPaymentPlans
             =>

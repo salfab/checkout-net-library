@@ -57,8 +57,11 @@
     <Compile Include="ApiServices\Charges\RequestModels\BaseChargeInfo.cs" />
     <Compile Include="ApiServices\Charges\RequestModels\ChargeVoid.cs" />
     <Compile Include="ApiServices\Charges\RequestModels\DefaultCardCharge.cs" />
+    <Compile Include="ApiServices\Charges\RequestModels\LocalPaymentCreate.cs" />
+    <Compile Include="ApiServices\Charges\RequestModels\LocalPaymentCharge.cs" />
     <Compile Include="ApiServices\Charges\ResponseModels\Capture.cs" />
     <Compile Include="ApiServices\Charges\ResponseModels\ChargeHistory.cs" />
+    <Compile Include="ApiServices\Charges\ResponseModels\LocalPayment.cs" />
     <Compile Include="ApiServices\Charges\ResponseModels\Void.cs" />
     <Compile Include="ApiServices\Customers\CustomerService.cs">
       <SubType>Code</SubType>
@@ -84,6 +87,7 @@
     </Compile>
     <Compile Include="ApiServices\Lookups\LookupsService.cs" />
     <Compile Include="ApiServices\Lookups\ResponseModels\CountryInfo.cs" />
+    <Compile Include="ApiServices\Lookups\ResponseModels\LocalPaymentData.cs" />
     <Compile Include="ApiServices\Reporting\ReportingService.cs" />
     <Compile Include="ApiServices\Reporting\ResponseModels\Chargeback.cs" />
     <Compile Include="ApiServices\Reporting\ResponseModels\QueryChargebackResponse.cs" />

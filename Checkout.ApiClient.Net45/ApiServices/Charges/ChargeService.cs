@@ -7,7 +7,6 @@ namespace Checkout.ApiServices.Charges
 {
     public class ChargeService 
     {
-
         /// <summary>
         /// Creates a charge with full card details.
         /// </summary>
@@ -38,6 +37,16 @@ namespace Checkout.ApiServices.Charges
         public HttpResponse<Charge> ChargeWithDefaultCustomerCard(DefaultCardCharge requestModel)
         {
             return new ApiHttpClient().PostRequest<Charge>(ApiUrls.DefaultCardCharge, AppSettings.SecretKey, requestModel);
+        }
+
+        /// <summary>
+        /// Creates a charge with an alternative/local payment.
+        /// </summary>
+        /// <param name="requestModel">The request model.</param>
+        /// <returns></returns>
+        public HttpResponse<Charge> ChargeWithLocalPayment(LocalPaymentCharge requestModel)
+        {
+            return new ApiHttpClient().PostRequest<Charge>(ApiUrls.LocalPaymentCharge, AppSettings.SecretKey, requestModel);
         }
 
         /// <summary>
@@ -93,7 +102,6 @@ namespace Checkout.ApiServices.Charges
             var getChargeHistoryUri = string.Format(ApiUrls.ChargeHistory, chargeId);
             return new ApiHttpClient().GetRequest<ChargeHistory>(getChargeHistoryUri, AppSettings.SecretKey);
         }
-
 
         /// <summary>
         /// Retrieves a charge by payment token or chargeId

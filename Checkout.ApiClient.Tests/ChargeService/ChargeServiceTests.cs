@@ -1,4 +1,9 @@
-﻿using System.Net;
+﻿using System.Collections.Generic;
+using System.Net;
+using System.Threading;
+using Checkout.ApiServices.Charges.RequestModels;
+using Checkout.ApiServices.SharedModels;
+using Checkout.ApiServices.Tokens.ResponseModels;
 using FluentAssertions;
 using NUnit.Framework;
 using Tests.Utils;
@@ -137,6 +142,23 @@ namespace Tests
             response.Model.Status.Should().NotBeNullOrEmpty();
             response.Model.AuthCode.Should().NotBeNullOrEmpty();
             response.Model.ResponseCode.Should().NotBeNullOrEmpty();
+        }
+
+        [Test]
+        public void CreateChargeWithLocalPayment()
+        {
+            var paymentTokenCreateModel = TestHelper.GetPaymentTokenCreateModel(TestHelper.RandomData.Email, 3, "EUR");
+            var paymentToken = CheckoutClient.TokenService.CreatePaymentToken(paymentTokenCreateModel);
+
+            var localPaymentCharge = TestHelper.GetLocalPaymentChargeModel(paymentToken.Model.Id);
+            var chargeResponse = CheckoutClient.ChargeService.ChargeWithLocalPayment(localPaymentCharge);
+
+            chargeResponse.Should().NotBeNull();
+            chargeResponse.HttpStatusCode.Should().Be(HttpStatusCode.OK);
+            chargeResponse.Model.Id.Should().StartWith("pay_tok_");
+            chargeResponse.Model.ResponseCode.Should().Be("10000");
+            chargeResponse.Model.ChargeMode.Should().Be(3);
+            chargeResponse.Model.LocalPayment.PaymentUrl.Should().NotBeNullOrWhiteSpace();
         }
 
         [Test]
