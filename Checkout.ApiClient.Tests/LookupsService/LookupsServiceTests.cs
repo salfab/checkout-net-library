@@ -30,6 +30,7 @@ namespace Tests
             response.Model.Bin.Should().Be(bin);
         }
 
+        [Test]
         public void LocalPaymentIsserIdLookup_ReturnsInformationForIdeal()
         {
             var response = CheckoutClient.LookupsService.GetLocalPaymentIssuerIds("lpp_9");
