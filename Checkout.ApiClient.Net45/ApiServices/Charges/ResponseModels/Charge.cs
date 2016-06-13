@@ -25,5 +25,6 @@ namespace Checkout.ApiServices.Charges.ResponseModels
         public string AuthCode { get; set; }
         public Address ShippingDetails { get; set; }
         public List<CustomerPaymentPlan> CustomerPaymentPlans { get; set; }
+        public LocalPayment LocalPayment { get; set; }
     }
 }

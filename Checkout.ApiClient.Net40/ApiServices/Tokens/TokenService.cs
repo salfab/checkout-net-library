@@ -16,5 +16,10 @@ namespace Checkout.ApiServices.Tokens
             var updatePaymentTokenUri = string.Format(ApiUrls.UpdatePaymentToken, paymentToken);
             return new ApiHttpClient().PutRequest<OkResponse>(updatePaymentTokenUri, AppSettings.SecretKey, requestModel);
         }
+
+        public HttpResponse<CardTokenResponse> CreateVisaCheckoutCardToken(VisaCheckoutTokenCreate requestModel)
+        {
+            return new ApiHttpClient().PostRequest<CardTokenResponse>(ApiUrls.VisaCheckout, AppSettings.PublicKey, requestModel);
+        }
     }
 }

@@ -11,9 +11,19 @@ namespace Checkout.ApiServices.Reporting
         /// </summary>
         /// <param name="requestModel"></param>
         /// <returns></returns>
-        public HttpResponse<GetTransactionList> QueryTransaction(QueryTransaction requestModel)
+        public HttpResponse<QueryTransactionResponse> QueryTransaction(QueryRequest requestModel)
         {
-            return new ApiHttpClient().PostRequest<GetTransactionList>(ApiUrls.Reporting, AppSettings.SecretKey, requestModel);
+            return new ApiHttpClient().PostRequest<QueryTransactionResponse>(ApiUrls.ReportingTransactions, AppSettings.SecretKey, requestModel);
+        }
+
+        /// <summary>
+        /// Search for a customer’s chargebacks by a date range and then drill down using further filters.
+        /// </summary>
+        /// <param name="requestModel"></param>
+        /// <returns></returns>
+        public HttpResponse<QueryChargebackResponse> QueryChargeback(QueryRequest requestModel)
+        {
+            return new ApiHttpClient().PostRequest<QueryChargebackResponse>(ApiUrls.ReportingChargebacks, AppSettings.SecretKey, requestModel);
         }
     }
 }

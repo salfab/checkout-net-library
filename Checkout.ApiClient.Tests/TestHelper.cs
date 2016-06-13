@@ -180,15 +180,15 @@ namespace Tests
 
         #region Token Helpers
 
-        public static PaymentTokenCreate GetPaymentTokenCreateModel(string email)
+        public static PaymentTokenCreate GetPaymentTokenCreateModel(string email, int chargeMode = 1, string currency = "usd")
         {
             return new PaymentTokenCreate()
               {
-                  Currency = "usd",
+                  Currency = currency,
                   Value = RandomData.GetNumber(50, 500).ToString(),
                   AutoCapTime = 1,
                   AutoCapture = "N",
-                  ChargeMode = 1,
+                  ChargeMode = chargeMode,
                   Email = email,
                   CustomerIp = "82.23.168.254",
                   TrackId = "TRK12345", 
@@ -548,6 +548,21 @@ namespace Tests
                  Udf5 = RandomData.String
              };
          }
+
+        public static LocalPaymentCharge GetLocalPaymentChargeModel(string paymentToken, string lppId = "lpp_9", Dictionary<string, string> userData = null)
+        {
+            var localPayment = new LocalPaymentCharge
+            {
+                Email = RandomData.Email,
+                LocalPayment = new LocalPaymentCreate
+                {
+                    LppId = lppId,
+                    UserData = userData ?? new Dictionary <string, string> { { "issuerId", "INGBNL2A" } }
+                },
+                PaymentToken = paymentToken
+            };
+            return localPayment;
+        }
 
         #endregion
 
