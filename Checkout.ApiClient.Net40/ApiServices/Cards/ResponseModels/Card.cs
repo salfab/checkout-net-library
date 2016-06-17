@@ -8,7 +8,7 @@ namespace Checkout.ApiServices.Cards.ResponseModels
         public string Last4 { get; set; }
         public string PaymentMethod { get; set; }
         public string FingerPrint { get; set; }
-        public string CvcCheck { get; set; }
+        public string CvvCheck { get; set; }
         public string AvsCheck { get; set; }
         public string ResponseCode { get; set; }
     }
