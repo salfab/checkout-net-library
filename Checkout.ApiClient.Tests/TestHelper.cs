@@ -377,7 +377,8 @@ namespace Tests
                     Udf2 = RandomData.String,
                     Udf3 = RandomData.String,
                     Udf4 = RandomData.String,
-                    Udf5 = RandomData.String
+                    Udf5 = RandomData.String,
+                    RiskCheck = true
                 };
         }
 
