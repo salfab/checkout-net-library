@@ -11,6 +11,7 @@ namespace Checkout.ApiServices.Charges.ResponseModels
     public class Charge:BaseCharge
     {
         public string Id { get; set; }
+        public string OriginalId { get; set; }
         public bool LiveMode { get; set; }
         public string Created { get; set; }
         public int ChargeMode { get; set; }
