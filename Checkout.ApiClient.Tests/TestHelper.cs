@@ -426,6 +426,7 @@ namespace Tests
             return new CardIdCharge()
                 {
                     CardId=cardId,
+                    Cvv = "100",
                     CustomerId = customerId,
                     Email = customerEmail,
                     AutoCapture = "Y",
