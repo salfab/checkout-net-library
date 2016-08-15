@@ -20,9 +20,23 @@ namespace Tests
         }
 
         [Test]
+        public void UpdatePaymentToken()
+        {
+            var paymentTokenCreateModel = TestHelper.GetPaymentTokenCreateModel(TestHelper.RandomData.Email);
+            var createPaymentTokenResponse = CheckoutClient.TokenService.CreatePaymentToken(paymentTokenCreateModel);
+
+            var paymentTokenUpdateModel = TestHelper.GetPaymentTokenUpdateModel();
+            var response = CheckoutClient.TokenService.UpdatePaymentToken(createPaymentTokenResponse.Model.Id, paymentTokenUpdateModel);
+
+            response.Should().NotBeNull();
+            response.HttpStatusCode.Should().Be(HttpStatusCode.OK);
+            response.Model.Message.ShouldBeEquivalentTo("ok");
+        }
+
+        [Test]
         public void CreateVisaCheckoutToken()
         {
-            var visaCheckoutRequest = new VisaCheckoutTokenCreate {CallId = "3023957850660287501" };
+            var visaCheckoutRequest = new VisaCheckoutTokenCreate { CallId = "3023957850660287501" };
             var response = CheckoutClient.TokenService.CreateVisaCheckoutCardToken(visaCheckoutRequest);
 
             response.Should().NotBeNull();
@@ -34,7 +48,7 @@ namespace Tests
         [Test]
         public void CreateVisaCheckoutToken_IncludeBinData()
         {
-            var visaCheckoutRequest = new VisaCheckoutTokenCreate { CallId = "3023957850660287501", IncludeBinData = true};
+            var visaCheckoutRequest = new VisaCheckoutTokenCreate { CallId = "3023957850660287501", IncludeBinData = true };
             var response = CheckoutClient.TokenService.CreateVisaCheckoutCardToken(visaCheckoutRequest);
 
             response.Should().NotBeNull();
@@ -46,7 +60,7 @@ namespace Tests
         [Test]
         public void CreateVisaCheckoutToken_EmptyRequest_BadRequest()
         {
-            var response = CheckoutClient.TokenService.CreateVisaCheckoutCardToken(new VisaCheckoutTokenCreate {CallId = ""});
+            var response = CheckoutClient.TokenService.CreateVisaCheckoutCardToken(new VisaCheckoutTokenCreate { CallId = "" });
 
             response.Should().NotBeNull();
             response.HttpStatusCode.Should().Be(HttpStatusCode.BadRequest);
