@@ -3,7 +3,7 @@ using Checkout.ApiServices.SharedModels;
 using System.Collections.Generic;
 namespace Checkout.ApiServices.Charges.RequestModels
 {
-    public class BaseCharge:BaseChargeInfo
+    public class BaseCharge : BaseChargeInfo
     {
         private const string Yes = "y";
 
@@ -22,9 +22,11 @@ namespace Checkout.ApiServices.Charges.RequestModels
         public string Email { get; set; }
         public string CustomerId { get; set; }
         public string CustomerName { get; set; }
+        public string RedirectUrl { get; set; }
         public List<Product> Products { get; set; }
         public Address ShippingDetails { get; set; }
         public BillingDescriptor Descriptor { get; set; }
-        public bool? RiskCheck  { get; set; }
+        public bool? RiskCheck { get; set; }
+
     }
 }

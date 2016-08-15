@@ -66,6 +66,25 @@ namespace Tests
         }
 
         [Test]
+        public void CreateChargeWithCard_3DChargeMode()
+        {
+            var cardCreateModel = TestHelper.GetCardChargeCreateModel(TestHelper.RandomData.Email);
+            cardCreateModel.ChargeMode = 2;
+
+            var response = CheckoutClient.ChargeService.ChargeWithCard(cardCreateModel);
+
+            //Check if charge details match
+            response.Should().NotBeNull();
+            response.HttpStatusCode.Should().Be(HttpStatusCode.OK);
+            response.Model.Id.Should().StartWith("pay_tok");
+
+            response.Model.ChargeMode.Should().Be(2);
+            response.Model.RedirectUrl.Should().StartWith("http");
+            response.Model.ResponseCode.Should().NotBeNullOrEmpty();
+            response.Model.TrackId.ShouldBeEquivalentTo(cardCreateModel.TrackId);
+        }
+
+        [Test]
         public void CreateChargeWithCardId()
         {
             var customer =
