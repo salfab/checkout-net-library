@@ -24,6 +24,7 @@ namespace Tests
             response.Model.Name.Should().Be(cardCreateModel.Name);
             response.Model.ExpiryMonth.Should().Be(cardCreateModel.ExpiryMonth);
             response.Model.ExpiryYear.Should().Be(cardCreateModel.ExpiryYear);
+            response.Model.Bin.Should().Be(cardCreateModel.Number.Substring(0, 6));
             cardCreateModel.Number.Should().EndWith(response.Model.Last4);
             cardCreateModel.BillingDetails.ShouldBeEquivalentTo(response.Model.BillingDetails);
         }
@@ -58,6 +59,7 @@ namespace Tests
             response.Model.Name.Should().Be(customerCard.Name);
             response.Model.ExpiryMonth.Should().Be(customerCard.ExpiryMonth);
             response.Model.ExpiryYear.Should().Be(customerCard.ExpiryYear);
+            response.Model.Bin.Should().Be(customerCard.Bin);
             customerCreateModel.Card.Number.Should().EndWith(response.Model.Last4);
             customerCard.BillingDetails.ShouldBeEquivalentTo(response.Model.BillingDetails);
         }

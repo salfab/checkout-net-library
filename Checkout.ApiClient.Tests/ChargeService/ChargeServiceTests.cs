@@ -55,6 +55,7 @@ namespace Tests
             response.Model.Card.Name.Should().Be(cardCreateModel.Card.Name);
             response.Model.Card.ExpiryMonth.Should().Be(cardCreateModel.Card.ExpiryMonth);
             response.Model.Card.ExpiryYear.Should().Be(cardCreateModel.Card.ExpiryYear);
+            response.Model.Card.Bin.Should().Be(cardCreateModel.Card.Number.Substring(0, 6));
             cardCreateModel.Card.Number.Should().EndWith(response.Model.Card.Last4);
             response.Model.Card.BillingDetails.ShouldBeEquivalentTo(cardCreateModel.Card.BillingDetails);
 
