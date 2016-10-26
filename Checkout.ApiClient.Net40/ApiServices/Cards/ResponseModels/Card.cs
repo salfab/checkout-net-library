@@ -6,6 +6,7 @@ namespace Checkout.ApiServices.Cards.ResponseModels
         public string Id { get; set; }
         public string CustomerId { get; set; }
         public string Last4 { get; set; }
+        public string Bin { get; set; }
         public string PaymentMethod { get; set; }
         public string FingerPrint { get; set; }
         public string CvvCheck { get; set; }
