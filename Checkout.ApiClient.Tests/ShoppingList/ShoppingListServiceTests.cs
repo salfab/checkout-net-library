@@ -7,7 +7,7 @@ using System.Net;
 using Checkout;
 using Checkout.ApiServices.SharedModels;
 using Checkout.ApiServices.ShoppingList;
-using Checkout.ApiServices.ShoppingList.ResponseModel;
+using Checkout.ApiServices.ShoppingList.Model;
 
 using FluentAssertions;
 

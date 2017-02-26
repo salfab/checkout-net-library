@@ -118,10 +118,10 @@
     <Compile Include="ApiServices\SharedModels\Phone.cs" />
     <Compile Include="ApiServices\SharedModels\SortColumn.cs" />
     <Compile Include="ApiServices\SharedModels\SortOrder.cs" />
-    <Compile Include="ApiServices\ShoppingList\ResponseModel\DrinkOrderBase.cs" />
-    <Compile Include="ApiServices\ShoppingList\ResponseModel\ModelErrorCollection.cs" />
-    <Compile Include="ApiServices\ShoppingList\ResponseModel\DrinkOrder.cs" />
-    <Compile Include="ApiServices\ShoppingList\ResponseModel\ShoppingList.cs" />
+    <Compile Include="ApiServices\ShoppingList\Model\DrinkOrderBase.cs" />
+    <Compile Include="ApiServices\ShoppingList\Model\ModelErrorCollection.cs" />
+    <Compile Include="ApiServices\ShoppingList\Model\DrinkOrder.cs" />
+    <Compile Include="ApiServices\ShoppingList\Model\ShoppingList.cs" />
     <Compile Include="ApiServices\ShoppingList\ShoppingListService.cs" />
     <Compile Include="ApiServices\Tokens\RequestModels\VisaCheckoutTokenCreate.cs" />
     <Compile Include="ApiServices\Tokens\ResponseModels\CardTokenResponse.cs" />
@@ -183,9 +183,7 @@
     <Compile Include="ApiServices\SharedModels\HttpResponse.cs" />
     <Compile Include="ApiServices\SharedModels\ResponseError.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="ApiServices\ShoppingList\RequestModel\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
