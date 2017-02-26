@@ -1,4 +1,4 @@
-﻿namespace Checkout.ApiServices.ShoppingList.ResponseModel
+﻿namespace Checkout.ApiServices.ShoppingList.Model
 {
     public class DrinkOrderBase
     {

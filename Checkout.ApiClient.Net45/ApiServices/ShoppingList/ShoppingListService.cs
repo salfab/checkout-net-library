@@ -5,7 +5,7 @@ using System.Collections.ObjectModel;
 using Checkout.ApiServices.Customers.RequestModels;
 using Checkout.ApiServices.Customers.ResponseModels;
 using Checkout.ApiServices.SharedModels;
-using Checkout.ApiServices.ShoppingList.ResponseModel;
+using Checkout.ApiServices.ShoppingList.Model;
 
 namespace Checkout.ApiServices.ShoppingList
 {
@@ -13,9 +13,9 @@ namespace Checkout.ApiServices.ShoppingList
     {
         private readonly BodylessResponseFriendlyPayloadDeserializer<ModelErrorCollection> bodylessResponseFriendlyPayloadDeserializer = new BodylessResponseFriendlyPayloadDeserializer<ModelErrorCollection>();
 
-        public HttpResponse<ResponseModel.ShoppingList> GetOrderedDrinks()
+        public HttpResponse<Model.ShoppingList> GetOrderedDrinks()
         {
-            return new ApiHttpClient(this.bodylessResponseFriendlyPayloadDeserializer).GetRequest<ResponseModel.ShoppingList>(ApiUrls.GetDrinks, AppSettings.SecretKey);
+            return new ApiHttpClient(this.bodylessResponseFriendlyPayloadDeserializer).GetRequest<Model.ShoppingList>(ApiUrls.GetDrinks, AppSettings.SecretKey);
         }
 
         public HttpResponse<object> OrderDrink(DrinkOrder drinkOrder)
