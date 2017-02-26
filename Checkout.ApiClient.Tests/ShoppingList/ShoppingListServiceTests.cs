@@ -84,5 +84,15 @@ namespace Tests.ShoppingList
             orderedDrinks.Model.Quantity.Should().Be(2);
         }
 
+        [Test]
+        public void GetDetailsOfUnexistingDrink()
+        {
+            var drinkName = Guid.NewGuid().ToString("N");
+            
+            var orderedDrinks = this.CheckoutClient.ShoppingListService.GetDrinkDetails(drinkName);
+            orderedDrinks.Should().NotBeNull();
+            orderedDrinks.HttpStatusCode.Should().Be(HttpStatusCode.NotFound);
+            orderedDrinks.Model.Should().BeNull();
+        }
     }
 }
