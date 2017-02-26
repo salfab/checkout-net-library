@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Net;
 
+using Checkout;
 using Checkout.ApiServices.SharedModels;
 using Checkout.ApiServices.ShoppingList;
 using Checkout.ApiServices.ShoppingList.ResponseModel;
@@ -17,6 +18,17 @@ namespace Tests.ShoppingList
     [TestFixture(Category = "ShoppingListApi")]
     public class ShoppingListServiceTests : BaseServiceTests
     {
+        [Test]
+        public void AccessApiWithUnauthorizedKey()
+        {
+            AppSettings.SecretKey = "UnauthorizedKey";
+            var orderedDrinks = this.CheckoutClient.ShoppingListService.GetOrderedDrinks();
+
+            orderedDrinks.Should().NotBeNull();
+            orderedDrinks.HttpStatusCode.Should().Be(HttpStatusCode.Unauthorized);
+            orderedDrinks.Model.Should().BeNull();
+        }
+
         [Test]
         public void GetAllDrinks()
         {
