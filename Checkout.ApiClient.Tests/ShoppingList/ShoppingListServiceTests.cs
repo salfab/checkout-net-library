@@ -80,11 +80,28 @@ namespace Tests.ShoppingList
             var response = this.CheckoutClient.ShoppingListService.OrderDrink(drinkOrder);
             response.HttpStatusCode.Should().Be(HttpStatusCode.OK);
 
-            var orderedDrinks = this.CheckoutClient.ShoppingListService.GetDrinkDetails(drinkName);
-            orderedDrinks.Should().NotBeNull();
-            orderedDrinks.HttpStatusCode.Should().Be(HttpStatusCode.OK);
-            orderedDrinks.Model.Should().NotBeNull();
-            orderedDrinks.Model.Quantity.Should().Be(2);
+            var orderedDrink = this.CheckoutClient.ShoppingListService.GetDrinkDetails(drinkName);
+            orderedDrink.Should().NotBeNull();
+            orderedDrink.HttpStatusCode.Should().Be(HttpStatusCode.OK);
+            orderedDrink.Model.Should().NotBeNull();
+            orderedDrink.Model.Quantity.Should().Be(2);
+        }
+
+        [Test]
+        public void GetDetailsOfUnspecifiedDrink()
+        {
+            string drinkName = null;
+
+            try
+            {
+                var orderedDrink = this.CheckoutClient.ShoppingListService.GetDrinkDetails(drinkName);
+            }
+            catch (ArgumentException)
+            {
+                return;
+            }
+            
+            Assert.Fail("An exception should have been thrown by now.");
         }
 
         [Test]
