@@ -230,6 +230,8 @@ namespace Checkout
             {
                 return new HttpResponse<T>(default(T))
                 {
+                    // This is supposed to be an Http client, agnostic from the way APIs expose their payloads.
+                    // it works alright with successful calls, thanks to genericity, but not so much with error payloads, since we have a ResponseError type here.
                     Error = GetResponseAsObject<ResponseError>(responseAsString),
                     HttpStatusCode = httpStatusCode
                 };
