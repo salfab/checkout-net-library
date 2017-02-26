@@ -89,6 +89,9 @@ namespace Checkout
 
             set
             {
+                // At the moment, there is only one environment for ShoppingListBaseApiUri
+                ShoppingListBaseApiUri = "http://localhost:52157/api/shopping-list";
+
                 switch (value)
                 {
                     case CheckoutEnvironment.Live:
@@ -103,6 +106,8 @@ namespace Checkout
 
             }
         }
+
+        public static string ShoppingListBaseApiUri { get; private set; }
 
         public static void SetEnvironmentFromConfig()
         {

@@ -1,11 +1,16 @@
-﻿using Checkout.ApiServices.Cards;
+﻿using System;
+
+using Checkout.ApiServices.Cards;
 using Checkout.ApiServices.Charges;
 using Checkout.ApiServices.Customers;
 using Checkout.ApiServices.Lookups;
 using Checkout.ApiServices.Reporting;
 using Checkout.ApiServices.RecurringPayments;
+using Checkout.ApiServices.ShoppingList;
 using Checkout.ApiServices.Tokens;
 using Checkout.Helpers;
+
+using Environment = Checkout.Helpers.Environment;
 
 namespace Checkout
 {
@@ -19,6 +24,9 @@ namespace Checkout
         private LookupsService _lookupsService;
         private RecurringPaymentsService _recurringPaymentsService;
 
+        private Lazy<ShoppingListService> lazyShoppingListService = new Lazy<ShoppingListService>(() => new ShoppingListService());
+
+        // These properties aren't thread-safe and multiple instances of the same service might be created. This might not a problem if they are stateless, though.
         public ChargeService ChargeService { get { return _chargeService ?? (_chargeService = new ChargeService()); } }
         public CardService CardService { get { return _cardService ?? (_cardService = new CardService()); } }
         public CustomerService CustomerService { get { return _customerService ?? (_customerService = new CustomerService()); } }
@@ -26,6 +34,9 @@ namespace Checkout
         public ReportingService ReportingService { get { return _reportingService ?? (_reportingService = new ReportingService()); } }
         public LookupsService LookupsService { get { return _lookupsService ?? (_lookupsService = new LookupsService()); } }
         public RecurringPaymentsService RecurringPaymentsService { get { return _recurringPaymentsService ?? (_recurringPaymentsService = new RecurringPaymentsService()); } }
+
+        // Exposing the ShoppingList service in a thread-safe way.
+        public ShoppingListService ShoppingListService => this.lazyShoppingListService.Value;
 
         public APIClient()
         {

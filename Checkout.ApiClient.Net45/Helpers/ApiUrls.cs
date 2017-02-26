@@ -182,5 +182,14 @@
                 _recurringCustomerPaymentPlanApiUri ??
                 (_recurringCustomerPaymentPlanApiUri =
                     string.Concat(AppSettings.BaseApiUri, "/recurringPayments/customers/{0}"));
+
+        // Todo: avoid re-creating the string everytime.
+        public static string GetDrinks => $"{AppSettings.ShoppingListBaseApiUri}/drinks";
+
+        public string GetDrink(string name)
+        {
+            return $"{AppSettings.ShoppingListBaseApiUri}/drinks/{name}";
+        }
+        
     }
 }
