@@ -118,6 +118,7 @@
     <Compile Include="ApiServices\SharedModels\Phone.cs" />
     <Compile Include="ApiServices\SharedModels\SortColumn.cs" />
     <Compile Include="ApiServices\SharedModels\SortOrder.cs" />
+    <Compile Include="ApiServices\ShoppingList\ResponseModel\DrinkOrderBase.cs" />
     <Compile Include="ApiServices\ShoppingList\ResponseModel\ModelErrorCollection.cs" />
     <Compile Include="ApiServices\ShoppingList\ResponseModel\DrinkOrder.cs" />
     <Compile Include="ApiServices\ShoppingList\ResponseModel\ShoppingList.cs" />

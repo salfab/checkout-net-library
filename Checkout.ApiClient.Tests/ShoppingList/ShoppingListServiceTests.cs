@@ -118,8 +118,6 @@ namespace Tests.ShoppingList
             response.GetError<ModelErrorCollection>().Count.Should().Be(1);
         }
 
-        // TODO: Update drink
-
         [Test]
         public void UpdateExistingDrink()
         {
@@ -134,8 +132,10 @@ namespace Tests.ShoppingList
             response.HttpStatusCode.Should().Be(HttpStatusCode.OK);
 
             drinkOrder.Quantity = 1337;
-            response = this.CheckoutClient.ShoppingListService.UpdateDrink(drinkOrder);
-            response.HttpStatusCode.Should().Be(HttpStatusCode.OK);
+            var updateResponse = this.CheckoutClient.ShoppingListService.UpdateDrink(drinkOrder);
+            updateResponse.HttpStatusCode.Should().Be(HttpStatusCode.OK);
+            updateResponse.Model.Should().NotBeNull();
+            updateResponse.Model.Quantity.Should().Be(1337);
 
             var orderedDrinks = this.CheckoutClient.ShoppingListService.GetDrinkDetails(drinkName);
             orderedDrinks.Should().NotBeNull();
@@ -144,7 +144,6 @@ namespace Tests.ShoppingList
             orderedDrinks.Model.Quantity.Should().Be(1337);
         }
 
-        // TODO: Update unknown drink
         [Test]
         public void UpdateUnknownDrink()
         {

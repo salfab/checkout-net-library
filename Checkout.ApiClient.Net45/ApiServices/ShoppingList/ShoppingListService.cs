@@ -25,12 +25,12 @@ namespace Checkout.ApiServices.ShoppingList
 
         public HttpResponse<DrinkOrder> GetDrinkDetails(string drinkName)
         {
-            return new ApiHttpClient(this.bodylessResponseFriendlyPayloadDeserializer).GetRequest<DrinkOrder>(ApiUrls.GetDrink(drinkName), AppSettings.SecretKey);
+            return new ApiHttpClient(this.bodylessResponseFriendlyPayloadDeserializer).GetRequest<DrinkOrder>(ApiUrls.DrinkResourceLocation(drinkName), AppSettings.SecretKey);
         }
 
-        public HttpResponse<object> UpdateDrink(DrinkOrder drinkOrder)
+        public HttpResponse<DrinkOrderBase> UpdateDrink(DrinkOrder drinkOrder)
         {
-            throw new NotImplementedException();
+            return new ApiHttpClient(this.bodylessResponseFriendlyPayloadDeserializer).PutRequest<DrinkOrderBase>(ApiUrls.DrinkResourceLocation(drinkOrder.Name), AppSettings.SecretKey, drinkOrder);
         }
     }
 }

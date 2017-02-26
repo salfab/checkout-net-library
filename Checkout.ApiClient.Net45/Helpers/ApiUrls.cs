@@ -189,7 +189,7 @@
         // Todo: avoid re-creating the string everytime.
         public static string OrderDrink  => $"{AppSettings.ShoppingListBaseApiUri}/add-drink";
 
-        public static string GetDrink(string name)
+        public static string DrinkResourceLocation(string name)
         {
             return $"{AppSettings.ShoppingListBaseApiUri}/drinks/{name}";
         }
