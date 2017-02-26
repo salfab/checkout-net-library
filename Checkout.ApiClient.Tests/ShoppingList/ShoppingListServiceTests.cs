@@ -161,6 +161,48 @@ namespace Tests.ShoppingList
         }
 
         // TODO: Delete drink
+        [Test]
+        public void DeleteExistingDrink()
+        {
+            var drinkName = Guid.NewGuid().ToString("N");
+            var drinkOrder = new DrinkOrder
+            {
+                Name = drinkName,
+                Quantity = 2
+            };
+
+            var response = this.CheckoutClient.ShoppingListService.OrderDrink(drinkOrder);
+            response.HttpStatusCode.Should().Be(HttpStatusCode.OK);
+
+            var deleteResponse = this.CheckoutClient.ShoppingListService.DeleteDrink(drinkName);
+            deleteResponse.HttpStatusCode.Should().Be(HttpStatusCode.OK);
+            deleteResponse.Model.Should().BeNull();            
+
+            var orderedDrinks = this.CheckoutClient.ShoppingListService.GetDrinkDetails(drinkName);
+            orderedDrinks.Should().NotBeNull();
+            orderedDrinks.HttpStatusCode.Should().Be(HttpStatusCode.NotFound);
+        }
+
+        // TODO: Delete drink
+        [Test]
+        public void DeleteUnknownDrink()
+        {
+            var drinkName = Guid.NewGuid().ToString("N");
+          
+            var deleteResponse = this.CheckoutClient.ShoppingListService.DeleteDrink(drinkName);
+            deleteResponse.HttpStatusCode.Should().Be(HttpStatusCode.NotFound);
+            deleteResponse.Model.Should().BeNull();           
+        }
+
+        [Test]
+        public void DeleteUnspecifiedDrink()
+        {
+            var drinkName = string.Empty;
+          
+            var deleteResponse = this.CheckoutClient.ShoppingListService.DeleteDrink(drinkName);
+            deleteResponse.HttpStatusCode.Should().Be(HttpStatusCode.NotFound);
+            deleteResponse.Model.Should().BeNull();           
+        }
     }
     
 }
