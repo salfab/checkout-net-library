@@ -21,7 +21,7 @@ namespace Tests.ShoppingList
         [Test]
         public void AccessApiWithUnauthorizedKey()
         {
-            AppSettings.SecretKey = "UnauthorizedKey";
+            AppSettings.SecretKey = "Bearer NotAnApiKey";
             var orderedDrinks = this.CheckoutClient.ShoppingListService.GetOrderedDrinks();
 
             orderedDrinks.Should().NotBeNull();

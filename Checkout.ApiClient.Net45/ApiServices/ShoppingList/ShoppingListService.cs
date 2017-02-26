@@ -15,7 +15,7 @@ namespace Checkout.ApiServices.ShoppingList
 
         public HttpResponse<ResponseModel.ShoppingList> GetOrderedDrinks()
         {
-            return new ApiHttpClient().GetRequest<ResponseModel.ShoppingList>(ApiUrls.GetDrinks, AppSettings.SecretKey);
+            return new ApiHttpClient(this.bodylessResponseFriendlyPayloadDeserializer).GetRequest<ResponseModel.ShoppingList>(ApiUrls.GetDrinks, AppSettings.SecretKey);
         }
 
         public HttpResponse<object> OrderDrink(DrinkOrder drinkOrder)
