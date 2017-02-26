@@ -1,4 +1,7 @@
-﻿using System.Net;
+﻿using System;
+using System.Net;
+
+using Checkout.ApiServices.ShoppingList.ResponseModel;
 
 using FluentAssertions;
 
@@ -22,8 +25,14 @@ namespace Tests.ShoppingList
         [Test]
         public void OrderDrink()
         {
-            string drinkName;
-            var response = this.CheckoutClient.ShoppingListService.OrderDrink();
+            var drinkName = Guid.NewGuid().ToString("N");
+            var drinkOrder = new DrinkOrder
+                                        {
+                                            Name = drinkName,
+                                            Quantity = 2
+                                        };
+
+            var response = this.CheckoutClient.ShoppingListService.OrderDrink(drinkOrder);
             response.HttpStatusCode.Should().Be(HttpStatusCode.OK);
 
             var orderedDrinks = this.CheckoutClient.ShoppingListService.GetOrderedDrinks();
