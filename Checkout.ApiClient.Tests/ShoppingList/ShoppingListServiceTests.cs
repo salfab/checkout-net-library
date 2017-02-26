@@ -94,5 +94,25 @@ namespace Tests.ShoppingList
             orderedDrinks.HttpStatusCode.Should().Be(HttpStatusCode.NotFound);
             orderedDrinks.Model.Should().BeNull();
         }
+
+        [Test]
+        public void GetDetailsWithMalformedPayload()
+        {
+            string drinkName = null;
+
+            var drinkOrder = new DrinkOrder
+            {
+                Name = drinkName,
+                Quantity = 2
+            };
+
+            var response = this.CheckoutClient.ShoppingListService.OrderDrink(drinkOrder);
+
+            response.Should().NotBeNull();
+            response.HttpStatusCode.Should().Be(HttpStatusCode.BadRequest);
+            response.Model.Should().BeNull();
+            response.GetError<ModelErrorCollection>().Should().NotBeNull();
+            response.GetError<ModelErrorCollection>().Count.Should().Be(1);
+        }
     }
 }

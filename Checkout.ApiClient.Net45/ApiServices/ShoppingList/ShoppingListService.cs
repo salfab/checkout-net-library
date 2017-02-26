@@ -10,7 +10,7 @@ namespace Checkout.ApiServices.ShoppingList
 {
     public class ShoppingListService
     {
-        private readonly BodylessResponseFriendlyPayloadDeserializer<object> bodylessResponseFriendlyPayloadDeserializer = new BodylessResponseFriendlyPayloadDeserializer<object>();
+        private readonly BodylessResponseFriendlyPayloadDeserializer<ModelErrorCollection> bodylessResponseFriendlyPayloadDeserializer = new BodylessResponseFriendlyPayloadDeserializer<ModelErrorCollection>();
 
         public HttpResponse<ResponseModel.ShoppingList> GetOrderedDrinks()
         {
