@@ -18,12 +18,17 @@ namespace Tests.ShoppingList
     [TestFixture(Category = "ShoppingListApi")]
     public class ShoppingListServiceTests : BaseServiceTests
     {
+        [TearDown]
+        public void ResetStaticClasses()
+        {
+            AppSettings.SecretKey = null;
+        }
+
         [Test]
         public void AccessApiWithUnauthorizedKey()
         {
             AppSettings.SecretKey = "Bearer NotAnApiKey";
             var orderedDrinks = this.CheckoutClient.ShoppingListService.GetOrderedDrinks();
-
             orderedDrinks.Should().NotBeNull();
             orderedDrinks.HttpStatusCode.Should().Be(HttpStatusCode.Unauthorized);
             orderedDrinks.Model.Should().BeNull();
