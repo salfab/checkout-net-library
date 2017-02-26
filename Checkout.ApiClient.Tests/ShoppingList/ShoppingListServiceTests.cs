@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Net;
 
+using Checkout.ApiServices.SharedModels;
 using Checkout.ApiServices.ShoppingList;
 using Checkout.ApiServices.ShoppingList.ResponseModel;
 
@@ -94,7 +95,7 @@ namespace Tests.ShoppingList
 
             try
             {
-                var orderedDrink = this.CheckoutClient.ShoppingListService.GetDrinkDetails(drinkName);
+                this.CheckoutClient.ShoppingListService.GetDrinkDetails(drinkName);
             }
             catch (ArgumentException)
             {
@@ -200,7 +201,6 @@ namespace Tests.ShoppingList
             orderedDrinks.HttpStatusCode.Should().Be(HttpStatusCode.NotFound);
         }
 
-        // TODO: Delete drink
         [Test]
         public void DeleteUnknownDrink()
         {
