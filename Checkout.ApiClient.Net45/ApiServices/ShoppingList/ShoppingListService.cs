@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.ObjectModel;
 
 using Checkout.ApiServices.Customers.RequestModels;
 using Checkout.ApiServices.Customers.ResponseModels;
@@ -25,6 +26,11 @@ namespace Checkout.ApiServices.ShoppingList
         public HttpResponse<DrinkOrder> GetDrinkDetails(string drinkName)
         {
             return new ApiHttpClient(this.bodylessResponseFriendlyPayloadDeserializer).GetRequest<DrinkOrder>(ApiUrls.GetDrink(drinkName), AppSettings.SecretKey);
+        }
+
+        public HttpResponse<object> UpdateDrink(DrinkOrder drinkOrder)
+        {
+            throw new NotImplementedException();
         }
     }
 }
