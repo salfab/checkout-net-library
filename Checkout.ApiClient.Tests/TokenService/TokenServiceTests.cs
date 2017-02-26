@@ -1,4 +1,6 @@
 using System.Net;
+
+using Checkout.ApiServices.SharedModels;
 using Checkout.ApiServices.Tokens.RequestModels;
 using FluentAssertions;
 using NUnit.Framework;
@@ -67,7 +69,7 @@ namespace Tests
 
             response.HasError.Should().BeTrue();
             response.Model.Should().BeNull();
-            response.Error.Message.Should().Be("Invalid value for 'token'");
+            response.GetError<ResponseError>().Message.Should().Be("Invalid value for 'token'");
         }
     }
 }

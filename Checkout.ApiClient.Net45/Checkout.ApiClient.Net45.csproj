@@ -131,6 +131,7 @@
     <Compile Include="Helpers\AppSettings.cs" />
     <Compile Include="APIClient.cs" />
     <Compile Include="Helpers\Environment.cs" />
+    <Compile Include="Helpers\IPayloadDeserializer.cs" />
     <Compile Include="Utilities\ExceptionHelper.cs" />
     <Compile Include="Helpers\ApiUrls.cs" />
     <Compile Include="ApiServices\Cards\RequestModels\BaseCard.cs">

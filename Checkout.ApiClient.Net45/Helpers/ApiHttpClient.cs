@@ -22,8 +22,19 @@ namespace Checkout
         private WebRequestHandler requestHandler;
         private HttpClient httpClient;
 
+        private IPayloadDeserializer payloadDeserializer;
+
         public ApiHttpClient()
         {
+            // a default payload serializer
+            this.payloadDeserializer = new CheckoutPayloadDeserializer();
+            ResetHandler();
+        }
+
+        public ApiHttpClient(IPayloadDeserializer payloadSerializer)
+        {
+            // a default payload serializer
+            this.payloadDeserializer = payloadSerializer;
             ResetHandler();
         }
 
@@ -218,26 +229,8 @@ namespace Checkout
         }
 
         private HttpResponse<T> CreateHttpResponse<T>(string responseAsString, HttpStatusCode httpStatusCode)
-        {
-            if (httpStatusCode == HttpStatusCode.OK && responseAsString != null)
-            {
-                return new HttpResponse<T>(GetResponseAsObject<T>(responseAsString))
-                {
-                    HttpStatusCode = httpStatusCode
-                };
-            }
-            else if (responseAsString != null)
-            {
-                return new HttpResponse<T>(default(T))
-                {
-                    // This is supposed to be an Http client, agnostic from the way APIs expose their payloads.
-                    // it works alright with successful calls, thanks to genericity, but not so much with error payloads, since we have a ResponseError type here.
-                    Error = GetResponseAsObject<ResponseError>(responseAsString),
-                    HttpStatusCode = httpStatusCode
-                };
-            }
-
-            return null;
+        {         
+            return this.payloadDeserializer.Deserialize<T>(responseAsString, httpStatusCode);            
         }
 
         private string GetObjectAsString(object requestModel)
@@ -245,10 +238,6 @@ namespace Checkout
             return ContentAdaptor.ConvertToJsonString(requestModel);
         }
 
-        private T GetResponseAsObject<T>(string responseAsString)
-        {
-            return ContentAdaptor.JsonStringToObject<T>(responseAsString);
-        }
 
     }
 }

@@ -1,4 +1,7 @@
 ﻿using System.Net;
+
+using Checkout.ApiServices.SharedModels;
+
 using FluentAssertions;
 using NUnit.Framework;
 
@@ -32,8 +35,8 @@ namespace Tests
             response.Should().NotBeNull();
             response.HttpStatusCode.Should().NotBe(HttpStatusCode.OK);
             response.HasError.Should().BeTrue();
-            response.Error.ErrorCode.Should().Be("70000");
-            response.Error.Message.Should().BeEquivalentTo("validation error");
+            response.GetError<ResponseError>().ErrorCode.Should().Be("70000");
+            response.GetError<ResponseError>().Message.Should().BeEquivalentTo("validation error");
         }
     }
 }

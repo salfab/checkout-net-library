@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 
 using Checkout.ApiServices.Customers.RequestModels;
 using Checkout.ApiServices.Customers.ResponseModels;
@@ -14,9 +15,9 @@ namespace Checkout.ApiServices.ShoppingList
             return new ApiHttpClient().GetRequest<ResponseModel.ShoppingList>(ApiUrls.GetDrinks, AppSettings.SecretKey);
         }
 
-        public HttpResponse OrderDrink(DrinkOrder drinkOrder)
+        public HttpResponse<object> OrderDrink(DrinkOrder drinkOrder)
         {            
-            return new ApiHttpClient().PostRequest<object>(ApiUrls.OrderDrink, AppSettings.SecretKey, drinkOrder);
+            return new ApiHttpClient(new BodylessResponseFriendlyPayloadDeserializer<object>()).PostRequest<object>(ApiUrls.OrderDrink, AppSettings.SecretKey, drinkOrder);
         }
     }
 }
